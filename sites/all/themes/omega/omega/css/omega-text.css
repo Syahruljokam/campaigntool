@@ -1,0 +1,117 @@
+body {
+  font: 13px/1.5 Verdana, Helvetica, Arial, sans-serif;
+}
+
+a:link, a:visited {
+  color: #ef484f;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #202124;
+  text-decoration: none;
+}
+
+a:active {
+  color: #202124;
+  text-decoration: none;
+  color: #000;
+}
+
+hr {
+  margin: 0;
+  padding: 0;
+  border: none;
+  height: 1px;
+  background: #5294c1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #3baef3;
+  letter-spacing: -0.04em;
+  font-weight: 100;
+}
+
+h1 {
+	font-size: 160%;
+ 	margin-top: 0;
+}
+
+h2 {
+  	font-size: 150%;
+  	line-height: 20px;
+  	margin-bottom: 10px !important;
+}
+
+/* Make site titles the same size if it's an H1 (home) or H2 (internal) */
+h1.site-name,
+h2.site-name {
+  font-size: 160%;
+}
+
+/* Make it a bit smaller for block headers */
+h2.block-title {
+  color: #0062A0;
+  font-size: 115%;
+  margin: 0;	
+}
+
+h2.node-title {
+  font-size: 150%;
+}
+
+h3 {
+  font-size: 140%;
+}
+
+h4 {
+  font-size: 125%;
+}
+
+h5 {
+  font-size: 115%;
+}
+
+h6 {
+  font-size: 100%;
+}
+
+ol {
+  list-style: decimal;
+}
+
+ul {
+  list-style: disc;
+}
+
+ul ul,
+ol ol {
+  padding-top: 0.5em;
+}
+
+.node ol,
+.node ul {
+  padding-left: 1.2em;
+}
+
+.node ul.inline,
+.node ol.inline {
+  padding-left: 0;
+}
+
+p, dl, hr, h1, h2, h3, h4, h5, h6, ol,
+ul, pre, table, address, fieldset {
+  margin-bottom: 0px;
+}
+
+dt, .admin h3 {
+  font-size: 18px;
+  margin: 0;
+}
+
+dd {
+  padding-left: 10px;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-bottom: 20px;
+}

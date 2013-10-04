@@ -1,0 +1,357 @@
+<?php
+if(!defined('NL')) define("NL", "\n");
+
+
+
+function tlm_twitter_menu(){
+	$items = array();	
+ 
+	
+	$items['admin/config/social'] =  array( 
+        'title' => t('Social Media') ,
+        'description' => t('Social Media') ,
+        'weight' => -8,        
+        'page callback' => 'system_admin_menu_block_page', 
+        'access arguments' => array('access administration pages'),
+        'file' => 'system.admin.inc',  
+        'file path' => drupal_get_path('module', 'system'),
+        'position' => 'right',
+    ); 
+    
+    
+    
+	$items['admin/config/social/twitter'] = array(
+		'title' => 'Twitter Embed',
+		'description' => t('TLM Twitter module overview'),
+		//'callback' => 'tlm_twitter_admin_main_page',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('tlm_twitter_admin_settings_page'),
+		'access callback' => 'user_access',
+    	'access arguments' => array('administer site configuration'),
+		'type' => MENU_NORMAL_ITEM
+	);
+	
+	$items['admin/config/social/twitter/settings'] = array(
+		'title' => t('Settings'),
+		'description' => t('Change the settings for the TLM Twitter module'),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('tlm_twitter_admin_settings_page'),
+		'access callback' => 'user_access',
+    	'access arguments' => array('administer site configuration'),
+		//'weight' => 0,
+		'type' => MENU_LOCAL_TASK
+	);
+	
+	
+	
+	$items['tlm_twitter/query'] = array(
+		'page callback' => 'tlm_twitter_get_tweets',
+		'type' => MENU_CALLBACK,
+		'access callback' => true
+	);
+	
+	return $items;
+}
+
+
+
+
+function tlm_twitter_admin_settings_page(){
+	setDefaultsNeeded();
+	
+	
+	$form['info'] = array(
+		'#markup' => 'Twitter Embed allows the embedding of twitter tweets into a page. Upto 5 different queries can be embedded.'
+	);
+	
+	
+	
+//	$form['general'] = array(
+//	 	'#type' => 'fieldset',
+//		'#title' => t('General Settings'),
+//		'#collapsible' => true,
+//		'#collapsed' => FALSE,
+//		'#tree' => true
+//	);	
+		
+	for($i=1;$i<=5;$i++){
+		$form['query_' . $i] = array(
+		 	'#type' => 'fieldset',
+			'#title' => t('Query ' . $i),
+			'#collapsible' => true,
+			'#collapsed' => variable_get('tlm_twitter_q' . $i . '_enabled', false) == true ? false : true,	//if enabled expand
+			'#tree' => true
+		);	
+		
+			$form['query_' . $i]['info'] = array(
+				'#type' => 'markup',
+				'#markup' => 'To embed this query into a page use the following php: ' . htmlentities('<?php echo tlm_twitter_embed_query(' . $i . ', \'<container div selector>\', \'<display limit>\')?>') . '<br /><br />',
+			);
+			
+			
+			$form['query_' . $i]['enabled'] = array(
+				'#type' => 'checkbox',
+				'#title' => 'Enabled',
+				'#default_value' => variable_get('tlm_twitter_q' . $i . '_enabled', false),	
+			);
+			$form['query_' . $i]['check_interval'] = array(
+				'#type' => 'select',
+				'#title' => 'Check Interval',
+				'#default_value' => variable_get('tlm_twitter_q' . $i . '_check_interval', 5),
+				'#description' => 'How often to re-query; in minutes.',
+				'#options' => array(
+										5 => '5 minutes',
+										10 => '10 minutes',
+										15 => '15 minutes',
+										30 => '30 minutes',
+										60 => '1 hour',
+										360 => '6 hours',
+										720 => '12 hours',
+										1440 => '24 hours'
+									)	
+			);
+			$form['query_' . $i]['query'] = array(
+				'#type' => 'textfield',
+				'#title' => 'Query',
+				'#default_value' => variable_get('tlm_twitter_q' . $i . '_query', ''),
+				'#description' => 'The query to perform. If its prefaced with a # it will be a search, otherwise its a lookup of the users tweets.'		
+			);
+			$form['query_' . $i]['num_tweets'] = array(
+				'#type' => 'textfield',
+				'#title' => 'Number of Tweets to fetch',
+				'#default_value' => variable_get('tlm_twitter_q' . $i . '_num_tweets', 10)	
+			);
+	}
+	
+	
+		
+		
+	$hasAPIKeysSet = (variable_get('tlm_twitter_api_consumer_key', '') == '' ? false : true) &&
+					(variable_get('tlm_twitter_api_consumer_secret', '') == '' ? false : true) &&
+					(variable_get('tlm_twitter_api_access_token', '') == '' ? false : true) &&
+					(variable_get('tlm_twitter_api_access_token_secret', '') == '' ? false : true);
+	
+	if(!$hasAPIKeysSet){
+		drupal_set_message('The API Settings need to be set.', 'error');
+	}				
+					
+	
+	$form['api'] = array(
+	 	'#type' => 'fieldset',
+		'#title' => t('API Settings'),
+		'#collapsible' => true,
+		'#collapsed' => $hasAPIKeysSet,
+		'#tree' => true
+	);
+	
+		$form['api']['consumer_key'] = array(
+		 	'#type' => 'textfield',
+			'#title' => t('Consumer Key'),
+			'#default_value'=> variable_get('tlm_twitter_api_consumer_key')
+		);	
+		
+		$form['api']['consumer_secret'] = array(
+		 	'#type' => 'textfield',
+			'#title' => t('Consumer Secret'),
+			'#default_value'=> variable_get('tlm_twitter_api_consumer_secret')
+		);	
+		
+		$form['api']['access_token'] = array(
+		 	'#type' => 'textfield',
+			'#title' => t('Access Token'),
+			'#default_value'=> variable_get('tlm_twitter_api_access_token')
+		);	
+		
+		$form['api']['access_token_secret'] = array(
+		 	'#type' => 'textfield',
+			'#title' => t('Access Token Secret'),
+			'#default_value'=> variable_get('tlm_twitter_api_access_token_secret')
+		);
+			
+		
+		
+		
+	$form['misc'] = array(
+	 	'#type' => 'fieldset',
+		'#title' => t('Misc Settings'),
+		'#collapsible' => true,
+		'#collapsed' => true,
+		'#tree' => true
+	);  	
+	
+		$form['misc']['callback_js_func'] = array(
+			 	'#type' => 'textfield',
+				'#title' => t('Javascript Callback Function'),
+				'#description' => 'Javascript function to call when the tweets have been loaded',
+				'#default_value'=> variable_get('tlm_twitter_misc_callback_js_func')
+			);	
+					
+	  
+
+	 $form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Save Settings'),	
+		'#weight' => 10
+	);
+	
+	
+  	return $form;
+	
+}
+
+
+
+
+function tlm_twitter_admin_settings_page_submit($form, $form_values){	
+	$form_values_copy = $form_values['values'];
+	
+	for($i=1;$i<=5;$i++){
+		variable_set('tlm_twitter_q' . $i . '_enabled', $form_values_copy['query_' . $i]['enabled']);
+		variable_set('tlm_twitter_q' . $i . '_check_interval', $form_values_copy['query_' . $i]['check_interval']);
+		variable_set('tlm_twitter_q' . $i . '_query', $form_values_copy['query_' . $i]['query']);
+		variable_set('tlm_twitter_q' . $i . '_num_tweets', $form_values_copy['query_' . $i]['num_tweets']);
+	}
+	
+	variable_set('tlm_twitter_api_consumer_key', $form_values_copy['api']['consumer_key']);
+	variable_set('tlm_twitter_api_consumer_secret', $form_values_copy['api']['consumer_secret']);
+	variable_set('tlm_twitter_api_access_token', $form_values_copy['api']['access_token']);
+	variable_set('tlm_twitter_api_access_token_secret', $form_values_copy['api']['access_token_secret']);
+	
+	
+	variable_set('tlm_twitter_misc_callback_js_func', $form_values_copy['misc']['callback_js_func']);
+
+	
+	drupal_set_message(t('Saved Settings'));
+}
+
+
+
+function tlm_twitter_embed_query($queryId, $containerSelector = '#twitter-feed', $displayLimit = 4, $showRetweets = true){
+	$showRetweetsText = $showRetweets ? 'true' : 'false';
+	
+	$js = "
+		function doTwitter$queryId(){
+		embedTwitter({
+					
+					jsonUrl: 		'/tlm_twitter/query/$queryId', 
+					containingDiv:	'$containerSelector', 
+					displayLimit: 	$displayLimit,
+					showRetweets:	$showRetweetsText,
+					callback: " . variable_get('tlm_twitter_misc_callback_js_func', '') . "
+				});
+		}
+		when_aPI_ready('doTwitter$queryId()');
+	";
+	
+	/*
+	profileName: 	'@MPJulian', 
+	screenName: 	'Peter Julian MP', 
+	*/
+	
+	drupal_add_js(drupal_get_path('module','tlm_twitter') . '/js/twitterfeed.js', 'file');
+	drupal_add_js($js,'inline');
+	
+	drupal_add_js(array('tlm_twitter_loading_image'=> drupal_get_path('module','tlm_twitter') .'/images/ajax-loader.gif'), 'setting');
+	
+}
+
+
+
+
+
+
+function tlm_twitter_get_tweets($queryId){
+	$doTwitterPoll = false;
+	
+	
+	if(is_numeric($queryId) && $queryId > 0 && $queryId < 6){
+		if(!variable_get('tlm_twitter_q' . $queryId . '_enabled', false)){
+			return;
+		}		
+		
+		$lastTimeCheck = variable_get('tlm_twitter_q' . $queryId . '_last_api_check', 0);
+		
+		$secondsBetweenCheck =  variable_get('tlm_twitter_q' . $queryId. '_check_interval', 5) * 60;
+		
+		$diff = time() - $lastTimeCheck;
+		
+		//echo 'timebetween check: ' . $secondsBetweenCheck . ' current diff: ' . $diff;
+		
+		if($diff > $secondsBetweenCheck){
+			$reCheck = true;
+		}else{
+			$reCheck = false;
+		}
+		
+		//Testing
+		//$reCheck = true;
+				
+		
+		if($reCheck){
+			$doTwitterPoll = true;
+			
+		}else{
+			//get cached version
+			//send cached to user
+			
+			$tmp = cache_get('tlm_twitter_q' . $queryId . '_data');
+			
+			if($tmp === false){	//not cached
+				$doTwitterPoll = true;
+			}else{
+				$tweetsJS =  $tmp->data;
+			}
+			
+		}
+		
+		
+		
+		if($doTwitterPoll){
+			$queryText = variable_get('tlm_twitter_q' . $queryId . '_query', '');
+			
+			
+			//goto twitter
+			watchdog('tlm_twitter', 'Going to twitter to pull tweets for "' . $queryText . '"', array(), WATCHDOG_INFO);
+			
+			require_once("twitteroauth/twitteroauth.php");
+			$connection = tlm_twitter_getConnectionWithAccessToken(
+														variable_get('tlm_twitter_api_consumer_key'), 
+														variable_get('tlm_twitter_api_consumer_secret'), 
+														variable_get('tlm_twitter_api_access_token'),
+														variable_get('tlm_twitter_api_access_token_secret')
+													 );
+			//$tweets = $connection->get("https://api.twitter.com/1.1/search/tweets.json?q=".urlencode(variable_get('tlm_twitter_q' . $queryId . '_query', ''))."&count=".variable_get('tlm_twitter_q' . $queryId . '_num_tweets', 10)	);
+			
+			
+			if(substr($queryText,0,1) == '#'){	//substr($queryText,0,1) == '@' || 							 
+				$tweets = $connection->get("https://api.twitter.com/1.1/search/tweets.json?q=".urlencode($queryText)."&count=".variable_get('tlm_twitter_q' . $queryId . '_num_tweets', 10)	);
+			}else{				
+				$tweets = $connection->get("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=".urlencode($queryText)."&count=". variable_get('tlm_twitter_q' . $queryId . '_num_tweets', 10));
+			}
+			
+			$tweetsJS = json_encode($tweets);
+				
+			
+			
+			
+			cache_set('tlm_twitter_q' . $queryId . '_data', $tweetsJS);
+				
+			variable_set('tlm_twitter_q' . $queryId . '_last_api_check', time());
+		}
+		
+		header('Content-type: application/json');
+		echo $tweetsJS;
+	}
+	
+}
+
+
+
+
+//Helper functions
+function tlm_twitter_getConnectionWithAccessToken($cons_key, $cons_secret, $oauth_token, $oauth_token_secret) {
+	$connection = new TwitterOAuth($cons_key, $cons_secret, $oauth_token, $oauth_token_secret);
+	return $connection;
+}
+
+

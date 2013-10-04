@@ -1,0 +1,163 @@
+<?php
+if(!defined('NL')) define("NL", "\n");
+
+//Dont forget to go into "Input Formats" in admin, and set the items to use the "TLM ..." filter.
+
+# Implementation of hook_filter().
+
+function tlm_banner_filter_info(){
+	$filters['banner'] = array(
+		'title' => 'TLM Banner Tag',
+		'description' => 'Substitutes a special TLM Banner Tag with the actual code.',	
+		'cache' => false,
+		'process callback' => 'replace_tlm_banner_tags_d7'
+	);
+	
+	return $filters;
+}
+
+
+function replace_tlm_banner_tags_d7($text, $filter, $format, $langcode, $cache, $cache_id) {
+	return replace_tlm_banner_tags($text);
+}
+
+$currentId;
+function replace_tlm_banner_tags( $str ) {
+	global $currentId;
+	$matchlink = '';
+	$orig_match = '';
+	
+
+	if($currentId == ""){ $currentId = 0;}
+
+	
+	//$str = preg_replace_callback("/(\[)popup(\|).*(\])/","tlm_popup_replace_helper", $str);	//has issue with new lines, each [] must have newline
+	$str = preg_replace_callback("/\[banner\|([^]]+)\]/","tlm_banner_replace_helper", $str);	
+	
+	return $str;
+}
+
+function tlm_banner_replace_helper($matches){
+	global $currentId;
+	
+
+	
+	$match = $matches[0];
+	$match = substr( $match, 1, ( strlen( $match ) - 2 ) );
+	$match = explode( "|", $match );
+	
+	$items = $match; 
+	unset($items[0]);
+	
+	$lastMatchIndex = count($match)-1;
+	if(strtolower($match[$lastMatchIndex]) == "random"){
+		$random = true;
+		$onlyOne = true;
+		unset($items[$lastMatchIndex]);
+		
+	}else if(strtolower($match[$lastMatchIndex]) == "random-set"){
+		$random = true;
+		$onlyOne = false;
+		unset($items[$lastMatchIndex]);
+		
+		
+	}else{
+		$random = false;
+		$onlyOne = false;
+	}
+	
+	$matchlink = tlm_banner_render($items, $currentId, $random, $onlyOne);
+	$currentId++;
+	
+	return $matchlink;
+}
+
+
+       
+function tlm_banner_render($nodeIds, $currentId, $random = false, $onlyOne = false){
+	$output = "";
+	
+
+	if($random){
+		shuffle($nodeIds);
+	}
+	
+	if($onlyOne){
+		$nodeIds = array(1=> array_pop($nodeIds));
+	}
+	
+	
+	foreach($nodeIds as $index => $aNodeId){
+		$node = node_load($aNodeId);
+		//drupal_set_message(print_r($node,true));
+		
+		if($node){
+			if($node->type == "banner"){		
+				//$output .= theme('node',$node);
+				
+				$output .= '<div class="banner slide slideExtractLink" id="node-' . $node->nid .'">';
+					$output .= '<div class="bannerImage"><img class="bannerImage" src="' . file_create_url($node->field_banner_image['und'][0]['uri']) . '" alt="" /></div>';
+				
+					if($node->field_banner_header_text['und'][0]['value'] != "" || $node->body != ""){
+						$emptyClass = "";
+					}else{
+						$emptyClass = "empty";
+					}
+					
+					$output .= '<div class="bannerCopy ' . $emptyClass . '">';
+					if($node->field_banner_header_text['und'][0]['value'] != ""){
+						$output .= '<h2>' . $node->field_banner_header_text['und'][0]['value'] . '</h2>';
+					}					
+					
+					
+					$extraClassesArr = array();
+					/*if(count($node->field_banner_link_classes) >0){
+						foreach($node->field_banner_link_classes as $aClassArr){
+							if($aClassArr['value']){
+								$extraClassesArr[] = $aClassArr['value'];
+							}	
+						}
+					}*/
+					
+					if(isset($node->field_banner_link_type['und']) && $node->field_banner_link_type['und'][0]['value'] == 'external_link'){
+						$extraClassesArr[] = 'external';	
+					}
+					
+					
+					$extraClasses = implode(" ", $extraClassesArr);
+					
+					
+					
+					
+					
+					if(isset($node->field_banner_link_type['und']) && $node->field_banner_link_type['und'][0]['value'] == 'popup'){
+						$output .= '<a href="#popupBanner' . $currentId . $index . 'Anchor" class="highslideHTML ' . (isset($node->field_banner_popup_size['und']) ? $node->field_banner_popup_size['und'][0]['value'] : '') . '">' . $node->field_banner_link_text['und'][0]['value'] . '</a>';
+						
+						//$output .= '<a name="popupBanner' . $currentId . $index . 'Anchor" id="popupBanner' . $currentId . $index . 'Anchor"></a>';	//this currently breaks the functionality
+						$output .= '<div class="hidden highslidePopup" id="popupBanner' . $currentId . $index . '">';							
+							$output .= check_markup($node->field_banner_popup_content['und'][0]['value'], 'full_html');
+						$output .= '</div>';
+						
+					}else{
+						if(isset($node->field_banner_link['und']) && $node->field_banner_link['und'][0]['value'] != ""){ 
+							$output .= '<a class="slideLink ' . $extraClasses . '" href="' . $node->field_banner_link['und'][0]['value'] . '">' . $node->field_banner_link_text['und'][0]['value'] . '</a>';
+						}
+					}
+						
+					
+					$output .= render($node->body);
+					$output .= '</div>';
+				
+				
+				$output .= '</div>'. NL;
+				
+			}else{
+				$output .= "--Node selected (id: " . $aNodeId . ") is not of type Banner--";
+			}		
+		}else{
+			$output .= "--Invalid Banner node id: " . $aNodeId . "--";
+		}	
+	}
+	
+	return $output;
+}

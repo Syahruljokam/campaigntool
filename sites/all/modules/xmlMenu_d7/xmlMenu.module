@@ -1,0 +1,687 @@
+<?php
+if(!defined('NL')) define("NL", "\n");
+
+
+//No longer generate menu.xml file, menu xml will be generated on the fly by _menu.php
+//function xmlMenu_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL){
+//	if(variable_get('xmlMenu_enabled', true) == true){
+//		$myFile = variable_get('xmlMenu_filename', "_menu.xml");
+//		
+//		if ($op == "submit" || $op == "delete" || $op == "insert" || $op == "update" || $op == "validate" ){ 
+//			generateXMLMenu();
+//		}else if($op == "view" && !file_exists($myFile)){	//in case the page is being viewed for first time or no xml exists, then create it.
+//			generateXMLMenu();
+//		}
+//		
+//		
+//	}
+//	
+//}
+
+
+
+//Define RPC calls for generating xml menu, for use from WordPress primarily.
+function xmlMenu_xmlrpc(){
+	return array('xmlMenu.generateXML' => 'generateXML');
+}
+
+function getPrimaryMenuId(){
+	return 'primary-links';	//D5:  variable_get('menu_primary_menu', 0);
+}
+
+function xml_menu_genSpaceLevel($level){	
+	$out = '';
+	for($i=0; $i<$level;$i++){
+		$out .= " ";
+	}
+	
+	return $out;
+}
+
+////NO LONGER NEEDED - Moved to using a seperate input box for the extra parameters.
+//Alter the node creation/editing form to set the menu modules' customized value to 1.
+//Customized=1 prevents the menu item's description from being set to the same as the title, causing trouble with the way our xml uses the description
+//function xmlMenu_form_alter(&$form, $form_state, $form_id) {
+//  if (isset($form['#node']) && $form['#node']->type .'_node_form' == $form_id) {
+//  	$form['menu']['customized'] = array('#type' => 'value', '#value' => 1);
+//  }
+//}
+
+//Alter the Edit Menu form so that the menu holds extra data for the XML output for the item.
+function xmlMenu_form_menu_edit_item_alter(&$form, &$form_state){
+
+	
+	$extraParamForItem = variable_get("xmlmenu_parameters_" . $form['mlid']['#value'], '');
+	//$extraParamForItem = $extraParams[$form['mlid']['#value']];
+
+ 	$form['menu']['xmlmenu_parameters'] = array(
+ 		'#title' => 'Extra XML Menu Parameters.',
+    	'#description' => 'Seperated by |. Enter the extra value pairs that should be outputted with this item in the XML menu. ie. img="animage.jpg" | extrafield="extradata"',
+ 		'#type' => 'textarea',
+        '#default_value' =>  $extraParamForItem,
+        '#rows' => 1
+    	
+ 	);
+ 	
+ 	$form['#submit'] = array(	'menu_edit_item' . '_submit' , 	//the original handler
+									'xmlMenu_form_menu_edit_item_submit'	//our new extra handler
+								);
+ 	
+}
+
+function xmlMenu_form_menu_edit_item_submit($form, &$form_state){
+	//drupal_set_message(print_r($form_state,true));
+	
+	$menuId = $form_state['values']['mlid'];
+	$xmlParameters = $form_state['values']['xmlmenu_parameters'];
+	
+	//$extraParams = variable_get("xmlmenu_parameters_" . $form['menu']['#item']['menu_name'], array());
+	//$extraParams[$menuId] = $xmlParameters;
+	
+	variable_set("xmlmenu_parameters_" . $menuId, $xmlParameters);
+}
+
+
+
+function xml_menu_tree($level = 1, $menuId, $menu = array()) {
+	//global $showDrupalMenuId;  
+
+	$output = "";
+
+	$oUnicodeReplace = new unicode_replace_entities();
+
+   	$extraParametersForMenu = variable_get("xmlmenu_parameters_" .$menuId, "");
+   	$outputDid = variable_get('xmlMenu_other_output_did', false);
+   
+   	
+    foreach ($menu as $mid) {  
+	    $item = $mid['link'];
+	    
+	    if($item['hidden'] == 0){
+	    	
+			$linkURL = drupal_get_path_alias($item['link_path']);
+			
+			//drupal_set_message(print_r($item,true));
+			
+	    	if(isset($item['options']['query']) && $item['options']['query']){
+				$linkURL =  $linkURL . "?" . htmlentities($item['options']['query']);
+			}
+			
+			if(isset($item['options']['fragment']) && $item['options']['fragment']){
+				$linkURL =  $linkURL . "#" . htmlentities($item['options']['fragment']);
+			}
+			
+	    	
+			
+		    if($linkURL == "<front>"){
+		    	$linkURL = base_path();
+		    }else if($linkURL == "user/%"){
+		    	$linkURL = '/user';
+		    }else if(substr($linkURL,0,4) == "http" || substr($linkURL,0,1) == "/" || substr($linkURL,0,1) == "#"){
+		    	$linkURL = $linkURL;
+		    }else {
+		    	$linkURL = "/" . $linkURL;		
+		    }	 
+		    
+		    
+	//      // Strip funny symbols
+	//      $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu['items'][$mid]['path']);
+	//      // Convert slashes to dashes
+	//      $clean_path = str_replace('/', '-', $clean_path);
+	//      $path_class = 'menu-path-'. $clean_path;
+	      
+	      	//$nodeCaption = $item['title'];	//Assumes code is pre-escaped in the menu title
+	       	$nodeCaption = $oUnicodeReplace->UTF8entities($item['title']);
+	//    	if($phpVersion >= "5.2.3"){
+	//      		$nodeCaption = htmlentities($item['title'], ENT_COMPAT, 'UTF-8', false);	//false = dont double encode html entities
+	//	  	}else{
+	//      		$nodeCaption = htmlentities($item['title'], ENT_COMPAT, 'UTF-8');
+	//	  	}
+	
+		    if($outputDid){
+		    	$did = 'did="' . $item['mlid'] . '"';
+		    }else{
+		    	$did = "";
+		    }
+		     
+		    
+		    //$extraItemData = $item['description'];
+		    //$extraItemData = $item['options']['attributes']['title'];
+
+			$menuItemId =  $item['mlid'];
+			if(isset($extraParametersForMenu[$menuItemId])){
+			    $extraItemData = $extraParametersForMenu[$menuItemId];
+			    $extraItemData = str_ireplace("|"," " , $extraItemData);
+			}else{
+				$extraItemData = '';
+			}
+		           
+		    global $activeMLID;
+		    if($menuItemId == $activeMLID){
+		    	$isActiveItem = ' isActive="true" ';
+		    }else{
+		    	$isActiveItem = ' ';
+		    }
+		    
+		    $extraItemData .= ' mid="' . $menuItemId . '" ';
+		    
+		    if (is_array($mid['below'])){ //(count($mid['below']) > 0) { 	      	
+	      		$output .= NL . xml_menu_genSpaceLevel($level)  . '<item ' . $did . ' ' . $isActiveItem . ' ' . $extraItemData. '  caption="' .$nodeCaption . '" link="' . $linkURL . '">';
+	      		
+		        $output .= NL . xml_menu_genSpaceLevel($level+1)  . xml_menu_tree($level+1 , $menuId, $mid['below']) ;
+	
+		        $output .=  xml_menu_genSpaceLevel($level)  . '</item>'  . "\n";
+		        
+	      	}else {
+	        	$output .= xml_menu_genSpaceLevel($level) . '<item ' . $did . ' ' . $isActiveItem . ' '  . $extraItemData .  ' caption="' .$nodeCaption . '" link="' . $linkURL . '" />' . NL;
+			}
+		
+	    }//end hidden check
+	} //end for loop
+
+  
+	return $output;
+}
+
+
+function setDefaultsNeeded(){
+	//force a default for a specific menu item by getting its default
+	if(variable_get('xmlMenu_menu_' . getPrimaryMenuId(), -1) == -1){
+		variable_set('xmlMenu_menu_' . getPrimaryMenuId(), 'primaryNav,secondaryNav,thirdLevelNav,fourthLevelNav');
+	}
+	
+	if(variable_get('xmlMenu_other_output_did', -1) == -1){
+		variable_set('xmlMenu_other_output_did', false);
+	}
+}
+
+
+function generateXMLMenu(){
+	//saveXML(generateXML());	//no longer generate _menu.xml
+}
+
+
+
+
+
+
+
+
+
+function json_menu_tree($level = 1,$menuId, $menu = array()) {
+  //global $showDrupalMenuId;
+      
+	$output = "";
+
+
+  	$oUnicodeReplace = new unicode_replace_entities();
+  	$extraParametersForMenu = variable_get("xmlmenu_parameters_" .$menuId, "");
+	$outputDid = variable_get('xmlMenu_other_output_did', false);
+  	
+	foreach ($menu as $aMenu) { 		
+		$item = $aMenu['link'];    
+		
+		if($item['hidden'] == 0){
+		    $mid = $item['mlid'];
+		    		    
+			$linkURL = drupal_get_path_alias($item['link_path']);
+		
+		    if($linkURL == "<front>"){
+		    	$linkURL = base_path();
+		    }else if(substr($linkURL,0,4) == "http" || substr($linkURL,0,1) == "/" || substr($linkURL,0,1) == "#"){
+		    	$linkURL = $linkURL;
+		    }else {
+		    	$linkURL = "/" . $linkURL;		
+		    }	 
+		    
+		    
+	//      // Strip funny symbols
+	//      $clean_path = str_replace(array('http://', '<', '>', '&', '=', '?', ':'), '', $menu['items'][$mid]['path']);
+	//      // Convert slashes to dashes
+	//      $clean_path = str_replace('/', '-', $clean_path);
+	//      $path_class = 'menu-path-'. $clean_path;
+	      
+	      	//$nodeCaption = $item['title'];	//Assumes code is pre-escaped in the menu title
+	       	$nodeCaption = $oUnicodeReplace->UTF8entities($item['title']);
+	//    	if($phpVersion >= "5.2.3"){
+	//      		$nodeCaption = htmlentities($item['title'], ENT_COMPAT, 'UTF-8', false);	//false = dont double encode html entities
+	//	  	}else{
+	//      		$nodeCaption = htmlentities($item['title'], ENT_COMPAT, 'UTF-8');
+	//	  	}
+	
+	//    
+	
+	           
+	   		if($outputDid){
+	   			$output['d_' . $mid]['did'] = $item['mlid'];
+	   		}
+	   		
+	      	$output['d_' . $mid]['caption'] = $nodeCaption;
+	      	$output['d_' . $mid]['link'] = $linkURL;
+	      	
+	  		//Expand the value pairs in $item['description'] into entities so they are theyr own value/pairs in the object
+	  		//$itemDescription = $item['options']['attributes']['title'];
+	  		
+	      	
+			$menuItemId =  $item['mlid'];
+			$itemDescription = null;
+			if(isset($extraParametersForMenu[$menuItemId])){
+		    	$itemDescription = $extraParametersForMenu[$menuItemId];
+			}
+			
+	       	if($itemDescription){
+				$extraItemDataArr = explode("|",$itemDescription);
+		       	foreach($extraItemDataArr as $extraValuePair){
+					$extraItem = explode("=",$extraValuePair);
+		       		$extraItem[0] = trim($extraItem[0]);
+		       		
+		       		$firstQuote = strpos($extraItem[1],'"');
+		       		$lastQuote = strrpos($extraItem[1],'"');
+		       		
+		       		$extraItem[1] = substr($extraItem[1],$firstQuote+1,$lastQuote-1);
+		       		
+		       		$output['d_' . $mid]['extra_parameters'][$extraItem[0]] = $extraItem[1];
+				}
+	       	}
+	       
+	      	if (is_array($aMenu['below'])){ //(count($menu['visible'][$mid]['children']) > 0) {     
+	        	$output['d_' . $mid]['children'] = json_menu_tree( $level+1,$menuId,$aMenu['below']);       	
+			}
+	      
+		}//end hidden check
+    
+  }//end for loop
+  
+  
+  return $output;
+}
+
+
+function generateJSON($debug = false){
+	setDefaultsNeeded();
+	
+	//$primaryMenuId = getPrimaryMenuId(); 
+	
+	$output = "";
+	$outputPrimary = "";
+	
+  	
+	$menu = menu_get_menus(true);
+	
+	
+  	foreach($menu as $menuId => $aMenu){
+  		if($menuId == 'navigation'){
+  			continue;
+  		}
+  		
+  		$aMenu = menu_tree_all_data($menuId);
+  		/*if(isset($aMenu['title'])){
+			$menuTitle = $aMenu['title'];
+  		}else{
+  			$menuTitle = null;
+  		}*/
+  		
+  		
+	  	$divIdOfMenu = variable_get('xmlMenu_menu_' . $menuId, '');	
+		if($divIdOfMenu == ""){
+			$divIdOfMenu = $menuId;
+		}
+ 			
+		if(count($aMenu) > 0 ){
+ 			$menuContent[$menuId] = json_menu_tree(1, $menuId,$aMenu);
+		}
+		$menuContent[$menuId]['id'] = $divIdOfMenu;
+		$menuContent[$menuId]['title'] = xmlMenu_get_menu_title($menuId);
+		$menuContent[$menuId]['title'] = i18n_string_translate(array('menu', 'menu', $menuId, 'title'), $menuContent[$menuId]['title']);	//translate
+				
+
+  	}
+	
+  	
+	if($debug){
+  		return print_r($menuContent,true);
+  	}else{
+		return json_encode($menuContent);
+  	}
+  	
+}
+
+
+
+function xmlMenu_getActiveMenu($node){ 
+	 	
+	if($node == NULL){
+		if (arg(0) == 'node' && is_numeric(arg(1))){
+			$nodeId = arg(1);
+		}else{
+			//Error. No node object was passed and the nid cant be resolved.
+			return 0;
+		}		
+	}else{
+	
+		$nodeId = $node->nid;
+	}
+	
+	//$mlid = db_result(db_query_range("SELECT mlid FROM {menu_links} WHERE link_path = 'node/%d' AND module = 'menu' ORDER BY mlid ASC", $nodeId, 0, 1));	
+	$mlid = db_query("SELECT mlid FROM {menu_links} WHERE link_path = 'node/:nid' AND module = 'menu' ORDER BY mlid ASC", array(":nid" => $nodeId))->fetchfield();
+	
+	if($mlid){
+		return $mlid;
+	}
+	
+	return 0;
+	
+}
+
+
+function generateXML($node = NULL, $menuIdToLoad = '', $menuIdOverride = ''){	
+	setDefaultsNeeded();
+	
+	$primaryMenuId = getPrimaryMenuId(); 
+
+	$output = "";
+	$outputPrimary = "";
+	
+
+	$menu = menu_get_menus();
+
+  	global $activeMLID;
+  	$activeMLID = xmlMenu_getActiveMenu($node);
+
+  	foreach($menu as $menuId => $theMenu){
+  		if($menuId == 'navigation'){
+  			continue;
+  		}
+  		
+  		if($menuIdToLoad != '' && $menuId != $menuIdToLoad){
+  			continue;
+  		}
+  		
+  		$aMenu = menu_tree_all_data($menuId);
+  		//print_r($aMenu);
+  		
+		$divIdOfMenu = variable_get('xmlMenu_menu_' . $menuId, '');	
+		if($divIdOfMenu == ""){
+			$divIdOfMenu = $menuId;
+		}
+		
+		if($menuIdOverride != ''){
+			$divIdOfMenu = $menuIdOverride;
+		}
+		
+		
+		$menuContent = '<menu id="' . $divIdOfMenu . '" title="' . xmlMenu_get_menu_title($menuId) . '">' . NL;
+		if(count($aMenu) > 0 ){
+			$menuContent .= xml_menu_tree( 1, $menuId, $aMenu);		
+		}	
+		$menuContent .= "</menu>". NL;
+
+		
+		if($menuId == $primaryMenuId){	//hack/trick to make it so that the primary nav gets put out first
+			$outputPrimary = $menuContent;
+		}else{
+			if($divIdOfMenu != ''){
+ 				$output .= $menuContent;
+			}
+		}
+
+  		
+  	}
+	
+  	$menuXMLRaw = '';
+	if($outputPrimary != ''){	//if a primary menu was created, output it first
+		$menuXMLRaw = $outputPrimary;
+	}
+	
+	if($output != ''){
+		$menuXMLRaw .= $output;
+	}
+	
+	
+	$menuXML = '<?xml version="1.0" encoding="iso-8859-1" ?>' . "\n\n" ;
+	$menuXML .= '<root>' . "\n";
+	$menuXML .= $menuXMLRaw;
+	$menuXML .= '</root>';
+	
+	return $menuXML;
+}
+
+
+//function saveXML($menuXML){
+//	$myFile = variable_get('xmlMenu_filename', "_menu.xml"); 
+//	$fh = fopen($myFile, 'w') or die("can't open file");
+//	
+//	fwrite($fh, $menuXML);
+//		
+//	fclose($fh);
+//}
+
+
+
+
+
+
+function xmlMenu_menu(){
+	$items = array();	
+
+ 
+	$items['admin/settings/xmlMenu'] = array(
+		//'path' => 'admin/settings/xmlMenu',
+		'title' => 'XML Menu',
+		'description' => t('XML Menu module overview'),
+		//'callback' => 'xmlMenu_admin_main_page',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('xmlMenu_admin_settings_page'),
+		'access callback' => 'user_access',
+    	'access arguments' => array('administer site configuration'),
+		'type' => MENU_NORMAL_ITEM
+	);
+	
+	$items['admin/settings/xmlMenu/settings'] = array(
+		//'path' => 'admin/settings/xmlMenu/settings',
+		'title' => t('Settings'),
+		'description' => t('Change the settings for the XML Menu module'),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('xmlMenu_admin_settings_page'),
+		'access callback' => 'user_access',
+    	'access arguments' => array('administer site configuration'),
+		'weight' => 0,
+		'type' => MENU_LOCAL_TASK
+	);
+	
+	
+	return $items;
+}
+
+
+
+
+
+
+
+function xmlMenu_admin_settings_page(){
+	setDefaultsNeeded();
+	
+	
+	$form['info'] = array(
+		'#value' => 'XML Menu allows for a "_menu.xml" style menu to be created from the drupal menu structure. The menu is available via _menu.php.'
+	);
+	
+	
+//	$form['general'] = array(
+//	 	'#type' => 'fieldset',
+//		'#title' => t('General Settings'),
+//		'#weight' => 0,
+//		'#collapsible' => false,
+//		'#collapsed' => FALSE,
+//	);
+	
+//	$form['general']['xmlMenu_enabled'] = array(
+//	    '#type' => 'checkbox',
+//	    '#title' => t('Enable xml file output'),
+//	    '#default_value' => variable_get('xmlMenu_enabled', true),
+//	    
+//	    '#description' => t(""),
+//	  );
+	  
+//	  $form['general']['xmlMenu_filename'] = array(
+//	    '#type' => 'textfield',
+//	    '#title' => t('Filename'),
+//	    '#default_value' => variable_get('xmlMenu_filename', "_menu.xml"),
+//	    
+//	    '#description' => t(""),
+//	    '#required' => TRUE
+//	  );
+	  
+	  
+	  $form['menus'] = array(
+	 	'#type' => 'fieldset',
+		'#title' => t('Menu Settings'),
+		'#weight' => 1,
+		'#collapsible' => false,
+		'#collapsed' => FALSE,
+	 	 '#description' => t("Mapping of Menu's to XML menu id's. A blank entry removes the menu from being outputted to the XML file.")
+		);
+		
+		
+		//$menu = menu_get_menu();
+		$menu = menu_get_menus();
+	  	//$menu = $menu['visible'];
+	  	
+	  	//$menuOptions = array('' => '-disabled-');
+	  	foreach($menu as $menuId => $aMenu){
+	  		//if($aMenu['type'] == 115){
+	  		if($menuId != "navigation"){
+	  			//$menuOptions[$menuId] = $aMenu['title'];
+	  			
+	  			if(getPrimaryMenuId() == $menuId){
+	  				$extraDesc = "Default: primaryNav,secondaryNav,thirdLevelNav,fourthLevelNav";
+	  			}else{
+	  				$extraDesc = "";
+	  			}
+	  			
+	  			$form['menus']['xmlMenu_menu_' . $menuId] = array(
+				    '#type' => 'textfield',
+				    '#title' => t($aMenu),
+				    '#default_value' => variable_get('xmlMenu_menu_' . $menuId, ''),			    
+				    '#description' => t("The id to use in the xml for this menu. "  . $extraDesc)
+				  );
+	  		}
+	  	}
+	  	
+	  	
+	 $form['other'] = array(
+	 	'#type' => 'fieldset',
+		'#title' => t('Other Settings'),
+		'#weight' => 1,
+		'#collapsible' => false,
+		'#collapsed' => FALSE,
+	 	 '#description' => t("")
+		);
+	$form['other']['xmlMenu_other_output_did'] = array(
+		    '#type' => 'checkbox',
+		    '#title' => t("Output the Drupal Menu ID for each menu item"),
+		    '#default_value' => variable_get('xmlMenu_other_output_did',false),			    
+		    '#description' => t("")
+	);
+				
+	  
+
+	 $form['submit'] = array(
+		'#type' => 'submit',
+		'#value' => t('Save Settings'),	
+		'#weight' => 10
+	);
+	
+	
+  	return $form;
+	
+}
+
+
+
+
+function xmlMenu_admin_settings_page_submit($form, $form_values){
+	
+	//variable_set('xmlMenu_enabled', $form_values['xmlMenu_enabled']);
+	//variable_set('xmlMenu_filename', $form_values['xmlMenu_filename']);
+	
+	$form_values_copy = $form_values['values'];
+	
+	foreach($form_values_copy as $itemName => $itemValue){
+		//drupal_set_message($itemName . ":" . print_r($itemValue,true));
+		
+		$itemNameArr = explode('_', $itemName);
+		if($itemNameArr[0] == "xmlMenu" && $itemNameArr[1] == "menu"){
+			variable_set('xmlMenu_menu_' . $itemNameArr[2], $itemValue);
+
+		}
+	}
+	
+	variable_set('xmlMenu_other_output_did', $form_values_copy['xmlMenu_other_output_did']);
+	
+	drupal_set_message(t('Saved Settings'));
+		
+	//return '/admin/settings/xmlMenu';
+	
+	
+	//generateXMLMenu();
+}
+
+
+
+function xmlMenu_get_menu_title($menuName){	
+	return db_query("SELECT title FROM {menu_custom} WHERE menu_name=:name", array(":name" => $menuName))->fetchfield();
+}
+
+
+class unicode_replace_entities {
+        public function UTF8entities($content="") {
+            $contents = $this->unicode_string_to_array($content);
+            $swap = "";
+            $iCount = count($contents);
+            for ($o=0;$o<$iCount;$o++) {
+                $contents[$o] = $this->unicode_entity_replace($contents[$o]);
+                $swap .= $contents[$o];
+            }
+            return mb_convert_encoding($swap,"UTF-8"); //not really necessary, but why not.
+        }
+
+        public function unicode_string_to_array( $string ) { //adjwilli
+            $strlen = mb_strlen($string);
+            
+            while ($strlen) {
+                $array[] = mb_substr( $string, 0, 1, "UTF-8" );
+                $string = mb_substr( $string, 1, $strlen, "UTF-8" );
+                $strlen = mb_strlen( $string );
+            }
+            return $array;
+        }
+
+        public function unicode_entity_replace($c) { //m. perez
+            $h = ord($c{0});   
+            if ($h <= 0x7F) {
+               //return $c;
+               return htmlentities($c, ENT_COMPAT, 'UTF-8');	//so that double quotes and similar are encoded
+               
+            } else if ($h < 0xC2) {
+                return $c;
+            }
+           
+            if ($h <= 0xDF) {
+                $h = ($h & 0x1F) << 6 | (ord($c{1}) & 0x3F);
+                $h = "&#" . $h . ";";
+                return $h;
+            } else if ($h <= 0xEF) {
+                $h = ($h & 0x0F) << 12 | (ord($c{1}) & 0x3F) << 6 | (ord($c{2}) & 0x3F);
+                $h = "&#" . $h . ";";
+                return $h;
+            } else if ($h <= 0xF4) {
+                $h = ($h & 0x0F) << 18 | (ord($c{1}) & 0x3F) << 12 | (ord($c{2}) & 0x3F) << 6 | (ord($c{3}) & 0x3F);
+                $h = "&#" . $h . ";";
+                return $h;
+            }
+        }
+    }//
+
+?>

@@ -1,0 +1,1 @@
+video_filter - Applied this patch https://drupal.org/files/video_filter-video-filter-dialog-1689440-5.patch from https://drupal.org/node/1689440

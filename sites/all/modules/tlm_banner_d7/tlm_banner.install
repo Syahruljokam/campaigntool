@@ -1,0 +1,22 @@
+<?php 
+function tlm_banner_install(){
+	/*$filename = drupal_get_path('module','tlm_banner') . "/tlm_banner.install.inc";
+	$content = implode ('', file ($filename));
+	// Build form state
+	$form_state = array(
+	   'values' => array(
+	      'type_name' => '<create>',
+	      'macro' => $content,
+	   ),
+	);
+	drupal_execute("content_copy_import_form", $form_state);
+	
+	drupal_set_message('Created banner content type');*/
+}
+
+
+function tlm_banner_uninstall(){
+	
+}
+
+?>

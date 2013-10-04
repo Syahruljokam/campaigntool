@@ -1,0 +1,33 @@
+name = "XML Menu"
+description = "Generates a _menu.xml/json from the primary menu structure."
+package = "TLM"
+core = 7.x
+
+version = "7.x-1.21"
+
+;project = "xmlMenu_d7"
+;project status url = "http://tlm-modules.twistedlime.ca/release_history"
+
+;1.1 - Removed the need to have menu items pre-escape the special html characters.
+;1.2 - Added handling of <front> href links, now changes it to base path.
+;1.3 - Seperated the xml generation from the file saving, removed the ability to save the xml file as the menu is now dyanmically generated via _menu.php
+;1.4 - Added PHP version check to xml_menu_tree() to determine which version of htmlentities to use.
+;1.5 - Reworked the way the value data is processed. Converts special entities into NCR types (#&[number]; format)
+;1.6 - Added ability to specify custom extra data to be put out with the XML nodes via the Menu Item's description field. Also modify the Menu Item edit form.
+;1.7 - Initial JSON output capability. Query string ?JS=1
+;1.8 - Converted to Drupal 6.
+	 - Handles the hidden property of the menu item. "Enabled" in the menu system.
+;1.9 - Added node add/edit form modification so that new nodes with menu items dont cause the menu item's description to be set and cause problems.
+;1.10 - Redid where and how the XML Extra Parameters are stored. No longer uses description field.
+;1.11 - Fixed missing query string from menu url's.
+;1.12 - Added fourthLevelNav to the primary menu id default
+;1.13 - Fixed issue where a numerical index for id in the json array will cause chrome to re-order the array. Appended letter to index to prevent it.
+;1.14 - Added the output of the active menu item based on drupal's information. "isActive"
+;1.15 - Added handling of "user/%" => "user" to handle the drupal menu "my account".
+;1.16 - Fix from 1.13 was lost somehow. Reinstated fix.
+;1.17 - Added menu title attribute
+;1.18 - Fixed missing 'extra_parameters' nesting of extra parameters.
+;1.19 - Fixed how the current active node is looked up. No longer relies on a node object being passed to the generateXML function.
+;1.20 - Added ability to pull a given menu id in the xml and override the menu id put out for it.
+
+;7.x-1.21 - branch to create d7 module.

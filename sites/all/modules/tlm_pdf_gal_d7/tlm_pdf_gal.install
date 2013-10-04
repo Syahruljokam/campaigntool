@@ -1,0 +1,71 @@
+<?php 
+
+
+//tlm_pdf_gal_check_imagemagick
+
+function tlm_pdf_gal_requirements($phase) {
+	$requirements = array();
+  	// Ensure translations don't break during installation.
+  	$t = get_t();
+  
+  	module_load_include('module','tlm_pdf_gal','tlm_pdf_gal');
+  	
+  	$imagemagickCodeArr = tlm_pdf_gal_check_imagemagick();
+  	$imagemagickInstalled = $imagemagickCodeArr !== false;
+  	
+	switch ($phase){
+		case 'install':			
+			$requirements['tlm_pdf_gal'] = array(
+		      'title' => $t('ImageMagick Version'),
+		      //'value' => ($imagemagickCode ? $imagemagickCode : 'Not Installed'),	//Dont set during install
+		      'severity' => ($imagemagickInstalled ? REQUIREMENT_OK : REQUIREMENT_ERROR),
+			  'description' => 'ImageMagick is required for the TLM PDF Gal module.' 
+		    );
+			break;
+			
+			
+		case 'runtime':			
+			$requirements['tlm_pdf_gal'] = array(
+		      'title' => $t('ImageMagick Version'),
+		      'value' => ($imagemagickInstalled ? $imagemagickCodeArr['output'][0] : 'Not Installed'),
+		      'severity' => ($imagemagickInstalled ? REQUIREMENT_OK : REQUIREMENT_ERROR),
+			  //'description' => 'ImageMagick is required for the TLM PDF Gal module.'
+		    );
+			break;
+				
+	}
+	
+	return $requirements;
+}
+
+function tlm_pdf_gal_schema_alter(&$schema) {
+  $schema['file_managed']['fields']['pdf_total_pages'] = array(
+    'type' => 'int',
+    'not null' => false,
+    //'unsigned' => TRUE,
+    'default' => 0,
+  );
+  
+   $schema['file_managed']['fields']['pdf_num_pages_converted'] = array(
+    'type' => 'int',
+    'not null' => true,
+    //'unsigned' => TRUE,
+    'default' => 0,
+  );
+  
+   $schema['file_managed']['fields']['pdf_num_tries'] = array(
+    'type' => 'int',
+    'not null' => false,
+    //'unsigned' => TRUE,
+    'default' => 0,
+  );
+}
+
+function tlm_pdf_gal_install() {
+  $schema = drupal_get_schema('file_managed');
+  db_add_field('file_managed', 'pdf_total_pages', $schema['fields']['pdf_total_pages']);
+  db_add_field('file_managed', 'pdf_num_pages_converted', $schema['fields']['pdf_num_pages_converted']);
+  db_add_field('file_managed', 'pdf_num_tries', $schema['fields']['pdf_num_tries']);
+  
+  drupal_set_message('Created new fields in files table');
+}

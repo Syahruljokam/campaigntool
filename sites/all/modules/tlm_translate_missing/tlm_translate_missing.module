@@ -1,0 +1,21 @@
+<?php 
+
+
+function tlm_translate_missing_node_view($node) {
+	//drupal_set_message(print_r(drupal_is_front_page(),true));
+	
+	//Dont perform this code for the front page.
+	if(drupal_is_front_page()){
+		return;		
+	}
+	
+	
+    global $language;
+    //if (!empty($node->language) && $node->language != $language->language) {	//this doesnt work with the entitiy translation way.
+    if(isset($node) && isset($node->content['body']) && $node->content['body']['#language'] != $language->language) {
+      $msg = t('Sorry, the page %title does not have an %language equivalent.', array('%title' => $node->title, '%language' => $language->native));
+      drupal_set_message($msg, 'warning');
+    }
+}
+
+?>

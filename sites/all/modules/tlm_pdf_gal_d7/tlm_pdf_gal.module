@@ -1,0 +1,606 @@
+<?php
+//Dont forget to go into "Input Formats" in admin, and set the items to use the "TLM PDF Gallery" filter.
+
+
+
+define('TLM_PDF_GAL_GEN_SUCCESS',9999);
+define('TLM_PDF_GAL_GEN_ERROR_INVALID_FID',1);
+define('TLM_PDF_GAL_GEN_ERROR_MISSING_FILE_DB',2);
+define('TLM_PDF_GAL_GEN_ERROR_MISSING_FILE',3);
+define('TLM_PDF_GAL_GEN_ERROR_MISSING_IMAGEMAGICK',4);
+define('TLM_PDF_GAL_GEN_ERROR_CONVERT_ERROR',5);
+
+if(!defined('NL')) define("NL", "\n");
+
+
+
+function tlm_pdf_gal_filter_info(){
+	$filters['banner'] = array(
+		'title' => 'TLM PDF Preview Tag',
+		'description' => 'Substitutes a special TLM PDF Preview Tag with the actual code.',	
+		'cache' => false,
+		'process callback' => 'replace_tlm_pdf_gal_d7'
+	);
+	
+	return $filters;
+}
+
+
+function replace_tlm_pdf_gal_d7($text, $filter, $format, $langcode, $cache, $cache_id) {
+	return replace_tlm_pdf_gal_tags($text);
+}
+
+
+
+/*
+//Outdated information
+function tlm_pdf_gal_filter_tips($delta, $format, $long = false){
+	if(!$long){
+		return t("To use the PDF Preview gallery use the text [pg|filename|title]. Where 'filename' is the name of the pdf, and 'title' is the title for the link.");
+	}else{
+		return t("To use the PDF Preview gallery use the text [pg|filename|title]. Where 'filename' is the name of the pdf, and 'title' is the title for the link.<br>The pdf file must reside in the /files directory. <br><br><b>Example:</b><br>[pg|pdf_file.pdf|Natural Resources]<br><br>");
+	}
+}*/
+
+
+function tlm_pdf_gal_menu(){
+	$items = array();	
+	
+	$items['pdf_gal/secureview'] = array(
+		'page callback' => 'tlm_pdf_gal_secureview',
+		'access callback' => 'user_access',
+    	'access arguments' => array('access content'),
+		'weight' => 0,
+		'type' => MENU_CALLBACK
+	);
+	
+	
+	return $items;
+	
+}
+
+
+$currentId;
+function replace_tlm_pdf_gal_tags( $str ) {
+	global $currentId;
+	$matchlink = '';
+	$orig_match = '';
+	
+
+	if($currentId == ""){ $currentId = 0;}
+
+	$str = preg_replace_callback("/\[pg\|([^]]+)\]/","tlm_pdf_gal_replace_helper", $str);	
+	
+	return $str;
+}
+
+function tlm_pdf_gal_replace_helper($matches){
+	global $currentId;
+	
+	$match = $matches[0];
+	$match = substr( $match, 1, ( strlen( $match ) - 2 ) );
+	$match = explode( "|", $match );
+	 
+	$matchlink = tlm_pdf_gal_render_gal($match[1], $currentId, $match[2]);
+	$currentId++;
+	
+	return $matchlink;
+}
+
+
+function tlm_pdf_gal_isEmptyDir($dir){
+     return (($files = @scandir($dir)) && count($files) <= 2);
+} 
+       
+
+function tlm_pdf_gal_check_imagemagick(){
+	exec("convert -version", $out, $rcode); //Try to get ImageMagick "convert" program version number.
+	
+	if($rcode == 127){
+		//echo 'ImageMagic (convert) is misssing.';
+		return false;
+	}else{
+		//echo "Version return code is $rcode <br>"; //Print the return code: 0 if OK, nonzero if error.
+		//print_r($out); //Print the output of "convert -version"
+		return array('rcode' => $rcode, 'output' => $out);
+	}
+}
+
+
+//function tlm_pdf_gal_nodeapi(&$node, $op, $a3 = NULL, $a4 = NULL){
+//	if($op == 'view'){
+//		//drupal_set_message(print_r($node->content,true));
+//		global $nodeId;
+//		$nodeId = $node->nid;
+//		$node->content['body']['#value'] = replace_tlm_pdf_gal_tags($node->content['body']['#value']);
+//	}
+//}
+
+function tlm_pdf_gal_render_gal($fileId, $currentId, $title = ""){
+	//tlm_pdf_gal_render_pdf($fileId);	//Should actually be run by cron or other offline method
+	//tlm_pdf_gal_cron_helper(2,10, 45);	//num files, num pages, timeout
+
+	$output = "";	
+	$filesRoot = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath(); //file_directory_path();
+	$previewContainerFolder = $filesRoot . "/pdfpreviewfiles/";
+	
+	if(!$fileId || $fileId == "" || !is_numeric($fileId)){
+		//$output = "--PDF Not specified or invalid ($fileId)--";
+		return TLM_PDF_GAL_GEN_ERROR_INVALID_FID;
+	}
+	
+	//Check the file exists in the DB
+	$fileObject = db_query("SELECT * FROM {file_managed} WHERE fid=:fid", array(':fid' => $fileId))->fetchAssoc();	
+	
+	if(!$fileObject){
+		//$output = "--PDF Not found in database ($fileId)--";
+		return TLM_PDF_GAL_GEN_ERROR_MISSING_FILE_DB;
+	}
+	
+	//$pdfFilePath = $fileObject['filepath'];
+	$pdfFilePath = drupal_realpath($fileObject['uri']);
+	$pdfFilePathArr = pathinfo($pdfFilePath);
+	$pdfFilename = $pdfFilePathArr['basename'];
+	$previewFolder = $previewContainerFolder . $pdfFilename . '/';
+	
+	$images = array();
+	//Generate the gallery of thumbnails.
+	if(file_exists($previewFolder)){
+		if ($handle = opendir($previewFolder)) {
+			$numFiles = count(scandir($previewFolder)) - 2;
+			
+			//drupal_set_message($numFiles);
+			
+			while (false !== ($file = readdir($handle))) {
+				if($file == "." || $file == ".."){
+					continue;
+				}
+				
+				if($numFiles > 1){
+					//Extract the page number from the filename.
+					$tmp = substr($file,0, strlen($file)-4);
+					$lastDash = strrpos($tmp,"-");
+					if($lastDash){
+						$pageNumber = substr($tmp,$lastDash+1);
+					}else{	//the case where there is only 1 page. 1 page wont generate the "-" at the end of the image.
+						$pageNumber = 0;
+					}
+					//$output .= "$lastDash - $pageNumber<br>";
+					
+			        $images[$pageNumber] =  $file;
+			        //$output .= "$file<br>";
+				}else{
+					$images[0] =  $file;
+				}
+		    }
+		}
+	}else{
+		//Preview folder doesnt exist...
+		//$output .= "-- No images found ($title), please run cron or wait a few hours --";
+		//return $output;
+	}
+	
+	
+		
+	//Sort the images array so the images are put out in the order of pages in the pdf
+	ksort($images);
+	//$output .= print_r($images,true);
+	
+	
+	$numImages = count($images);
+	//if($numImages > 0){
+		$urlToFile = file_create_url($fileObject['uri']);
+				
+		$output .= '<div class="highslide-gallery">' . NL;
+		$output .= '<div id="galleryGroupContainer' . $currentId . '" class="highslideImageGallery">' . NL;		//class="galleryGroupContainer"
+		
+		//drupal_set_message(print_r($images,true));
+		
+		
+		
+		$output .= '<span class="previewLinks">';			
+			if(count($images) > 0){
+				$previewLinkTitle = 'Preview this file (Preview ' . $fileObject['pdf_num_pages_converted'] . ' of ' . $fileObject['pdf_total_pages'] . ' pages)';
+				$output .= '<a id="galleryGroupLink' . $currentId . '" class="highslideImageGallery" href="/pdf_gal/secureview/' . $fileId . '/0" ><img class="previewIcon" src="/media/images/icons/zoom.png" title=" ' . $previewLinkTitle . ' " alt="" /><small>preview</small></a> ' ;	//thumbnail	
+			}else{
+				$output .= '<a href="javascript:alert(\'Please check back later for a preview.\');"><img class="previewIcon" src="/media/images/icons/zoom.png" title=" Please check back later for a preview " /><small>preview</small></a>';
+			}
+			$output .= '| <a href="'.$urlToFile .'"><img class="downloadIcon" src="/media/images/icons/download.png" title=" Download this file " /><small>download</small></a>'; 
+		$output .= '</span> &ndash; ';		
+
+		if($title != ""){				
+			$output .= $title; //'Title';
+		}else{				
+			$output .= $pdfFilename; //'Filename';
+		}
+		
+		$output .= '	<div class="hidden">' . NL;		
+		if(count($images) > 0){
+			unset($images[0]);	//highslide will make the first image linked above the first image in the slideshow, therefore no need to put the first image here
+			foreach($images as $pageNumber => $anImage){		
+				$output .= '	<a href="/pdf_gal/secureview/' . $fileId  . '/' . $pageNumber . '" class="highslideImageGallery">';	//    /' . $previewFolder . "/" .  $anImage . '
+				
+					//Wrap the link around a tiny/fake image. If using the real image, the browser will load it, many images will cause very slow load.
+					$output .= '<img class="thumbnail" src="/media/images/icons/zoom.png">';
+					//$output .= '<img class="thumbnail" src="/' . $previewFolder . "/" .  $anImage .'" alt=" Page ' . ($pageNumber+1) . ' of ' .  $numImages . '" />';
+				$output .= '</a>' . NL;		
+			}
+		}
+		$output .= '	</div><!-- /.hidden -->' . NL;
+						
+		$output .= '</div><!-- /#galleryGroup*Container -->' . NL;
+		$output .= '</div><!-- /.highslide-gallery -->' . NL;
+		
+	//}else{
+	//	//rmdir($previewFolder); //if no images found, delete the folder so that upon re-entering this function a new attempt is made at generating the images.
+	//	
+	//	$output .= "--No images found ($title), please run cron or wait a few hours--";
+	//}
+	
+	return $output;
+}
+       
+
+function tlm_pdf_gal_render_pdf($fileId, $numPagesToProcess = 10, $timeout = 45){	//45 seconds
+	$output = "";	
+	$filesRoot = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath(); //file_directory_path();
+	$previewContainerFolder = $filesRoot . "/pdfpreviewfiles/";
+	
+	if(!$fileId || $fileId == "" || !is_numeric($fileId)){
+		//$output = "--PDF Not specified or invalid ($fileId)--";
+		return TLM_PDF_GAL_GEN_ERROR_INVALID_FID;
+	}
+	
+	//Check the file exists in the DB
+	$fileObject = db_query("SELECT * FROM file_managed WHERE fid=:fid", array(':fid' => $fileId))->fetchAssoc();	
+	if(!$fileObject){
+		//$output = "--PDF Not found in database ($fileId)--";
+		return TLM_PDF_GAL_GEN_ERROR_MISSING_FILE_DB;
+	}
+	
+	//Check the file permission
+	/*if(!tlm_pdf_gal_check_permission($fileId)){
+		$output = "--PDF Access dissallowed ($fileId)--";
+		return $output;
+	}*/
+	
+	//Check the file exists in the filesystem
+	//$pdfFilePath = $fileObject['filepath'];
+	$pdfFilePath = drupal_realpath($fileObject['uri']);
+	$pdfFilePathArr = pathinfo($pdfFilePath);
+	$pdfFilename = $pdfFilePathArr['basename'];
+	$pdfPreviewFolder = $previewContainerFolder . $pdfFilename . '/';
+	
+	if(file_exists($pdfFilePath)){
+		//drupal_set_message("*File to preview: " . $pdfFilename . "*");
+		//drupal_set_message($pdfPreviewFolder);
+		
+    	tlm_pdf_gal_render_pdf_inc_try_count($fileId);
+		
+		
+		//check if the folder for the images exists
+		if(file_exists($pdfPreviewFolder)){	
+			if(tlm_pdf_gal_isEmptyDir($pdfPreviewFolder)){
+				//Folder exists, but is empty.
+				$generatePreviews = true;				
+				
+			}else{
+				//Folder exists, but is NOT empty.
+				$generatePreviews = false;
+			}
+		}else{
+			//Folder doesnt exist
+			$generatePreviews = true;
+			
+			//Create folder for images
+			mkdir($pdfPreviewFolder, 0777, true);
+			
+			$result = db_query("UPDATE {file_managed} SET pdf_total_pages = null,pdf_num_pages_converted=0  WHERE fid=:fid", array(':fid' => $fileId));
+			$fileObject['pdf_total_pages'] = '';
+			$fileObject['pdf_num_pages_converted'] = 0;
+		}
+		
+		if($generatePreviews && tlm_pdf_gal_check_imagemagick() === false){
+			//Imagemagick's "convert" is not installed, and a conversion is needed
+			drupal_set_message("ImageMagick is not installed. Unable to generate new PDF Previews.");
+			watchdog('PDFPreview', "ImageMagick is not installed. Unable to generate new PDF Previes. File: " . $pdfFilePath);
+			$generatePreviews = false;
+			
+			return TLM_PDF_GAL_GEN_ERROR_MISSING_IMAGEMAGICK;
+		}
+
+		
+		$pageStartConversion = 0;
+		$numPagesToConvert = $numPagesToProcess;
+		if($fileObject['pdf_total_pages'] == ""){
+			$numPages = tlm_pdf_gal_num_pages($pdfFilePath);		
+			if($numPages){
+				$fileObject['pdf_total_pages'] = $numPages;
+				$result = db_query("UPDATE {file_managed} SET pdf_total_pages = :numpages WHERE fid=:fid", array(':numpages' => $numPages, ':fid' => $fileId));
+			}else{
+				//Unable to get PDF page count, continue with the default number of pages to be converted
+			}
+		}else{
+			if($fileObject['pdf_total_pages'] > $fileObject['pdf_num_pages_converted']){
+				$pageStartConversion = $fileObject['pdf_num_pages_converted'];
+				$generatePreviews = true;
+			}
+		}
+		
+		$pageEndConversion = $pageStartConversion + $numPagesToConvert ;	
+		
+		if($pageEndConversion > $fileObject['pdf_total_pages']){
+			$pageEndConversion = $fileObject['pdf_total_pages'];
+		}
+		
+		
+		//$generatePreviews = false;	//DEBUG
+		if($generatePreviews){		
+			//drupal_set_message("generatePreviews: " . $generatePreviews . " From " . $pageStartConversion . " to " . ($pageEndConversion-1));
+			watchdog('PDFPreview', "Generating PDF preview for fid: " . $fileId . " file: " . $pdfFilePath . ' From ' . $pageStartConversion . " to " . ($pageEndConversion-1));
+			
+			chmod($pdfPreviewFolder,0777);
+			
+			//Generate the preview images			
+			putenv('PATH='. getenv('PATH') . ':/usr/local/bin');	//Add the local bin path to the path variable so convert finds GS
+			
+		    $execResult = tlm_pdf_gal_exec('convert -quiet -colorspace rgb -density 150 -alpha Off "' . $pdfFilePath . '"[' . $pageStartConversion . "-" . ($pageEndConversion-1) . '] -scale 900 "' . $pdfPreviewFolder . '/' . $pdfFilename . '.jpg"',$convertOutput, $convertStatus, $timeout); 
+		   
+		    if($convertStatus == 0){		    
+			    $result = db_query("UPDATE {file_managed} SET pdf_num_pages_converted = :pec WHERE fid=:fid", array(':pec' => $pageEndConversion, ':fid' => $fileId));
+
+			   	
+			    //If we only convert 1 page, imagemagick wont append the "-X.jpg" to the filename. 
+			    //Rename the filename in the folder that doesnt have the format to -[$pageEndConversion].jpg
+			    if(($pageEndConversion - $pageStartConversion) == 1){
+			    	rename($pdfPreviewFolder . $pdfFilename . '.jpg', $pdfPreviewFolder . $pdfFilename . '-' . ($pageEndConversion-1) . '.jpg');
+			    	
+			    	//drupal_set_message('Renamed ' . $pdfPreviewFolder . $pdfFilename . '.jpg to ' . $pdfPreviewFolder . $pdfFilename . '-' . $pageEndConversion . '.jpg');
+			    }
+			    
+		    }else{
+		    	//An error occured
+		    	watchdog('PDFPreview', "An error occured generating PDF preview for fid: " . $fileId . " file: " . $pdfFilePath . "<br>" . "Convert status: " . $convertStatus . "<br>Exec result: " . print_r($execResult,true)  . "<br>Convert output: " . print_r($convertOutput,true));
+		    	return TLM_PDF_GAL_GEN_ERROR_CONVERT_ERROR;
+		    }
+		    
+			
+		}
+		
+		
+		
+	}else{
+		//$output = "--PDF Not found: " . $pdfFilename . " in files folder--";
+		return TLM_PDF_GAL_GEN_ERROR_MISSING_FILE;
+	}
+	
+	
+	return TLM_PDF_GAL_GEN_SUCCESS;
+}
+
+
+function tlm_pdf_gal_render_pdf_inc_try_count($fileId){
+	 $result = db_query("UPDATE {file_managed} SET pdf_num_tries = pdf_num_tries + 1 WHERE fid=:fid", array(':fid' => $fileId));
+}
+
+
+
+
+function tlm_pdf_gal_secureview($fileId, $index = 0){
+	$filesRoot = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath(); //file_directory_path();
+	
+	
+	//Not using secure files on this site...
+	$fileArr = db_query("SELECT * FROM {file_managed} WHERE {file_managed}.fid=:fid", array(':fid' => $fileId))->fetchAssoc();
+	$pdfFilePath = drupal_realpath($fileArr['uri']);
+	$pdfFilePathArr = pathinfo($pdfFilePath);
+	$pdfFilename = $pdfFilePathArr['basename'];
+
+	$fileName = $pdfFilename . '-' . $index . '.jpg';
+
+	$serverFilePath = $filesRoot . '/pdfpreviewfiles/' . $pdfFilename . '/' . $fileName;
+				
+	
+	if(file_exists($serverFilePath)){			
+		header('Content-type: image/jpeg;'); 
+		echo file_get_contents($serverFilePath);
+		
+		return false;
+		
+	}else{
+		return 'Preview currently unavailable. Please try again later.';
+	}
+			
+	
+	
+	
+	
+	
+	
+	if(!is_numeric($index)){
+		return  "Invalid page";
+	}
+	
+	$fileArr = db_query("SELECT * FROM upload LEFT JOIN {file_managed} ON upload.fid={file_managed}.fid WHERE {file_managed}.fid=:fid", array(':fid' => $fileId))->fetchAssoc();
+	
+	$ownerNid = $fileArr['nid'];
+	
+	if($ownerNid && is_numeric($ownerNid)){
+		$ownerNode = node_load($ownerNid);
+		if(node_access('view',$ownerNode)){	
+			$pdfFilePathArr = pathinfo($fileArr['filepath']);
+			$pdfFilename = $pdfFilePathArr['basename'];
+
+			$fileName = $pdfFilename . '-' . $index . '.jpg';
+
+			$serverFilePath = $filesRoot . '/pdfpreviewfiles/' . $pdfFilename . '/' . $fileName;
+						
+			//echo $serverFilePath;
+			
+			if(file_exists($serverFilePath)){			
+				header('Content-type: image/jpeg;'); 
+				echo file_get_contents($serverFilePath);
+				
+			}else{
+				return 'Preview currently unavailable. Please try again later.';
+			}
+			
+		}else{
+			drupal_access_denied();
+		}
+		
+	}else{
+		drupal_access_denied();
+	}
+}
+
+
+
+function tlm_pdf_gal_check_permission($fid){
+	$ownerNid = db_result(db_query("SELECT nid FROM upload LEFT JOIN {file_managed} ON upload.fid={file_managed}.fid WHERE {file_managed}.fid=:fid", array(':fid' => $fid)));
+	
+	if($ownerNid && is_numeric($ownerNid)){
+		$ownerNode = node_load($ownerNid);
+		if(node_access('view',$ownerNode)){	
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+function tlm_pdf_gal_num_pages($pdfFilePath){
+	if(file_exists($pdfFilePath)){	
+		$currFolder = getcwd();
+		//chdir($pdfFilesFolder);
+		
+		putenv('PATH='. getenv('PATH') . ':/usr/local/bin');	//Add the local bin path to the path variable so convert finds GS
+		
+	    $x = tlm_pdf_gal_exec('identify -quiet -format "%p|" "' . $pdfFilePath . '"',$convertOutput, $convertStatus,30); 
+	    
+	    //echo $x . "\n";
+	    //drupal_set_message("x:" . $x);
+	    //drupal_set_message("co:" . $convertOutput);
+	    //drupal_set_message("cs:" . $convertStatus);
+	    
+	    //chdir($currFolder);
+	    
+	    
+	    $arr = explode("|",$x);
+	    $numPagesPlusOne = count($arr);
+	    	   
+	    if($numPagesPlusOne > 1){
+	     	$numPages = $numPagesPlusOne - 1;
+	    
+		   	
+		   	
+		    return $numPages;
+	    }else{
+			return false;
+	    }
+	    
+   	
+	}else{
+		return false;
+	}
+}
+
+
+
+function tlm_pdf_gal_cron_helper($numFilesToProcessAtATime = 5, $numPagesToProcess = 5, $timeoutPerConvert = 45){
+	watchdog('PDFPreview', "Bakground Processing upto " . $numFilesToProcessAtATime . " file(s) with a limit of " . $numPagesToProcess . " page(s) at a time.");
+	
+	//Find any files that need processing
+	$result = db_query("SELECT * FROM {file_managed} WHERE status = 1 AND filemime = 'application/pdf' ORDER BY pdf_num_tries ASC");
+	
+	$i = 0;
+	while($onerow = $result->fetchAssoc()){
+	//foreach ($result as $onerow) {
+		$forceConvert = false;
+		
+		$filesRoot = file_stream_wrapper_get_instance_by_uri('public://')->getDirectoryPath(); //file_directory_path();
+		$previewContainerFolder = $filesRoot . "/pdfpreviewfiles/";
+	
+		$pdfFilePath = drupal_realpath($onerow['uri']);
+		$pdfFilePathArr = pathinfo($pdfFilePath);
+		$pdfFilename = $pdfFilePathArr['basename'];
+		$pdfPreviewFolder = $previewContainerFolder . $pdfFilename . '/';
+	
+		//When PDF preview folder doesnt exist, reset the counts
+		if($onerow['pdf_total_pages'] != "" && !file_exists($pdfPreviewFolder)){	
+			$result2 = db_query("UPDATE {file_managed} SET pdf_total_pages = null,pdf_num_pages_converted=0  WHERE fid=:fid", array(':fid' => $onerow['fid']));
+			$onerow['pdf_total_pages'] = '';
+			$onerow['pdf_num_pages_converted'] = 0;
+			$forceConvert = true;
+		}
+		
+		
+		if(($onerow['pdf_total_pages'] != $onerow['pdf_num_pages_converted'] || $forceConvert) && ($i <= $numFilesToProcessAtATime)){
+			$i++;
+			//watchdog('PDFPreview', 'Processing ' . $onerow['fid'] . ' ' . $pdfPreviewFolder);
+			$x = tlm_pdf_gal_render_pdf($onerow['fid'],$numPagesToProcess, $timeoutPerConvert);
+			watchdog('PDFPreview', 'Results of ' . $onerow['fid'] . ': ' . $x);
+		}
+	}
+}
+
+function tlm_pdf_gal_cron(){
+	tlm_pdf_gal_cron_helper(5,15, 240);	//num files, num pages, timeout
+}
+
+
+function tlm_pdf_gal_exec($cmd,&$convertOutput, &$convertStatus, $timeout){	
+	//drupal_set_message('Running with timeout ' . $timeout . ' cmd: ' . $cmd);
+
+	putenv("MAGICK_TIME_LIMIT=" . $timeout);
+	putenv("MAGICK_THROTTLE=15");	// periodically yield the CPU for the time specified in milliseconds
+
+	return exec($cmd . ' 2> /dev/null',$convertOutput, $convertStatus); 
+	//return exec($cmd ,$convertOutput, $convertStatus); 
+	
+	
+	
+	//Threaded exectuion timeout does not seem to work. Timeout doesnt kick in.
+	/*error_reporting(E_ALL);
+	ini_set('display_errors', '1');
+		
+	require_once "tlm_pdf_gal_exec_helper.php";
+	$commands = array($cmd);
+	$threads = new Multithread($commands, 2);
+	$threads->run();
+	$x = '';
+	foreach ($threads->commands as $key=>$command){
+		echo "Command ".$command.":<br>";
+		echo "Output ".$threads->output[$key]."<br>";
+		echo "Error ".$threads->error[$key]."<br><br>";
+		
+		//$x = $threads->output[$key];
+	}
+	
+	$convertStatus = 0;
+	return $x;*/
+	
+}
+
+
+//Add the tag to the editing of the Node form..
+function tlm_pdf_gal_form_alter(&$form, &$form_state, $form_id){	
+	if($form_id == 'page_node_form'){
+		$form['#after_build'][] = '_tlm_pdf_gal_after_build';
+	}
+}
+
+function _tlm_pdf_gal_after_build($form, &$form_state) {	
+	for($i=0;$i<$form['field_file_attachments']['und']['#file_upload_delta'];$i++){		
+		if(isset($form['field_file_attachments']['und'][$i]['description'])){
+			$form['field_file_attachments']['und'][$i]['description']['#description'] = 'PDF Preview Tag: [pg|' . $form['field_file_attachments']['und'][$i]['fid']['#value'] . '|' .$form['field_file_attachments']['und'][$i]['description']['#value'] . ']';
+		}
+	}
+	
+	return $form;
+}
+
+
+
+
+?>

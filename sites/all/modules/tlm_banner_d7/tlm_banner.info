@@ -1,0 +1,20 @@
+name = "TLM Banner"
+description = Creates an special tag for putting banner types
+package = "TLM"
+core = 7.x
+
+;dependencies[] = content
+;dependencies[] = content_copy
+;dependencies[] = imagefield
+
+
+version = "1.6"
+
+;1.0 - Initial release
+;1.1 - Added "random-set" extra ending tag parameter to allow for randomizing the order in which the banners are displayed, while still displaying them all.
+;1.2 - Added banner content type creation upon module install.
+;1.3 - Added 'slideExtractLinks class to slides
+;1.4 - Added ability to apply extra classes to the banner link.
+
+;1.5 - D7 branch off
+;1.6 - Added popup capability to the content.

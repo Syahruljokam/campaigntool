@@ -1,0 +1,30 @@
+name = Peter Julian Campaign Tool
+description = Codewise skin for Peter Julian Campaign Tool
+core = 7.x
+engine = phptemplate
+
+version = "1.0"
+
+stylesheets[all][] = blockEditWrapper.css
+stylesheets[all][] = addtoany.css
+stylesheets[all][] = style.css
+
+
+regions[left]  = Left sidebar
+regions[right] = Right sidebar
+regions[content] = Content
+regions[header] = Header
+regions[footer] = Footer
+regions[highlighted] = Highlighted
+regions[help] = Help
+regions[search_form] = Search Form
+regions[take_action] = Take Action
+regions[social_media] = Social Media
+regions[content_lower] = Content Lower
+
+regions[home_left] = Home Left
+regions[home_middle] = Home Middle
+regions[home_right] = Home Right
+
+
+

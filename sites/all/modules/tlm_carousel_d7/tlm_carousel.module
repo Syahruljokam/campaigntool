@@ -1,0 +1,123 @@
+<?php
+if(!defined('NL')) define("NL", "\n");
+
+//Dont forget to go into "Input Formats" in admin, and set the items to use the "TLM ..." filter.
+
+# Implementation of hook_filter().
+function tlm_carousel_filter_info(){
+	$filters['carousel'] = array(
+		'title' => 'TLM Carousel Tag',
+		'description' => 'Substitutes a special TLM carousel Tag with the actual code.',	
+		'cache' => false,
+		'process callback' => 'replace_tlm_carousel_tags_d7'
+	);
+	
+	return $filters;
+}
+
+function replace_tlm_carousel_tags_d7($text, $filter, $format, $langcode, $cache, $cache_id) {
+	return replace_tlm_carousel_tags($text);
+}
+
+
+$currentId;
+function replace_tlm_carousel_tags( $str ) {
+	global $currentId;
+	$matchlink = '';
+	$orig_match = '';
+	
+
+	if($currentId == ""){ $currentId = 0;}
+
+	
+	//$str = preg_replace_callback("/(\[)popup(\|).*(\])/","tlm_popup_replace_helper", $str);	//has issue with new lines, each [] must have newline
+	$str = preg_replace_callback("/\[carousel\|([^]]+)\]/","tlm_carousel_replace_helper", $str);	
+	
+	return $str;
+}
+
+function tlm_carousel_replace_helper($matches){
+	global $currentId;
+	
+
+	
+	$match = $matches[0];
+	$match = substr( $match, 1, ( strlen( $match ) - 2 ) );
+	$match = explode( "|", $match );
+	
+	$items = $match; 
+	unset($items[0]);
+	
+	$lastMatchIndex = count($match)-1;
+	if(strtolower($match[$lastMatchIndex]) == "random"){
+		$random = true;
+		$onlyOne = true;
+		unset($items[$lastMatchIndex]);
+		
+	}else if(strtolower($match[$lastMatchIndex]) == "random-set"){
+		$random = true;
+		$onlyOne = false;
+		unset($items[$lastMatchIndex]);
+		
+		
+	}else{
+		$random = false;
+		$onlyOne = false;
+	}
+	
+	$matchlink = tlm_carousel_render($items, $currentId, $random, $onlyOne);
+	$currentId++;
+	
+	return $matchlink;
+}
+
+
+       
+function tlm_carousel_render($nodeIds, $currentId, $random = false, $onlyOne = false){
+	$output = "";
+
+	if($random){
+		shuffle($nodeIds);
+	}
+
+	if($onlyOne){
+		$nodeIds = array(1=> array_pop($nodeIds));
+	}
+
+	if(!$onlyOne){
+		$output .= '<div id="logoCarousel">';
+	}
+
+	foreach($nodeIds as $index => $aNodeId){
+		$node = node_load($aNodeId);
+
+		if($node){
+			if($node->type == "carousel_item" || $node->type == 'carousel'){		
+				//$output .= theme('node',$node);
+				
+				//drupal_set_message(print_r($node->field_carousel_link_external,true));
+				
+				if($node->field_carousel_link['und'][0]['value'] != ""){ 
+					$output .= '<a title="' . htmlspecialchars($node->title) . '" href="' . $node->field_carousel_link['und'][0]['value'] . '" class="' . (isset($node->field_carousel_link_external['und']) && $node->field_carousel_link_external['und'][0]['value'] == 1 ? 'external' : '') . '">';
+				}else{
+					$output .= '<a class="fake" href="#topOfPage">';
+				}				
+				
+				$output .= '<img src="' . file_create_url($node->field_carousel_image['und'][0]['uri']) . '" alt=" ' . htmlspecialchars($node->title) . ' " />';
+
+				$output .= '</a>';
+					
+			}else{
+				$output .= "--Node selected (id: " . $aNodeId . ") is not of type carousel--";
+			}		
+		}else{
+			$output .= "--Invalid carousel node id: " . $aNodeId . "--";
+		}	
+	}
+	
+	if(!$onlyOne){
+		$output .= '</div>';
+	}
+	
+	return $output;
+}

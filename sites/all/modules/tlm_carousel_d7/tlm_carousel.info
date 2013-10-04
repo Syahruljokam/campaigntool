@@ -1,0 +1,14 @@
+name = "TLM Carousel"
+description = Creates an special tag for putting carousel types
+package = "TLM"
+core = 7.x
+
+;dependencies[] = content
+;dependencies[] = content_copy
+;dependencies[] = imagefield
+
+
+version = "1.1"
+
+;1.0 - Initial release. Based on tlm_banner 1.2
+;1.1 - Branch off to D7 version.

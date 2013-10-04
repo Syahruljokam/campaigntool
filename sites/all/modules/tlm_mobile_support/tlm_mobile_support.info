@@ -1,0 +1,20 @@
+name = "Mobile Support"
+description = "Basic module to provide support to the mobile page template functionality."
+package = "TLM"
+core = 7.x
+
+version = "1.8"
+
+dependencies[] = browscap
+
+;1.0 - Initial Release
+;1.1 - Moved some of the html output to the module from the page template.
+;	 - Changed the menu_hook item to a callback type.
+;1.2 - Added iPod Touch to the list of full/mobile changeble browsers.
+;1.3 - Changed the allow mobile check to support the new browscap database changes (iphone is now safari + ios)
+;1.4 - Changed android full screen allowed to be a 'platform' check and not 'browser' check
+;1.5 - Fix for the string of ismobiledevice bug http://drupal.org/node/1868808
+;1.6 - Fix for other issues with browscap database, specific to ios 6.1 not detecting.
+;1.7 - Fix for iPad change in browscap database - no longer in "browser" or any argument at all.
+
+;1.8 - Branch for D7

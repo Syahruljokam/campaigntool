@@ -1,0 +1,113 @@
+menuDataCallback(
+{
+	"primary-links" : 
+	{
+	"50" : 
+	{
+		"caption" : "Home", "link" : "~_pjct_test_page.html"
+	},
+	"100" : 
+	{
+		"caption" : "About", "link" : "~_pjct_test_page.html", "children" : 
+		{
+		"110" : 
+		{
+			"caption" : "MLB", "link" : "~_pjct_test_page.html", "children" : 
+			{
+			"111" : {
+				"caption" : "Product #1", "link" : "~_pjct_test_page.html"
+			},
+			"112" : {
+				"caption" : "Product #2", "link" : "~_pjct_test_page.html"
+			}
+			}
+		},
+		"120" : 
+		{
+			"caption" : "NBA", "link" : "~_pjct_test_page.html", "children" : 
+			{
+			"121" : {
+				"caption" : "Product #1", "link" : "~_pjct_test_page.html"
+			},
+			"122" : {
+				"caption" : "Product #2", "link" : "~_pjct_test_page.html"
+			}
+			}
+		},
+		"130" : 
+		{
+			"caption" : "NHL", "link" : "~_pjct_test_page.html", "children" : 
+			{
+			"131" : {
+				"caption" : "Product #1", "link" : "~_pjct_test_page.html"
+			},
+			"132" : {
+				"caption" : "Product #2", "link" : "_pjct_test_page.html"
+			}
+			}
+		},
+		"140" : 
+		{
+			"caption" : "Hockey Canada", "link" : "~_pjct_test_page.html", "children" : 
+			{
+			"141" : {
+				"caption" : "Product #1", "link" : "~_pjct_test_page.html"
+			},
+			"142" : {
+				"caption" : "Product #2", "link" : "~_pjct_test_page.html"
+			}
+			}
+		}
+		}
+	},
+	"200" : 
+	{
+		"caption" : "News", "link" : "~_pjct_test_page.html", "children" : 
+		{
+		"210" : {
+			"caption" : "Special Events", "link" : "~_pjct_test_page.html"
+		}
+		}
+	},
+	"300" : 
+	{
+		"caption" : "Our Community", "link" : "~_pjct_test_page.html", "children" : 
+		{
+		"310" : {
+			"caption" : "Retailers", "link" : "~_pjct_test_page.html"
+		},
+		"320" : {
+			"caption" : "Online Retailers", "link" : "_pjct_test_page.html"
+		},
+		"330" : {
+			"caption" : "Becoming Retailers", "link" : "~_pjct_test_page.html"
+		}
+		}
+	},
+	"400" : 
+	{
+		"caption" : "Calendar", "link" : "_pjct_test_page.html"/*, "children" : 
+		{
+		"410" : {
+			"caption" : "Dealer Assistance", "link" : "~_pjct_test_page.html"
+		},
+		"420" : {
+			"caption" : "Customer Assistance", "link" : "~_pjct_test_page.html"
+		}
+		}*/
+	},
+	"500" : 
+	{
+		"caption" : "Campaigns", "link" : "~_pjct_test_page.html"
+	},
+	"600" : 
+	{
+		"caption" : "Constituency Services", "link" : "~_pjct_test_page.html"
+	},
+	"700" : 
+	{
+		"caption" : "Contact", "link" : "~_pjct_test_page.html"
+	},
+	"id" : "primaryNav,secondaryNav,thirdLevelNav,fourthLevelNav"
+	}
+});

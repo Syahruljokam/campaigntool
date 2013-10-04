@@ -1,0 +1,35 @@
+<?php
+//When adding new variables be sure to add a new vX variable set to 1, and set the old one to 0.
+//ex. 'v1' => 0, 'v2' => 1
+
+function getThemeSettingsDefaults(){
+	$defaults = array(
+    'v1' => 1,
+    'codewise_skin_name' => 'XYZ',
+	'copyright_text' => "&copy; 2009 COMPANY NAME HERE. All rights reserved.",
+	
+	'footer_logo_use' => false,
+	'footer_logo_default_url' => "/media/images/logos/XYZ_footer_logo_01.gif",
+	'footer_logo_custom_url' => "",
+	'footer_logo_use_default' => true,
+	'footer_show_copyright_text' => true,
+	'footer_show_copyright' => true,
+	
+	'header_logo_alt_text' => "COMPANY NAME HERE",
+	'header_logo_link_url' => '/',
+	
+	'meta_description' => "",
+	'meta_keywords' => "",
+	'meta_copyright' => "",
+	'meta_ie8fix' => true,
+	'footer_javascriptWarning' => '<strong>Are you seeing this?</strong> If you are <em>not</em> using a &quot;low-level&quot; device (such as a cell phone, PDA, screen reader, etc.) you may want to <a href="/javascript.html">enable JavaScript</a> in your web browser.',
+	
+	'ga_show' => false,				//Put out GoogleAnalytics JS code
+	'ga_id' => "",		//GoogleAnalytics ID
+	'ga_version' => "newer",
+  );
+  
+  return $defaults;
+}
+
+?>

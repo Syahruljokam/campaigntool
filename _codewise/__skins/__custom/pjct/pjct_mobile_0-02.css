@@ -1,0 +1,1004 @@
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Codewise Presentation Manager - Mobile Cascading Style Sheet,
+	Peter Julian, Campaign Tool
+
+Copyright (c) 2004-2013 Codewise Systems Inc. & Twisted Lime Media Inc. 
+All rights reserved.
+
+Created: 2013-08-16
+
+Revision History:
+  0.01	- Initial version. TB, 2013-08-16, ??:??
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+HTML tag styles */
+
+input, select, textarea {
+	max-width: 280px;
+}
+	p.indented input, p.indented select, p.indented textarea {
+		max-width: 255px;
+	}
+
+input[type="text"], input[type="password"] {
+	-webkit-appearance: none;
+}
+
+h1 {
+	margin: 12px 0px 8px 0px;
+}
+
+hr {
+	margin: 12px 0px 12px 0px;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Classes */
+
+.padded {
+	/* padding: 5px; */
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sub columns */
+
+div.subColumnContainer {
+	clear: both;
+	overflow: auto;
+	margin-bottom: 0px;
+}
+	div.subColumn, div.subColumn3, div.subColumnBordered, div.subColumn3Bordered, body.fullWidth div.subColumn, body.fullWidth div.subColumn3, body.fullWidth div.subColumnBordered, body.fullWidth div.subColumn3Bordered, div.subColumnBordered.subColumnFirst, div.subColumn3Bordered.subColumnFirst, div.subColumnBordered.subColumnLast, div.subColumn3Bordered.subColumnLast {
+		float: none !important;
+		width: auto !important;
+		margin: 0px !important;
+		padding: 0px !important;
+		border: none !important;
+	}
+
+	div.subColumn + div.subColumn, div.subColumn3 + div.subColumn3, div.subColumnBordered + div.subColumnBordered, div.subColumn3Bordered + div.subColumn3Bordered {
+		margin-top: 10px !important;
+	}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Styled content */
+
+div.styled, div.styled.leftAligned, div.styled.rightAligned { /* #leftColumn div.styled, #rightColumn div.styled { */
+	clear: both;
+	float: none;
+	width: auto;
+	/* min-width: 274px; */
+	margin-right: 0px;
+	margin-left: 0px;
+	/* margin: 4px 4px 15px 4px !important; */
+}
+body.landscape div.styled {
+	max-width: 456px;
+}
+
+div.styled.leftAligned, div.styled.rightAligned  {
+	margin-bottom: 12px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Event preview */
+
+.view-event_list div.views-row {
+	
+}
+	.view-event_list div.viewRow {
+		
+	}
+		.view-event_list div.viewRow div.viewDateLegend div.viewDateWrapper {
+			width: auto !important;
+		}
+			.view-event_list div.viewRow div.viewDateLegend div.viewDateWrapper div.viewDate {
+				width: 112px !important;
+				padding: 6px;
+			}
+
+		.view-event_list div.viewRow div.viewTeaser {
+			width: 190px;
+		}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Movie styles */
+
+div.movieContainer {
+	width: auto;
+	margin-bottom: 10px;
+}
+	div.movieContainer h2, div.movieContainer h3, div.movieContainer h4, div.movieContainer p {
+		margin-top: 10px;
+		padding-right: 0px;
+		padding-left: 0px;
+	}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Highslide styles */
+
+.highslide-viewport, div.highslidePopup, div.highslide-html-content, div.highslide-html-content-medium, div.highslide-html-content-wide, div.highslide-html-content-ultra-wide, div.highslide-html-content-uber-wide {
+	width: auto !important;
+}
+
+div.highslideVideo {
+	padding: 0px !important;
+}
+
+div.highslide-html-content, div.highslide-html-content-medium, div.highslide-html-content-medium-wide, div.highslide-html-content-wide, div.highslide-html-content-ultra-wide {
+	width: auto;
+	overflow-y: visible !important;
+}
+
+div.highslidePopup, div.highslide-html-content {
+	width: auto;
+	padding: 10px;
+}
+
+div.highslide-html-content div.movieContainer,
+div.highslide-html-content-medium div.movieContainer, 
+div.highslide-html-content-wide div.movieContainer, 
+div.highslide-html-content-ultra-wide div.movieContainer {
+	width: auto !important;
+	height: auto !important;
+	margin-bottom: 0px;
+	padding: 0px !important;
+}
+	div.movieContainer object {
+		width: auto !important;
+		height: auto !important;
+	}
+		div.highslideVideo div.movieContainer h2, div.highslideVideo div.movieContainer h3, div.highslideVideo div.movieContainer h4, div.highslideVideo div.movieContainer p {
+			margin-top: 5px;
+			padding-right: 8px;
+			padding-left: 8px;
+		}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Sliders */
+
+div.bannerContainer {
+	/* width: auto; */
+	width: 320px;
+	height: 300px;
+}
+body.landscape div.bannerContainer {
+	width: 480px;
+	height: 400px;
+}
+	div.bannerContainer div.slides {
+
+	}
+	body.homePage div.bannerContainer div.slides {
+		
+	}
+		div.banner {
+			/* width: auto; */
+			width: 320px;
+			height: 300px;
+			overflow: hidden;
+		}
+		body.landscape div.banner {
+			width: 480px;
+			height: 400px;
+		}
+			div.banner div.bannerCopy {
+				padding: 6px;
+			}
+				div.banner div.bannerCopy p {
+					margin-bottom: 0px;
+				}
+
+			div.banner div.bannerImage {
+				
+			}
+				div.banner div.bannerImage img {
+					display: block;
+					max-width: 320px;
+				}
+				body.landscape div.banner div.bannerImage img {
+					max-width: 480px;
+				}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Twitter styles */
+
+.twitter-article {
+	width: 274px;
+}
+body.landscape .twitter-article {
+	width: 434px;
+}
+
+.twitter-text {
+	width: 218px;
+}
+body.landscape .twitter-text {
+	width: 378px;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Drupal styles */
+
+/* Pager */
+ul.pager {
+	padding: 10px 0px 0px 0px;
+}
+	ul.pager li {
+		margin: 2px 1px;
+	}
+
+/* Teaser content */
+.teaserContent {
+
+}
+	div.viewRow div.viewTeaser {
+		width: auto;
+		margin: 0px;
+	}
+		div.viewRow div.viewTeaser ul {
+			padding: 0px 0px 0px 20px;
+		}
+
+		div.viewRow div.viewTeaser div.viewThumbnail {
+			float: right;
+			width: auto;
+			margin: 2px 2px 6px 12px;
+		}
+
+/* Pager */
+div.item-list ul.pager {
+	height: auto;
+	overflow: auto;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Layout styles */
+
+html {
+
+}
+
+body {
+	/* width: 320px;
+	border-right: 1px dashed red; */
+	background: none !important;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+hr.header, hr.footer {
+	display: none;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+#pageContainerOuter {
+
+}
+	#pageContainerInner {
+		width: auto;
+		margin: 0px;
+			-moz-box-shadow: none;
+			-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+#takeActionContainer {
+	width: auto;
+	height: auto;
+}
+	#takeActionContainer #takeAction {
+		width: auto;
+		height: auto;
+		padding: 10px;
+	}
+		#takeActionHeader {
+			background: none !important;
+		}
+			#takeActionHeader h2 {
+				font-size: 25px;
+			}
+				#takeActionHeader h2 img {
+					/* float: right;
+					margin: 6px 90px 0px 0px; */
+				}
+
+				#takeActionHeader h2 span {
+					display: block;
+					width: auto;
+					height: auto;
+					padding: 5px 0px 0px 0px;
+					font-size: 16px;
+					line-height: 1.2em;
+					vertical-align: middle;
+					border-left: 0px solid #f5862d;
+				}
+
+		#takeActionLeftColumn {
+			float: none;
+			width: auto;
+		}
+			#takeActionLeftColumn h4 {
+				font-size: 25px;
+			}
+
+			#takeActionLeftColumn p, #takeActionLeftColumn blockquote {
+				margin-bottom: 20px;
+				font-size: 15px;
+				line-height: 1.3em;
+				color: #ffffff;
+			}
+
+		#takeActionRightColumn {
+			float: none;
+			width: auto;
+			margin: 0px;
+		}
+
+			#takeActionRightColumn p {
+				/* margin-bottom: 20px; */
+				font-size: 14px;
+				line-height: 1.2em;
+				color: #909090;
+			}
+
+			#takeActionRightColumn label {
+				display: block;
+				margin-bottom: 4px;
+				font-size: 15px;
+			}
+
+			#takeActionRightColumn input {
+				font-size: 15px;
+			}
+
+			#takeActionRightColumn input[type="text"] {
+				width: auto;
+				min-width: 270px;
+				padding: 6px 12px;
+			}
+			#takeActionRightColumn input[type="text"].warning {
+				
+			}
+
+			#takeActionRightColumn input[type="submit"] {
+				width: auto;
+				min-width: 298px;
+				margin: 0px;
+				padding-top: 6px;
+				padding-bottom: 6px;
+				font-size: 16px;
+			}
+			#takeActionRightColumn input[type="submit"]:hover {
+				
+			}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+#headerContainerOuter {
+	height: auto;
+	overflow: auto;
+	margin: 0px;
+	padding: 0px;
+}
+	#headerContainerInner {
+		width: auto;
+		height: auto;
+		overflow: hidden;
+		margin: 0px;
+		padding: 0px;
+		background: #f4f4f4 !important;
+	}
+		#utilityNavContainer {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			float: none;
+			width: auto;
+			min-width: 320px;
+			height: auto;
+			overflow: auto;
+		}
+		body.landscape #utilityNavContainer {
+			min-width: 480px;
+		}
+			#headerContainerOuter #headerContainerInner #utilityNavContainer #utilityNav {
+				
+			}
+			#utilityNav {
+				width: auto;
+				min-width: 275px;
+				height: auto;
+				padding-top: 9px;
+			}
+			body.landscape #utilityNav {
+				width: auto;
+				min-width: 435px;
+			}
+				#utilityNav li {
+					display: inline-block;
+					float: right;
+					width: auto;
+					height: 27px;
+					overflow: visible;
+					margin: 0px;
+					padding: 0px;
+					text-align: center;
+				}
+				#utilityNav li:first-child {
+					float: left;
+					padding-left: 10px;
+				}
+				#utilityNav li.takeActionIcon {
+					padding-right: 54px;
+				}
+					#utilityNav li a.activated {
+						color: #f5862d;
+						text-decoration: none;
+					}
+
+					#utilityNav li span.takeActionIcon {
+						z-index: 10000;
+					}
+					#utilityNav li.activated span.takeActionIcon {
+						position: fixed;
+					}
+					body.takeActionContentOutOfView #utilityNav li.activated span.takeActionIcon {
+						position: absolute;
+					}
+
+		#headerContainerOuter #headerContainerInner #logoContainer {
+			display: inline-block;
+		}
+		#logoContainer {
+			width: auto;
+			min-width: 320px;
+			height: auto;
+			margin: 0px;
+			padding: 40px 0px 18px 0px;
+			font-size: 40px;
+			text-align: center;
+		}
+		body.landscape #logoContainer {
+			min-width: 480px;
+		}
+			#logoContainer a {
+					-moz-text-shadow: 1px 1px 3px #808080;
+					-webkit-text-shadow: 1px 1px 3px #808080;
+				text-shadow: 1px 1px 3px #808080;
+			}
+
+			#logoContainer span {
+				display: block;
+				width: auto;
+				height: auto;
+				margin: 0px;
+				padding: 0px;
+				font-size: 16px;
+				line-height: 1.05em;
+				vertical-align: 0%;
+				border: none;
+					-moz-text-shadow: none;
+					-webkit-text-shadow: none;
+				text-shadow: none;
+			}
+
+		#headerContainerOuter #headerContainerInner #mobileMenuContainer {
+			display: block;
+		}			
+		#mobileMenuContainer {
+			height: auto;
+			padding: 0px;
+		}
+			#mobileMenu {
+				width: auto;
+				padding: 0px 0px 2px 0px;
+			}
+				#mobileMenu p {
+					margin: 0px 0px 10px 0px;
+					text-align: center;
+				}
+					#mobileMenu p a {
+	
+					}
+
+		#searchContainer {
+			clear: both;
+			float: none;
+			width: 320px;
+			height: 29px;
+			margin: 0px;
+			padding: 0px;
+		}
+		body.landscape #searchContainer {
+			width: 480px;
+		}
+			#headerContainerOuter #headerContainerInner #searchContainer #socialMediaLinks {
+				display: block;
+			}
+			#socialMediaLinks {
+				float: left;
+				width: auto;
+				height: 29px;
+				margin: 0px;
+			}
+				#socialMediaLinks a {
+					display: inline-block;
+					overflow: auto;
+				}
+				#socialMediaLinks a + a {
+					margin-left: 1px !important;
+				}
+					#socialMediaLinks a img {
+						display: inline-block;
+						width: 29px;
+						height: 29px;
+						border: 1px solid #808080 !important;
+					}
+					#socialMediaLinks a:hover img { /* #socialMediaLinks a:active img */
+						border: 1px solid #484848 !important;
+					}
+
+			#headerContainerOuter #headerContainerInner #searchContainer #search {
+				display: block;
+			}
+			#search {
+				float: right;
+				margin-top: -29px;
+			}
+				form#search-block-form {
+
+				}
+					form#search-block-form div.form-item {
+
+					}
+						form#search-block-form input.form-text {
+							width: 168px;
+							min-width: 168px;
+							margin: 0px 45px 0px 94px;
+							border-color: #b6b6b6;
+								-moz-border-radius: 0px 0px 0px 0px;
+								-webkit-border-radius: 0px 0px 0px 0px;
+							border-radius: 0px 0px 0px 0px;
+						}
+						body.landscape form#search-block-form input.form-text {
+							width: 328px;
+						}
+
+					form#search-block-form div.form-actions {
+						
+					}
+						form#search-block-form input.form-submit {
+							margin-top: -29px;
+								-moz-border-radius: 0px 0px 0px 0px;
+								-webkit-border-radius: 0px 0px 0px 0px;
+							border-radius: 0px 0px 0px 0px;
+						}
+
+		#primaryNavContainer {
+			width: auto;
+			height: auto;
+			margin: 0px;
+			border-bottom: 1px solid #666666;
+		}
+		#primaryNavContainerInner {
+			background: none !important;
+		}
+			#primaryNav {
+				/* display: none !important; */
+				width: auto;
+				min-width: 300px;
+				height: auto;
+				overflow: hidden;
+				margin: 0px;
+				padding: 0px;
+				background: #f8f8f8;
+				text-align: center;
+			}
+			body.landscape #primaryNav {
+				min-width: 460px;
+			}
+				#primaryNav li.primaryNav {
+					display: inline-block;
+					float: none;
+					width: auto;
+					height: auto;
+					overflow: visible;
+					margin: 6px 1px;
+					padding: 0px;
+					border: none;
+					background-position: top left !important;
+				}
+				#primaryNav li.primaryNav + li.primaryNav {
+					border: none;
+				}
+					a.primaryNav, a.primaryNav:hover, a.primaryNavOn, a.primaryNavHighlighted { /* a.primaryNav:active */
+						display: inline-block;
+						padding: 5px 10px 5px 10px !important;
+						font-size: 15px;
+						border: none !important;
+					}
+					a.primaryNavHighlighted {
+						/* background: #d4d4d4; */
+					}
+					a.primaryNavOn, a.primaryNavOn:hover { /* a.primaryNavOn:active */
+						
+					}
+
+					#primaryNav li ul {
+						/* position: static; */
+						top: auto;
+						left: 0px !important;
+						width: auto;
+						height: auto;
+						margin: 0px !important;
+						padding: 0px 10px;
+						background: none;
+							/* -moz-border-radius: 0px 0px 0px 0px;
+							-webkit-border-radius: 0px 0px 0px 0px;
+						border-radius: 0px 0px 0px 0px; */
+							-moz-box-shadow: none;
+							-webkit-box-shadow: none;
+						box-shadow: none;
+					}
+					#primaryNav li ul.secondaryNav {
+						width: auto;
+						min-width: 300px;
+						padding: 10px;
+						border: none;
+						background-image: none !important;
+					}
+					body.landscape #primaryNav li ul.secondaryNav {
+						min-width: 400px;
+					}
+						#primaryNav li ul li {
+							/* position: static;
+							width: auto;
+							background: none !important; */
+							margin-top: 1px;
+								-moz-border-radius: 0px !important;
+								-webkit-border-radius: 0px !important;
+							border-radius: 0px !important;
+							border: none;
+						}
+							#primaryNav li ul li ul, #primaryNav li ul li ul li ul {
+								position: static;
+								width: auto !important;
+								margin: 0px 0px 0px 0px !important;
+								padding: 0px 0px 0px 10px !important;
+								border: none;
+									-moz-box-shadow: none;
+									-webkit-box-shadow: none;
+								box-shadow: none;
+							}
+							#primaryNav li ul.secondaryNav li.first ul {
+
+							}
+							a.secondaryNav, a.thirdLevelNav, a.fourthLevelNav {
+								width: auto !important;
+								min-width: 292px;
+								margin: 0px;
+								padding: 3px 3px 2px 5px;
+							}
+							a.thirdLevelNav {
+								min-width: 282px;
+							}
+							a.fourthLevelNav {
+								min-width: 272px;
+							}
+							a.secondaryNavOn, a.thirdLevelNavOn, a.fourthLevelNavOn {
+								background: none !important;
+							}
+
+							span.sf-sub-indicator {
+								display: inline-block;
+								margin-top: 4px;
+							}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+#bannerContainerOuter {
+	width: auto;
+	height: auto;
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+	border: none;
+}
+	#bannerContainerOuter div.bannerContainerShim {
+		display: none;
+	}
+
+	#bannerContainerInner {
+		width: auto;
+		min-width: 320px;
+		height: 330px;
+		margin: 0px;
+		padding: 0px;
+	}
+	body.landscape #bannerContainerInner {
+		min-width: 480px;
+		height: 430px;
+	}
+		#bannerRightColumn {
+			display: none;
+		}
+
+		#bannerContainer {
+			width: auto;
+			min-width: 320px;
+			height: auto;
+			overflow: hidden;
+			margin: 0px;
+			padding: 0px;
+			border:none;
+		}
+		body.landscape #bannerContainer {
+			min-width: 480px;
+		}
+			#bannerContainer #bannerTabs {
+				display: none;
+			}
+
+			#bannerContainer div.slidesOuter, #bannerContainer div.slidesOuter div.slides, #bannerContainer div.slidesOuter div.slides div.banner {
+				height: 300px;
+			}
+			#bannerContainer div.slidesOuter, #bannerContainer div.slidesOuter div.slides div.banner {
+				width: 320px;
+				height: 300px;
+			}
+			body.landscape #bannerContainer div.slidesOuter, body.landscape #bannerContainer div.slidesOuter div.slides, body.landscape #bannerContainer div.slidesOuter div.slides div.banner {
+				height: 400px;
+			}
+			body.landscape #bannerContainer div.slidesOuter, body.landscape #bannerContainer div.slidesOuter div.slides div.banner {
+				width: 480px;
+			}
+			#bannerContainer div.slidesOuter {
+				background-position: center center;
+				border: none;
+			}
+
+		#bannerContainerInner div.sliderNavPanelButtons {
+			display: block;
+			width: auto;
+			min-width: 320px;
+			height: 20px;
+			margin: 0px auto 0px auto;
+			padding: 4px 0px;
+			background: #f4f4f4;
+			border-top: 1px solid #b6b6b6;
+			border-bottom: 1px solid #b6b6b6;
+		}
+		body.landscape #bannerContainerInner div.sliderNavPanelButtons {
+			min-width: 480px;
+		}
+			#bannerContainerInner div.sliderNavPanelButtons div.sliderNavPanelButtonsInner {
+				width: auto;
+				height: 20px;
+				padding: 0px;
+				margin: 0px;
+			}
+				div.sliderNavPanelButtons div.sliderNavPanelButtonsInner span.panelButtonWrapper {
+					display: inline-block;
+					overflow: auto;
+				}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+#contentContainerOuter {
+	float: none;
+	clear: both;
+}
+	#contentContainerInner {
+		width: auto;
+		padding: 10px;
+		overflow: hidden;
+	}
+		#rightColumnContainer  {
+			clear: both;
+			float: none !important;
+			width: auto;
+			min-width: 300px;
+			height: auto;
+			overflow: auto;
+			margin: 0px 0px 10px 0px;
+			padding: 0px;
+		}
+		body.landscape #rightColumnContainer  {
+			min-width: 460px;
+		}
+			#leftColumn, #rightColumn {
+				float: none;
+				clear: both;
+				width: auto;
+				text-align: left;
+			}
+			#leftColumn + #rightColumn {
+				margin: 12px 0px 0px 0px;
+				padding: 12px 0px 12px 0px;
+				border-bottom: 1px solid #b6b6b6;
+			}
+				form#user-login {
+					overflow: auto;
+				}
+					form#user-login label {
+						
+					}
+					form#user-login input.form-text {
+						width: 286px;
+					}
+
+					form#user-login ul {
+						
+					}
+						form#user-login ul li {
+							
+						}
+							form#user-login ul li a {
+								font-size: 12px;
+								margin: 0px 0px 0px 15px;
+							}
+							form#user-login ul li:first-child a {
+								
+							}
+
+							form#user-login ul li a {
+								
+							}
+
+					form#user-login input.form-submit {
+						font-size: 12px;
+					}
+
+		#content {
+			clear: both;
+			width: auto !important;
+			min-width: 300px;
+			margin: 0px !important;
+		}
+		body.landscape #content {
+			min-width: 460px;
+		}
+			#contentLower {
+				width: auto;
+				height: auto;
+				overflow: auto;
+				margin: 0px auto 0px auto;
+				padding: 5px 0px;
+				overflow: auto;
+				background: #e5e5e5;
+				border-top: 1px solid #b6b6b6;
+				border-bottom: 1px solid #b6b6b6;
+			}
+				div.logoCarouselText {
+					width: auto;
+					height: 20px;
+					margin: 0px 0px 0px 0px;
+					font-size: 12px !important;
+					text-align: center;
+					color: #808080;
+				}
+		
+				#logoCarouselOuter {
+					width: auto;
+					height: 80px;
+					overflow-x: scroll;
+					overflow-y: hidden;
+					margin: 0px 5px 0px 0px;
+					/* padding: 0px; */
+					border: 0px solid #b6bcbf;
+				}
+					#logoCarousel {
+						height: 80px;
+						margin: 0px;
+						padding: 0px;
+						overflow-x: scroll;
+						overflow-y: hidden;
+					}
+						#logoCarousel a {
+							display: inline-block;
+							float: left !important;
+						}
+		
+					#logoCarouselNav {
+						display: none;
+					}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+#footerContainerOuter {
+	background: none !important;
+}
+	#footerContainerInner {
+		width: auto;
+		height: auto;
+		margin: 0px;
+		padding: 0px;
+	}
+		#footerContent {
+			height: auto;
+			/* overflow: hidden; */
+			background: repeat-x 0px -1010px url(/media/images/_gui_sprite_01.jpg);
+		}
+			#footerContent a {
+				text-decoration: none;
+			}
+
+			#footerContent p {
+				margin-left: 10px;
+				font-size: 12px;
+			}
+
+			#footerContent div.subColumn3 {
+				width: auto;
+				height: auto;
+				margin: 0px !important;
+				padding: 10px !important;
+			}
+			#footerContent div.subColumn3.subColumnLast {
+				width: auto;
+				min-width: 318px;
+				height: auto;
+				padding: 0px !important;
+				background: #222222;
+					background-image: -moz-linear-gradient(bottom, #141414 0%, #222222 100%) !important;
+					background-image: -ms-linear-gradient(bottom, #141414 0%, #222222 100%) !important;
+					background-image: -o-linear-gradient(bottom, #141414 0%, #222222 100%) !important;
+					background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #222222), color-stop(1, #141414)) !important;
+					background-image: -webkit-linear-gradient(bottom, #141414 0%, #222222 100%) !important; 
+					background-image: linear-gradient(bottom, #141414 0%, #222222 100%) !important;
+				border: 1px solid #141414 !important;
+			}
+			body.landscape #footerContent div.subColumn3.subColumnLast {
+				min-width: 478px;
+			}
+				#footerContent div.subColumn3.subColumnLast div.subColumnInner {
+					width: auto;
+					min-width: 316px;
+					height: auto;					
+				}
+				body.landscape #footerContent div.subColumn3.subColumnLast div.subColumnInner {
+					min-width: 476px;					
+				}
+					#footerContent div.subColumn3.subColumnLast div.subColumnInner img.bell {
+						float: left;
+						margin-bottom: 36px;
+					}
+
+					#footerContent div.subColumn3.subColumnLast div.subColumnInner p {
+						font-size: 14px;
+					}
+
+					#footerContent div.subColumn3.subColumnLast div.subColumnInner p.last.centered {
+						clear: left;
+						text-align: left;
+						padding-left: 12px;
+					}
+					body.landscape #footerContent div.subColumn3.subColumnLast div.subColumnInner p.last.centered {
+					}
+
+		#copyright {
+			float: none;
+			width: auto;
+			margin: 0px;
+			padding: 12px 0px 12px 0px;
+			text-align: center;
+		}
+			#copyright p {
+				margin-bottom: 0px;
+				/* color: #808080; */
+			}
+
+			#footerUtilityNav {
+				vertical-align: -35%;
+			}
+

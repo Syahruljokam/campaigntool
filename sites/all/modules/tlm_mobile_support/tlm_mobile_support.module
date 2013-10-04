@@ -1,0 +1,155 @@
+<?php
+
+if(!defined('NL')) define("NL", "\n");
+
+
+
+
+function tlm_mobile_support_menu(){
+	$items = array();	
+ 
+	$items['mobile/change'] = array(
+		'description' => t('Module overview'),
+		'page callback' => 'tlm_mobile_support_change_mobile',
+		'access callback' => 'user_access',
+    	'access arguments' => array('access content'),
+		'type' => MENU_CALLBACK
+	);	
+	
+    
+	return $items;
+}
+
+
+function tlm_mobile_support_change_mobile($variable){
+	
+	if($variable == 'full'){
+		$_SESSION['do_full'] = true;
+		
+	}else if($variable == 'mobile'){
+		unset($_SESSION['do_full']);		
+	}
+	
+	
+	drupal_goto($_SERVER['HTTP_REFERER']);
+}
+
+
+
+function tlm_mobile_support_preprocess_page(&$vars){
+	//drupal_set_message('<pre>' . print_r($vars,true) . '</pre>');
+	
+	$browser = browscap_get_browser() ;
+	
+	//Example $browser array
+	/*
+	[browser] => Safari
+    [version] => 5.0
+    [majorver] => 5
+    [minorver] => 0
+    [platform] => MacOSX
+    [alpha] => 
+    [beta] => 
+    [win16] => 
+    [win32] => 
+    [win64] => 
+    [frames] => 1
+    [iframes] => 1
+    [tables] => 1
+    [cookies] => 1
+    [backgroundsounds] => 
+    [javascript] => 1
+    [vbscript] => 
+    [javaapplets] => 
+    [activexcontrols] => 
+    [isbanned] => 
+    [ismobiledevice] => 
+    [issyndicationreader] => 
+    [crawler] => 
+    [cssversion] => 3
+    [aolversion] => 0
+    [parent] => Safari 5.0
+	 */
+	
+	
+	//drupal_set_message(print_r($browser,true));
+	
+//	$browser['ismobiledevice'] =1;
+//	$browser['browser'] = 'iPhone';	
+	
+	$doMobileTPL = false;
+	$vars['browser'] = $browser;	
+	
+	
+	//One more fix for IOS6.1 not in browscap, lets just make all "ios" ismobile=1
+	if(stripos($browser['useragent'],'iPhone OS') !== false){
+		$browser['ismobiledevice'] = 1;
+		$browser['browser'] = 'Safari';
+		$browser['platform'] = 'iOS';
+	}
+	
+	//Fix for problem where the variable is returned as a string.
+	$browser['ismobiledevice'] = $browser['ismobiledevice'] === 'true' || $browser['ismobiledevice'] === 1 || $browser['ismobiledevice'] === '1' ? true : false;
+	
+	
+	
+	if($browser['platform'] == 'iOS' && $browser['browser'] == 'Safari' && stripos($browser['useragent'],'iPad') !== false){ $browser['ismobiledevice'] = 0; }	// Treat the iPad as a full on browser.
+		
+	if(!isset($_SESSION['do_full'])) $_SESSION['do_full'] = false;
+	
+	//Default value
+	$vars['allow_mobile_changing'] = 0;
+	
+			
+	if((isset($_GET['mobile']) && $_GET['mobile'] == 1) || $browser['ismobiledevice'] == 1){
+		//drupal_set_message('<pre>' . print_r($browser,true) . '</pre>');		
+		
+		//Some browsers are allowed to change to the full skin
+		if($browser['browser'] == 'iPhone' || $browser['browser'] == 'iPod Touch' || $browser['browser'] == 'Android' || $browser['platform'] == 'Android' || ($browser['browser'] == 'Safari' && $browser['platform'] == 'iOS') || ($browser['browser'] == 'Chrome' && $browser['platform'] == 'Android') ){
+			$vars['allow_mobile_changing'] = 1;			
+		}
+		
+		//Unless previosuly forced to full skin, show the mobile skin
+		if(!$_SESSION['do_full']){
+			$vars['template_files'][] = 'page-mobile';
+			$doMobileTPL = true;
+		}		
+		
+		$html = '';
+		$html .= '<div id="mobileMenuContainer"><div id="mobileMenu"><p>';
+		
+		if($doMobileTPL){
+			drupal_add_js("isMobileVersion = 1;","inline", "header", false,false);
+			
+			if($vars['allow_mobile_changing'] == 1) {
+				$html .= "View the <a href=\"/mobile/change/full\">full version</a> of our site.";	
+			} else {
+				$html .= "You are browsing the mobile version of our site.";
+			} 
+		}else{
+			if($vars['allow_mobile_changing'] == 1){
+				$html .= 'View the <a href="/mobile/change/mobile">mobile version</a> of our site.';
+				
+			}
+		}
+		
+		$html .= '<p></div></div>';
+		
+		$vars['page']['header'] = $html;
+	}
+	
+	//$vars['allow_mobile_changing'] = 1;
+
+	
+		
+	
+	return $vars;
+}
+
+
+
+
+
+	
+
+?>

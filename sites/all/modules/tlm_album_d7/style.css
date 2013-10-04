@@ -1,0 +1,7 @@
+.hidden { 
+	display: none; 
+}
+
+.highslide-overlay.closebutton {
+	display: none !important;
+}

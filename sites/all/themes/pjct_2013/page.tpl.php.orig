@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language ?>" lang="<?php print $language ?>">
+<head>
+<title><?php print $head_title ?></title>
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~ Meta tag content ~~~~~~~~~~~~~~~~~~~~~~ -->
+
+<?php require_once('_includes/meta_include.php');?>
+
+<?php print $head ?>
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~ Style sheet link ~~~~~~~~~~~~~~~~~~~~~~ -->
+    
+<link type="text/css" href="/_codewise/codewise_common.css" rel="stylesheet" />
+<?php print $styles ?>
+    
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+   
+
+<!-- ~~~~~~~~~~~~~~~~~~~~ Script library content ~~~~~~~~~~~~~~~~~~~ -->
+	
+<script type="text/javascript" src="/_codewise/codewise_global.js"></script>
+<script type="text/javascript" src="/_codewise/<?php echo $codewise_skin_name;?>_global.js"></script>
+	
+<script type="text/javascript"><!--
+	function aPI() {
+	   
+	};
+
+//--></script>
+	
+<?php print $scripts ?> 	
+<script type="text/javascript" src="/_codewise/codewise_master.js"></script>
+	
+<?php require_once('_includes/flash_detection_include.php');?>
+	
+	 
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	
+	
+<!-- ~~~~~~~~~~~~~~~~~~~ Local style definitions ~~~~~~~~~~~~~~~~~~~ -->
+	
+<style type="text/css" media="screen">
+<!-- 
+	
+-->
+</style>
+	
+<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+    
+</head>
+<body>
+
+
+<div id="topOfPageAnchorContainer"><a id="topOfPage" name="topOfPage"></a></div><!-- /#topOfPageAnchorContainer -->
+	
+<div id="header">
+<div id="logoContainer"><a href="<?php echo $header_logo_link_url;?>"><img id="logo" src="<?php echo check_url($logo) ?>" alt=" <?php echo $header_logo_alt_text;?> " title=" <?php echo $site_title;?> " /></a></div><!-- /#logoContainer -->
+	
+	
+<hr class="header" />
+	<?php print $header; ?>
+		<!--  <div id="logo-floater">
+	        <?php
+          // Prepare header
+          $site_fields = array();
+          if ($site_name) {
+            $site_fields[] = check_plain($site_name);
+          }
+          if ($site_slogan) {
+            $site_fields[] = check_plain($site_slogan);
+          }
+          $site_title = implode(' ', $site_fields);
+          $site_fields[0] = '<span>'. $site_fields[0] .'</span>';
+          $site_html = implode(' ', $site_fields);
+
+          if ($logo || $site_title) {
+            print '<h1><a href="'. check_url($base_path) .'" title="'. $site_title .'">';
+            if ($logo) {
+              print '<img src="'. check_url($logo) .'" alt="'. $site_title .'" id="logo" />';
+            }
+            print $site_html .'</a></h1>';
+          }
+        ?>
+       </div> -->
+	
+<div id="startOfContentLinkContainer"><ul><li><a id="startOfContentLink" class="startOfContentLink" href="#startOfContent">Skip to content</a></li></ul></div><!-- /#startOfContentLinkContainer -->
+	
+	 <?php if (isset($primary_links)) : ?>
+        <?php //print theme('links', $primary_links, array('id'=> 'primaryNav', 'class' => 'primaryNav')) ;
+        	//print theme('nice_menu_primary_links');
+        	require_once '_includes/menu_processor.php';			
+        	$menuXML = generateXML();	//also used in footer
+        	//print_r($menuXML);
+			doMenu("primaryNav", MENUP_DONT_WRITE_ALL_MENU_ITEMS, MENUP_MENU_DATA_STRING,MENUP_MENU_HTML_COMPACT,$menuXML);
+  
+        ?>
+     <?php endif; ?>
+     <?php if (isset($secondary_links)) : ?>
+        <?php //print theme('links', $secondary_links, array('id'=> 'secondaryNav' , 'class' => 'secondaryNav')) ?>
+     <?php endif; ?>
+	
+<hr class="header" />
+</div><!-- /#header -->
+	
+<div id="startOfContentAnchorContainer"><a id="startOfContent" name="startOfContent"></a></div><!-- /#startOfContentAnchorContainer -->
+	
+<div id="content">
+	
+	
+<!-- ~~~~~~~~~~~~~~~~~~~~~ Content begins here ~~~~~~~~~~~~~~~~~~~~~ -->
+		      
+            
+          <!-- 
+     	  <?php if ($search_box): ?><div class="block block-theme"><?php print $search_box ?></div><?php endif; ?>     
+     	  <?php if ($breadcrumb): print $breadcrumb; endif; ?> -->
+          <?php if ($mission): print '<div id="mission">'. $mission .'</div>'; endif; ?>
+
+          <?php if ($tabs): print '<div id="tabs-wrapper" >'; endif;  //class="clear-block"?>
+          <?php if ($title): print '<h1'. ($tabs ? ' class="with-tabs"' : '') .'>'. $title .'</h1>'; endif; ?>
+          <?php if ($tabs): print $tabs .'</div>'; endif; ?>
+
+          <?php if (isset($tabs2)): print $tabs2; endif; ?>
+
+          <?php if ($help): print $help; endif; ?>
+          <?php if ($messages): print $messages; endif; ?>
+          <?php print $content ?>
+          <span class="clearRight"></span>
+          <?php print $feed_icons ?>
+
+
+   
+        
+      <div id="leftColumn" class="leftColumn">
+		 	<?php if ($sidebar_left_top): ?>
+	        <div id="leftColumnTop" class="leftColumnTop">          
+	          <?php print $sidebar_left_top ?>
+	        </div>
+	      <?php endif; ?>
+	      
+	      <?php if ($sidebar_left_bottom): ?>
+	        <div id="leftColumnBottom" class="leftColumnBottom">
+	          <?php print $sidebar_left_bottom ?>
+	        </div>
+	      <?php endif; ?>
+      </div>
+
+      
+
+
+<!-- ~~~~~~~~~~~~~~~~~~~~~~ Content ends here ~~~~~~~~~~~~~~~~~~~~~~ -->
+
+
+
+</div><!-- /#content -->
+
+<?php require_once '_includes/footer_include.php'; ?>
+
+
+<?php print $closure ?>
+
+
+<?php require_once '_includes/seo_include.php'; ?>
+
+
+
+</body>
+</html>

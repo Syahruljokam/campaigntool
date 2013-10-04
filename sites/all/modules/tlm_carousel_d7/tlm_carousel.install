@@ -1,0 +1,23 @@
+<?php 
+function tlm_carousel_install(){
+	/*$filename = drupal_get_path('module','tlm_carousel') . "/tlm_carousel.install.inc";
+	$content = implode ('', file ($filename));
+	// Build form state
+	$form_state = array(
+	   'values' => array(
+	      'type_name' => '<create>',
+	      'macro' => $content,
+	   ),
+	);
+	drupal_execute("content_copy_import_form", $form_state);
+	
+	drupal_set_message('Created carousel content type');
+	*/
+}
+
+
+function tlm_carousel_uninstall(){
+	
+}
+
+?>

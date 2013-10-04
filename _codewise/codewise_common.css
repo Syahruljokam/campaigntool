@@ -1,0 +1,537 @@
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Codewise Presentation Manager - Common Cascading Style Sheet
+
+Copyright (c) 2004-2013 Codewise Systems Inc. & Twisted Lime Media Inc. 
+All rights reserved.
+
+Created: 2006-02-05
+
+Revision History:
+  1.00	- Initial version. TB, 2006-02-05, 21:12
+	- Added debug message styles. TB, 2006-09-05, 11:13
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+HTML tag styles */
+
+body {
+	font-size: small;
+	margin: 0px;
+	padding: 10px;
+}
+
+body, blockquote, caption, h1, h2, h3, h4, h5, h6, li, ol, p, table, td, th, ul, button, input, option, select, textarea {
+	color: #000000;
+	font-family: Verdana, Helvetica, Arial, sans-serif;
+}
+
+a, a:link, a:active, a:hover {
+	color: #003399;
+	text-decoration: underline;
+}
+
+a:visited {
+	color: #660066;
+}
+
+a img, img[usemap] {
+	border: 0px dashed lime;
+}
+
+acronym {
+	color: #333333;
+	border-bottom: 1px dotted #333333;
+	cursor: help;
+	font-weight: bold;
+}
+
+big {
+	font-size: 120%;
+}
+
+button, input[type="button"], input[type="submit"] {
+	padding: 0px;
+	cursor: pointer;
+}
+
+	button[disabled="disabled"], input[disabled="disabled"] {
+		cursor: default;
+	}
+
+code {
+	color: #6e241d;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 100%;
+}
+
+del { 
+	color: #999999;
+	text-decoration: line-through;
+}
+
+em {
+	font-style: italic;
+}
+
+form {
+	margin: 0px;
+	padding: 0px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+	h1, h2 + h3, h3 + h4, h4 + h5, h5 + h6 {
+		margin-top: 0px;
+	}
+
+h1 {
+	font-size: 135%;
+}
+
+h2 {
+	font-size: 120%;
+}
+
+h3 {
+	font-size: 110%;
+}
+
+h4 {
+	font-size: 100%;
+}
+
+h5 {
+	font-size: 85%;
+}
+
+h6 {
+	font-size: 85%;
+	font-style: italic;
+}
+
+li li {
+	font-size: 100%;
+}
+
+p, caption {
+	margin-top: 5px;
+	margin-bottom: 15px;
+}
+
+small {
+	font-size: 80%;
+}
+
+strong {
+	font-weight: bold;
+}
+
+table {
+	margin-bottom: 10px;
+	border-collapse: collapse;
+}
+
+table, td, th {
+	font-size: x-small;
+	padding: 4px;
+}
+
+th {
+	font-weight: bold;
+	text-align: left;
+}
+
+ol, ul {
+	margin-top: 10px;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generic class styles */
+
+.clear, .clearBoth {
+	clear: both;
+}
+
+.clearLeft {
+	clear: left;
+}
+
+.clearRight {
+	clear: right;
+}
+
+.leadIn {
+	font-variant: small-caps;
+}
+
+.emphatic {
+	font-style: italic;
+}
+
+.veryEmphatic {
+	font-style: italic;
+	font-weight: bold;
+}
+
+.strong {
+	font-weight: bold;
+}
+
+.greyedOut { 
+	color: #999999;
+}
+
+.hidden, .hiddenSection, .hiddenSection02, .hiddenSection03, .hiddenSection04, .hiddenSection05 { 
+	display: none;
+}
+
+.invisible, .invisibleSection, .invisibleSection02, .invisibleSection03, .invisibleSection04, .invisibleSection05 { 
+	visibility: hidden;
+}
+
+.highlighted {
+	color: #000000;
+	background-color: yellow;
+}
+
+.highlighted02 {
+	color: #000000;
+	background-color: lime;
+}
+
+.initial {
+	margin-top: 5px;
+}
+
+.indented {
+	margin-left: 24px;
+}
+ul.indented {
+	
+}
+
+.label {
+	font-weight: bold;
+}
+
+div.rightColumnText {
+	float: right;
+	width: 160px;
+	padding: 10px;
+	margin: 0px 0px 10px 10px;
+	border: 1px outset #ffffff;
+}
+
+.fileFolderName {
+	font-weight: bold;
+}
+
+.smallText {
+	font-size: 80%;
+}
+	.smallText li {
+		font-size: 105%;
+	}
+
+.subtitle {
+	color: #666666;
+	/* font-size: 75%; */
+	font-style: italic;
+}
+
+.UIControl {
+	color: #333333;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.underlined {
+	text-decoration: underline;
+}
+
+.warning {
+	font-weight: bold;
+	color: red;
+	background-color: inherit;
+}
+
+.okay {
+	font-weight: bold;
+	color: green;
+	background-color: inherit;
+}
+
+.padded {
+	padding: 10px;
+}
+
+.windowsOnly {
+	display: none;
+}
+
+/* Alignment */
+.justify {
+	text-align: justify;
+}
+
+.leftAligned {
+	float: left;
+}
+	div.leftAligned, img.leftAligned {
+		float: left;
+		margin: 0px 10px 10px 0px;
+	}
+
+.leftAlignedText {
+	text-align: left;
+}
+
+.centered, .centred, .centeredText, .centredText {
+	text-align: center;
+}
+	img.centered, img.centred {
+		margin: 0px auto;
+	}
+
+.rightAligned {
+	float: right;
+}
+	div.rightAligned, img.rightAligned {
+		float: right;
+		margin: 0px 0px 10px 10px;
+	}
+
+.rightAlignedText {
+	text-align: right;
+}
+
+.verticalAlignedBottom {
+	vertical-align: bottom;
+}
+
+.verticalAlignedMiddle {
+	vertical-align: middle;
+}
+
+.verticalAlignedTop {
+	vertical-align: top;
+}
+
+/* Leading */
+.withLeading {
+	margin-top: 10px;
+}
+
+.withMinusLeading, .withNegativeLeading {
+	margin-top: -10px;
+}
+
+.withExtraLeading {
+	margin-top: 20px;
+}
+
+.withoutLeading {
+	margin-top: 0px;
+}
+
+.withBottomMargin {
+	margin-bottom: 20px !important;
+}
+
+.withoutBottomMargin {
+	margin-bottom: 0px !important;
+}
+
+ol.spaced li + li, ul.spaced li + li {
+	margin-top: 5px;
+}
+ol.unspaced li + li, ul.unspaced li + li {
+	margin-top: 0px;
+}
+
+/* Case */
+.caseSensitive {
+	text-transform: none !important;
+}
+
+.lowercase {
+	text-transform: lowercase;
+}
+	.lowercase acronym {
+		text-transform: uppercase;
+	}
+
+.smallCaps {
+	font-variant: small-caps;
+}
+	.smallCaps acronym {
+		text-transform: uppercase;
+	}
+
+.titlecase {
+	text-transform: capitalize;
+}
+	.titlecase acronym {
+		text-transform: uppercase;
+	}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tag-specific class styles */
+
+a.buttonLike, a.buttonLike:link, a.buttonLike:active, a.buttonLike:hover, a.buttonLike:visited {
+	padding: 2px 5px 2px 5px;
+	color: #000000;
+	background-color: #dfdfdf;
+	text-decoration: none;
+	border: 1px outset #ffffff;
+}
+
+a.buttonLike:hover {
+	border: 1px solid #eeeeee;
+}
+
+a.invisibleLink, a.invisibleLink:link, a.invisibleLink:active, a.invisibleLink:hover, a.invisibleLink:visited {
+	color: #ffffff;
+	text-decoration: none;
+	cursor: text;
+}
+
+a.iconLink img, a.iconLink:link img, a.iconLink:active img, a.iconLink:hover img, a.iconLink:visited img {
+	border: 0px dashed orange;
+}
+
+a.hiddenLink, a.hiddenLink:link, a.hiddenLink:active, a.hiddenLink:hover, a.hiddenLink:visited {
+	color: #000000;
+	text-decoration: none;
+}
+
+a.popup, a.popup:link, a.popup:active, a.popup:hover, a.secondaryWindow, a.secondaryWindow:link, a.secondaryWindow:active, a.secondaryWindow:hover { 
+	border-bottom: 1px dotted #003399;
+	text-decoration: none;
+} 
+
+a.popup:visited, a.secondaryWindow:visited { 
+	border-bottom: 1px dotted #660066;
+	text-decoration: none;
+}
+
+a.warning, a.warning:link, a.warning:active, a.warning:hover, a.warning:visited, a.okay, a.okay:link, a.okay:active, a.okay:hover, a.okay:visited, .warning a, .warning a:link, .warning a:active, .warning a:hover, .warning a:visited, .okay a, .okay a:link, .okay a:active, .okay a:hover, .warning a:visited {
+	color: #ffffff;
+}
+
+div.sideBox {
+	float: right;
+	margin: 10px 0px 15px 10px;
+	width: 180px;
+	padding: 5px;
+	border: 1px outset #ffffff;
+}
+
+div.sideBox p, div.sideBox ol, div.sideBox ul {
+	margin-bottom: 5px;
+	line-height: 1.5em;
+}
+
+div.sideBox ul {
+	margin-left: 20px;
+}
+
+div.popup {
+	display: none;
+}
+
+img.popupCloseButton {
+	float: right;
+	margin-left: 5px;
+}
+
+div.movieContainer {
+	/* display: none; */
+}
+
+div.warning, p.warning {
+	margin: 5px 0px 15px 0px;
+	padding: 5px;
+	font-weight: bold;
+	color: #ffffff;
+	background-color: red;
+	border: 2px outset #ff9999;
+}
+	td.warning {
+		font-weight: bold;
+		color: #ffffff;
+		background-color: red;
+	}
+
+.warning strong, strong.warning {
+	color: #ffffff;
+	text-transform: uppercase;
+}
+
+div.okay, p.okay {
+	border: 2px outset lime;
+	background-color: green;
+	color: #ffffff;
+	font-weight: bold;
+	margin: 5px 0px 15px 0px;
+	padding: 5px;
+}
+
+.okay strong, strong.okay {
+	color: #ffffff;
+}
+
+caption, p.caption {
+	text-align: left;
+	font-style: italic;
+}
+
+p.indented {
+	/* margin-left: 25px; */
+}
+
+ol.flushLeft, ul.flushLeft {
+	margin-left: -40px;
+}
+
+ul.bulletless, ul.bulletLess {
+	list-style: none;
+}
+
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Layout styles */
+
+/*
+#headerLowLevelBrowserLogo {
+	background-color: #ffffff;
+}
+
+#footerLowLevelBrowserBanner {
+	background-color: #407ab2;
+	margin-bottom: 5px;
+	width: 100%;
+}
+*/
+
+#contentLeftColumn, #leftColumn {
+	float: left;
+}
+
+#contentRightColumn, #rightColumn {
+	float: right;
+}
