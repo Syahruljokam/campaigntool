@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,12 +23,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -39,10 +39,9 @@
 class CRM_Contact_Form_Inline_CommunicationPreferences extends CRM_Contact_Form_Inline {
 
   /**
-   * build the form elements for communication preferences
+   * Build the form object elements for communication preferences.
    *
    * @return void
-   * @access public
    */
   public function buildQuickForm() {
     parent::buildQuickForm();
@@ -51,23 +50,26 @@ class CRM_Contact_Form_Inline_CommunicationPreferences extends CRM_Contact_Form_
   }
 
   /**
-   * set defaults for the form
+   * Set defaults for the form.
    *
    * @return array
-   * @access public
    */
   public function setDefaultValues() {
     $defaults = parent::setDefaultValues();
 
     if (!empty($defaults['preferred_language'])) {
-      $languages = array_flip(CRM_Core_PseudoConstant::languages());
-      $defaults['preferred_language'] = $languages[$defaults['preferred_language']];
+      $languages = CRM_Contact_BAO_Contact::buildOptions('preferred_language');
+      $defaults['preferred_language'] = CRM_Utils_Array::key($defaults['preferred_language'], $languages);
     }
 
     // CRM-7119: set preferred_language to default if unset
     if (empty($defaults['preferred_language'])) {
       $config = CRM_Core_Config::singleton();
       $defaults['preferred_language'] = $config->lcMessages;
+    }
+
+    if (empty($defaults['communication_style_id'])) {
+      $defaults['communication_style_id'] = array_pop(CRM_Core_OptionGroup::values('communication_style', TRUE, NULL, NULL, 'AND is_default = 1'));
     }
 
     foreach (CRM_Contact_BAO_Contact::$_greetingTypes as $greeting) {
@@ -78,10 +80,9 @@ class CRM_Contact_Form_Inline_CommunicationPreferences extends CRM_Contact_Form_
   }
 
   /**
-   * process the form
+   * Process the form.
    *
    * @return void
-   * @access public
    */
   public function postProcess() {
     $params = $this->exportValues();
@@ -101,4 +102,5 @@ class CRM_Contact_Form_Inline_CommunicationPreferences extends CRM_Contact_Form_
 
     $this->response();
   }
+
 }

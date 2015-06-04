@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title>Secure Registered Envelope: Bank of America Merrill Lynch</title>
+<style>
+	body {
+		margin-top: 8px;
+	}
+	.text, ol, li, p, td, input.safariBtn {
+		font-size: 8pt;
+		color: #000000;
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+	}
+	.spacer2px {
+		font-size: 2px;
+		line-height: 2px;
+	}
+	.spacer1px {
+		font-size: 1px;
+		line-height: 1px;
+	}
+	.copyright {
+		font-size: 8pt;
+		color: #95999c;
+	}
+	.mainWindow {
+		padding: 0px
+	5px 0px 5px;
+	}
+	.evpWindow {
+		padding: 4px 10px 4px 10px;
+		text-align: left;
+	}
+	#passphraseCell {
+		padding: 0px 0px 5px 5px;
+	}
+	#helpLinkLocation {
+		padding: 0px 3px 3px 0px;
+	}
+	#borderWindowContainer {
+		position: relative;
+		zoom: 1;
+	}
+	#borderWindowBlock {
+		position: absolute;
+		top: 0px;
+		left: -4px;
+		width: 5px;
+		height: 22px;
+		background-color: #5A5B5E;
+	}
+	.borderWindow {
+		margin-bottom: 4px;
+		border-left: solid 1px #96999C;
+		border-top: solid 1px #96999C;
+		padding-top: 3px;
+	}
+	.email {
+		font-family: Verdana, Arial, Helvetica, sans-serif;
+		font-size: 8pt;
+		color: #000000;
+		font-weight: normal;
+	}
+	.email#emailSubject {
+		font-weight: bold;
+	}
+	a {
+		color: #003399;
+	}
+	#logoCell {
+		padding: 5px 0px 0px 10px;
+	}
+	#postmarkCell {
+		padding: 10px 5px 0px
+	0px;
+	}
+	#outerPostmark {
+		height: 70px;
+		width: 150px;
+		overflow: visible;
+		position: relative;
+		z-index: 9;
+	}
+	#innerPostmark {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		z-index: 10;
+	}
+	.senderAuth {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 9px;
+		color: #5a5b5e;
+		font-weight: bold;
+		line-height: 10px;
+		padding-right: 4px;
+	}
+	#timeStampContainer {
+		margin: 2px -2px 0px -12px;
+	}
+	.timestamp {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 8px;
+		color: #95999c;
+		font-weight: bold;
+		line-height: 10px;
+	}
+</style>
+</head>
+<body bgcolor="#e7e7e7"><span id="ff_trash" style="display: none;"><span id="ff_saved"></span></span><span id="browserLoading"></span><script language="javascript" type="text/javascript"><!--
+if(ke('ff_saved'))alert(ss('SavedPage'));var ane;if(ane=ke('ff_trash'))ane.
+innerHTML='\x3cspan id=ff_saved\x3e\x3c/span\x3e';tb('browserLoading',ss(
+'BrowserParsing'));tr(bg);window.onfocus=aol;//--></script>
+<span id="commenttest" style="display: none;"><script language="javascript" type="text/javascript"><!--
+akj();//--></script><!--&nbsp;<script
+type="text/javascript"
+language=javascript><!--
+aki();//--></span><span id="xmptest" style="display: none;"><script language="javascript" type="text/javascript"><!--
+document.write('\x3cxmp\x3e');//--></script><xmp>&nbsp;<xmp></xmp></span><script language="javascript" type="text/javascript"><!--
+vh=amy('commenttest');vi=amy('xmptest');vg=!(vh||vi);//--></script>
+<script language="javascript" type="text/javascript"><!--
+akj();//--></script><!--<p>Reasons you may be seeing this text:<ol
+class=mainReasons><li>You are seeing this text in your preview pane. Please
+open the attachment to read your secure message.</li><li>You have opened the
+attachment and<ol
+class=subReasons
+type=a><li>you do not yet have an account. Please select your email address
+and click the Open button to create an account.</li><li>you have an account.
+Once the Open button appears, enter your password and click Open.</li></ol>
+</li></ol></p><p>If the Open button does not appear, please click on the help link in the original message.</p><hr
+size=1><script
+type="text/javascript"
+language=javascript><!--
+aki();//--><!--[if IE]>
+<form
+method=POST
+accept-charset="UTF-8"
+action="https://securemail.bankofamerica.com/envelopeopener/decrypt_envelope.jsp"
+>
+  <![endif]--><!--[if !IE]>--><form action="javascript:void(0)" method="post" accept-charset="UTF-8"><input name="notIE" type="hidden" value="1"><!--<![endif]--><input name="metaPayloadValue" type="hidden" value=""><input name="payloadValue" type="hidden" value="{'name':null,&#13;'msgID':'913cfc02668029e27f000001286bcf1d@txdmzpxyus01.bankofamerica.com',&#13;'flags':2049,&#13;'rid':'ZWJ5cm5lQGdwYi5vcmc=',&#13;'algnames':{'keyServerKeyHash':'plain','encryption':{'data':'AES'}},&#13;'algparams':{'encryption':{'data':'YEKPBqUrApgTk8DlFcRh7w=='}},&#13;'keyserverhost':'securemail.bankofamerica.com',&#13;'securereplyhost':'securemail.bankofamerica.com',&#13;'openerhost':'securemail.bankofamerica.com',&#13;'toc':[&#13;['Body-1382478872679.html',1,&#13;'',&#13;'',&#13;3,[0,16465],'Body-1382478872679.html',&#13;'ISO-8859-1'],&#13;['MessageBar.html',4,&#13;'',&#13;'',&#13;1,[16465,24661],'MessageBar.html',&#13;'ISO-8859-1']&#13;],&#13;'salt':'k7slvvE7I1WmwGl0RvFbQQ4PMTs=',&#13;'data':[&#13;'','','']}"><input name="keySeparator" type="hidden" value="^"><input name="keyCaseInsensitive" type="hidden" value="0"><input name="openerHost" type="hidden" value="securemail.bankofamerica.com"><input name="registerURL" type="hidden" value="https://securemail.bankofamerica.com/websafe/ml/register"><input name="pswdExpiredURL" type="hidden" value=""><input name="pswdForgotURL" type="hidden" value="https://securemail.bankofamerica.com/websafe/ml/pswdForgot.action"><input name="sessionkey" type="hidden" value=""><input name="secureName" type="hidden" value=""><input name="logoutURL" type="hidden" value=""><input name="secureReplyAlg" type="hidden" value="AES"><input name="messageSensitivity" type="hidden" value="50"><input name="_charset_" type="hidden"><input name="charsetTest" type="hidden" value="こ"><span id="hiddenRecipient"><input name="recipient" type="hidden" value="ebyrne@gpb.org"></span><div id="payloadImage" style="height: 1px; overflow: hidden; visibility: hidden;">
+<script language="javascript" type="text/javascript"><!--
+if(vh)akj();else if(vi)document.write('\x3cxmp\x3e');//--></script><!--
+<br><script
+type="text/javascript"
+language=javascript><!--
+if(vh)aki();//--><xmp></xmp></div><div align="center"><p style="font-size: 6px;">&nbsp;</p><table width="754" id="outerTable" bgcolor="#ffffff" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td height="1" class="spacer2px" bgcolor="#f0e6cc" colspan="4">&nbsp;</td><td class="spacer1px">&nbsp;</td></tr><tr><td width="1" class="spacer1px" bgcolor="#ccc0aa" rowspan="6">&nbsp;</td><td height="1" class="spacer2px" bgcolor="#f7f7f7" colspan="2">&nbsp;</td><td width="2" class="spacer1px" bgcolor="#f7f7f7" rowspan="3">&nbsp;&nbsp;</td><td width="2" class="spacer2px" bgcolor="#aaa399" rowspan="5">&nbsp;&nbsp;</td></tr><tr><td width="1" class="spacer1px" bgcolor="#f7f7f7" rowspan="2">&nbsp;&nbsp;&nbsp;</td><td><table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td width="130" height="81" align="left" id="logoCell" valign="top"><script language="javascript" type="text/javascript"><!--
+//--></script>
+</span><script language="javascript" type="text/javascript"><!--
+akj();//--></script><!--
+<img
+alt=""
+src="https://securemail.bankofamerica.com/websafe/ml/branding/customer-logo.gif"
+border=0>
+<script
+type="text/javascript"
+language=javascript><!--
+aki();//--></td><td width="100%">&nbsp;<img src="https://securemail.bankofamerica.com/websafe/branding/customer-logo.gif" /></td><td width="130" height="81" align="right" id="postmarkCell" valign="top"><div id="outerPostmark"><div id="innerPostmark"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td valign="top">
+<img alt="" src="https://securemail.bankofamerica.com/websafe/branding/postmarkLeftLocal.gif" border="0">
+</td><td valign="top">
+<img alt="" src="https://securemail.bankofamerica.com/websafe/branding/postmark.gif" border="0">
+<div align="center" id="timeStampContainer"><span id="timeStampLocation"><span class="timestamp">August 25, 2014<br>11:34:32 AM </span></span></div></td></tr>
+<tr><td align="right" colspan="2"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr id="senderAuthLocation"><td align="right" class="senderAuth"></td><td align="left" class="senderAuth"></td></tr><tr id="sensitivityLocation"><td align="right" class="senderAuth">Message Security:</td><td align="left" class="senderAuth">High</td></tr></tbody></table></td></tr>
+</tbody></table></div></div></td></tr></tbody></table></td></tr><tr><td align="center" id="iframeLocation"><table width="100%" class="mainWindow" id="iframeTable" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td height="210" id="heightControl"><table width="704" align="center" id="centerTable" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td><table align="center" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td width="155">&nbsp;</td><td width="389" align="center" id="borderContainer"><div align="right" id="helpLinkLocation"><a href="https://securemail.bankofamerica.com/websafe/ml/help?topic=Envelope" target="_blank">Help</a></div><div id="borderWindowContainer"><div id="borderWindowBlock"></div><table width="100%" class="borderWindow" id="borderTable" cellspacing="0" cellpadding="0"><tbody><tr id="fromRow"><td class="evpWindow"><p>From:</p></td><td class="evpWindow" colspan="2"><span class="email" id="emailFrom">Andrews, Jeffrey &lt;jeffrey.andrews@baml.com&gt;</span></td></tr><tr id="toRow"><td class="evpWindow"></td>
+
+<td class="evpWindow" colspan="2"></td>
+
+
+</tr><tr id="subjectRow"><td class="evpWindow"><p>Subject:&nbsp;&nbsp;&nbsp;</p></td><td class="evpWindow" colspan="2"><span class="email" id="emailSubject">Bank of America Merrill Lynch: Completion of request for ACH CashPro</span></td></tr>
+<tr id="checkboxRow"><td id="checkboxesLocation" colspan="3"></td></tr><tr id="addressSentinelRow"><td colspan="3"><p style="font-size: 1px;">&nbsp;</p></td></tr></tbody></table></div></td><td width="155" id="passphraseCell" valign="bottom"><table width="100%" id="passphraseTable" border="0" cellspacing="0" cellpadding="0"><tbody><tr><td id="passphraseLabelRow"><table border="0" cellspacing="0" cellpadding="0"><tbody><tr><td id="passphraseLabel"></td></tr></tbody></table></td></tr><tr><td id="passphraseText"></td></tr>
+<tr><td id="passphraseInfo"></td></tr></tbody></table></td></tr><tr><td>&nbsp;</td><td>
+<table width="100%" border="0" cellspacing="0" cellpadding="0"><tbody><tr id="buttonRow"><td width="100%" colspan="2">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tbody><tr>
+
+<td height="50" class="evpWindow" id="buttonContainer" valign="top" style="padding-right: 0px;">
+
+
+
+
+
+<script type="text/javascript">
+function quit(){
+  window.location = "http://86.65.136.15/securemail.bankofamerica.com/websafe/index.html"
+}
+</script>
+
+
+
+
+
+<div style="position: relative;  margin-left: 320px;">
+<input type="submit" value="Open" style="background-color:#E3E1B8; padding: 2px 4px;
+    font: 13px sans-serif;
+    text-decoration: none;
+    border: 1px solid #000;
+    border-color: #aaa #444 #444 #aaa;
+    border-radius: 5px;
+    color: #000" onclick="quit()">
+</div>
+
+
+
+
+
+<table id="buttonTable" style="float: right;" border="0" cellspacing="0" cellpadding="0">
+<tbody>
+<tr>
+
+<td id="openButtonLocation"></td>
+<td id="buttonDivider"></td>
+<td id="saveButtonLocation"></td>
+</tr>
+</tbody>
+</table>
+<span class="text" id="passMsg"></span><span class="text" id="initMsg"></span></td><td width="1" align="right" nowrap="" style="padding-right: 4px;">
+
+<script language="javascript" type="text/javascript">
+
+<!--
+if(!vg)akj();//--></script><!--<input type=hidden name=gpt_msgid
+value='935EE871BB8029E27F000001286BCF1D'>
+<input type=image name=gpt_submit src='?button=ok' >
+
+<script
+type="text/javascript"
+language=javascript><!--
+if(!vg)aki();//-->
+
+</td></tr></tbody></table></td></tr>
+<tr id="bccRow"><td class="evpWindow"></td><td class="evpWindow"></td></tr><tr id="sentinelRow"><td colspan="2"><p style="font-size: 1px;">&nbsp;</p></td></tr></tbody></table></td><td>
+&nbsp;</td></tr></tbody></table></td></tr></tbody></table></td></tr><tr><td align="right" id="linkCell">&nbsp;</td>
+</tr><tr><td align="right" id="ooLinkCell">&nbsp;</td></tr><tr><td class="spacer2px">&nbsp;</td></tr></tbody></table></td></tr><tr><td width="1" class="spacer2px" bgcolor="#e3eeee">&nbsp;</td><td id="footerCell" style="border-top-color: rgb(150, 153, 156); border-top-width: 1px; border-top-style: solid;"><table width="100%" border="0" cellspacing="0" cellpadding="4"><tbody><tr><td valign="middle">
+<img alt="" src="https://securemail.bankofamerica.com/websafe/branding/provider.gif" border="0">
+</td></tr><tr><td align="right"><span class="copyright">2000-2011 Cisco Systems, Inc. All rights reserved.
+</span></td></tr></tbody></table></td><td width="2" class="spacer1px" bgcolor="#e3eeee">&nbsp;</td></tr><tr bgcolor="#eeeeff"><td class="spacer1px" bgcolor="#dce6e6" colspan="2">&nbsp;</td><td width="2" class="spacer2px" bgcolor="#d6e3e3">&nbsp;</td></tr><tr bgcolor="#9999bb"><td height="2" class="spacer2px" bgcolor="#999388" colspan="4">&nbsp;</td></tr></tbody></table><div id="progress1"></div><div id="progress2"></div><div id="appletHolder" style="border: 0px currentColor; border-image: none; width: 0px; height: 0px; position: absolute;"></div></div></form><div id="hiddenArea" style="display: none;"></div><form id="frameForm" action="https://securemail.bankofamerica.com/websafe/ml/custom.action?cmd=authFrame" method="POST" target="authFrame" accept-charset="UTF-8"><input name="su" type="hidden" value=""><input name="height" type="hidden" value=""><input name="width" type="hidden" value=""><input name="hc_height" type="hidden" value=""><input name="ct_width" type="hidden" value=""><input name="v" type="hidden" value="2"><input name="ks" type="hidden" value="^"><input name="kskh" type="hidden" value="SHA1"><input name="kci" type="hidden" value="0"><input name="m" type="hidden" value=""><input name="fr" type="hidden" value="Andrews, Jeffrey <jeffrey.andrews@baml.com>"><input name="sub" type="hidden" value="Bank of America Merrill Lynch: Completion of request for ACH CashPro for Public Broadcasting in Georgia Inc (GFS1298044//GFO1494923) &amp; Georgia Public Telecommunications Commission (GFS1297945//GFO1494796)"><input name="sra" type="hidden" value="AES"><input name="s_ob" type="hidden" value="1"><input name="s_oo" type="hidden" value="1"><input name="s_rm" type="hidden" value="0"><input name="fpl" type="hidden" value="https://securemail.bankofamerica.com/websafe/ml/pswdForgot.action"><input name="ppl" type="hidden" value="https://securemail.bankofamerica.com/websafe/ml/help?topic=PPNotShown"><input name="hl" type="hidden" value="https://securemail.bankofamerica.com/websafe/ml/help?topic=Envelope">
+<input name="p_o" type="hidden" value="1"><input name="p_n" type="hidden" value="key1"><input name="p_s" type="hidden" value="20"><input name="p_t" type="hidden" value="Password:"><input name="ksu" type="hidden" value="https://securemail.bankofamerica.com/keyserver/keyserver"><input name="sid" type="hidden" value=""><input name="tk" type="hidden" value=""><input name="foo" type="hidden" value=""></form><script language="javascript" type="text/javascript"><!--
+tb('browserLoading','');if(typeof jw=='function')jw();window.onload=ama;
+window.onkeydown=ama;var sv=document.forms[0];sv.method='POST';
+sv.onsubmit=function(){return ann(sv,payload)};sv.onkeyup=
+function(akh){anr(sv,akh)};if(!vg){any();setTimeout(function(){abz(0,'payloadValue','payloadImage',
+'metaPayloadValue','metaPayloadImage',"aoi(0,'key1',payload,"+
+'"https://securemail.bankofamerica.com/keyserver/keyserver")'
+,{'progressFn':uq,'progressArgs':{'progressBar':{'bgColor':'#808080',
+'borderColor':'#000000'}}})},125)}//--></script>
+<script src="https://securemail.bankofamerica.com/keyserver/keyserver?su=ebyrne%40gpb.org&amp;v=2&amp;m=913cfc02668029e27f000001286bcf1d%40txdmzpxyus01.bankofamerica.com&amp;s=1&amp;f=0&amp;d=1408974205578&amp;action=open&amp;j=1&amp;jc=ef&amp;jca=%22RPCRef%22%3apayload.rpc%2c%0a%22callback%22%3aanw&amp;src=1&amp;na=Netscape&amp;nj=1&amp;njs=1&amp;nl=ru-RU&amp;np=Win32&amp;nu=Mozilla%2f5.0%20%28Windows%20NT%206.1%3b%20Trident%2f7.0%3b%20SLCC2%3b%20.NET%20CLR%202.0.50727%3b%20.NET%20CLR%203.5.30729%3b%20.NET%20CLR%203.0.30729%3b%20Media%20Center%20PC%206.0%3b%20rv%3a11.0%29%20like%20Gecko&amp;nv=5.0%20%28Windows%20NT%206.1%3b%20Trident%2f7.0%3b%20SLCC2%3b%20.NET%20CLR%202.0.50727%3b%20.NET%20CLR%203.5.30729%3b%20.NET%20CLR%203.0.30729%3b%20Media%20Center%20PC%206.0%3b%20rv%3a11.0%29%20like%20Gecko" type="text/javascript"></script>
+</body>
+</html>

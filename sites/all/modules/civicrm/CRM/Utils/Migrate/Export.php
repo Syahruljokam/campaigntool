@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,12 +23,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -52,7 +52,9 @@ class CRM_Utils_Migrate_Export {
    */
   protected $_xml;
 
-  function __construct() {
+  /**
+   */
+  public function __construct() {
     $this->_xml = array(
       'customGroup' => array(
         'data' => array(),
@@ -72,7 +74,7 @@ class CRM_Utils_Migrate_Export {
         'mappedFields' => array(
           array('optionGroup', 'option_group_id', 'option_group_name'),
           array('customGroup', 'custom_group_id', 'custom_group_name'),
-        )
+        ),
       ),
       'optionGroup' => array(
         'data' => array(),
@@ -124,7 +126,7 @@ class CRM_Utils_Migrate_Export {
         'required' => FALSE,
         'idNameMap' => array(),
         'mappedFields' => array(
-          array('profileGroup', 'uf_group_id', 'profile_group_name')
+          array('profileGroup', 'uf_group_id', 'profile_group_name'),
         ),
       ),
       'profileJoin' => array(
@@ -134,7 +136,7 @@ class CRM_Utils_Migrate_Export {
         'required' => FALSE,
         'idNameMap' => array(),
         'mappedFields' => array(
-          array('profileGroup', 'uf_group_id', 'profile_group_name')
+          array('profileGroup', 'uf_group_id', 'profile_group_name'),
         ),
       ),
       'mappingGroup' => array(
@@ -146,7 +148,7 @@ class CRM_Utils_Migrate_Export {
         'idNameMap' => array(),
         'mappedFields' => array(
           array('optionValue', 'mapping_type_id', 'mapping_type_name', 'mapping_type'),
-        )
+        ),
       ),
       'mappingField' => array(
         'data' => array(),
@@ -168,7 +170,7 @@ class CRM_Utils_Migrate_Export {
    *
    * @return void
    */
-  function build() {
+  public function build() {
     // fetch the option group / values for
     // activity type and event_type
 
@@ -264,10 +266,11 @@ class CRM_Utils_Migrate_Export {
   }
 
   /**
-   * @param array $customGroupIds list of custom groups to export
+   * @param array $customGroupIds
+   *   List of custom groups to export.
    * @return void
    */
-  function buildCustomGroups($customGroupIds) {
+  public function buildCustomGroups($customGroupIds) {
     $customGroupIdsSql = implode(',', array_filter($customGroupIds, 'is_numeric'));
     if (empty($customGroupIdsSql)) {
       return;
@@ -317,11 +320,50 @@ class CRM_Utils_Migrate_Export {
   }
 
   /**
+   * @param array $ufGroupIds
+   *   List of custom groups to export.
+   * @return void
+   */
+  public function buildUFGroups($ufGroupIds) {
+    $ufGroupIdsSql = implode(',', array_filter($ufGroupIds, 'is_numeric'));
+    if (empty($ufGroupIdsSql)) {
+      return;
+    }
+
+    $sql = "
+      SELECT cg.*
+      FROM   civicrm_uf_group cg
+      WHERE  cg.id IN ($ufGroupIdsSql)
+
+    ";
+    $this->fetch('profileGroup', 'CRM_Core_DAO_UFGroup', $sql);
+
+    $sql = "
+      SELECT f.*
+      FROM   civicrm_uf_field f,
+             civicrm_uf_group cg
+      WHERE  f.uf_group_id = cg.id
+      AND    cg.id IN ($ufGroupIdsSql)
+    ";
+    $this->fetch('profileField', 'CRM_Core_DAO_UFField', $sql);
+
+    $sql = "
+      SELECT *
+      FROM   civicrm_uf_join
+      WHERE  entity_table IS NULL
+      AND    entity_id    IS NULL
+      AND    uf_group_id  IN ($ufGroupIdsSql)
+    ";
+    $this->fetch('profileJoin', 'CRM_Core_DAO_UFJoin', $sql);
+  }
+
+  /**
    * Render the in-memory representation as XML
    *
-   * @return string XML
+   * @return string
+   *   XML
    */
-  function toXML() {
+  public function toXML() {
     $buffer = '<?xml version="1.0" encoding="iso-8859-1" ?>';
     $buffer .= "\n\n<CustomData>\n";
     foreach (array_keys($this->_xml) as $key) {
@@ -345,17 +387,22 @@ class CRM_Utils_Migrate_Export {
    *
    * @return array
    */
-  function toArray() {
+  public function toArray() {
     $result = array();
     foreach (array_keys($this->_xml) as $key) {
       if (!empty($this->_xml[$key]['data'])) {
-        $result[ $this->_xml[$key]['name'] ] = array_values($this->_xml[$key]['data']);
+        $result[$this->_xml[$key]['name']] = array_values($this->_xml[$key]['data']);
       }
     }
     return $result;
   }
 
-  function fetch($groupName, $daoName, $sql = NULL) {
+  /**
+   * @param string $groupName
+   * @param string $daoName
+   * @param null $sql
+   */
+  public function fetch($groupName, $daoName, $sql = NULL) {
     $idNameFields = isset($this->_xml[$groupName]['idNameFields']) ? $this->_xml[$groupName]['idNameFields'] : NULL;
     $mappedFields = isset($this->_xml[$groupName]['mappedFields']) ? $this->_xml[$groupName]['mappedFields'] : NULL;
 
@@ -384,9 +431,12 @@ class CRM_Utils_Migrate_Export {
   /**
    * Compute any fields of the entity defined by the $mappedFields specification
    *
-   * @param array $mappedFields each item is an array(0 => MappedEntityname, 1 => InputFieldName (id-field), 2 => OutputFieldName (name-field), 3 => OptionalPrefix)
-   * @param CRM_Core_DAO $dao the entity for which we want to prepare mapped fields
-   * @return array new fields
+   * @param array $mappedFields
+   *   Each item is an array(0 => MappedEntityname, 1 => InputFieldName (id-field), 2 => OutputFieldName (name-field), 3 => OptionalPrefix).
+   * @param CRM_Core_DAO $dao
+   *   The entity for which we want to prepare mapped fields.
+   * @return array
+   *   new fields
    */
   public function computeMappedFields($mappedFields, $dao) {
     $keyValues = array();
@@ -407,12 +457,15 @@ class CRM_Utils_Migrate_Export {
   }
 
   /**
+   * @param string $objectName
+   *   Business-entity/xml-tag name.
    * @param CRM_Core_DAO $object
-   * @param string $objectName business-entity/xml-tag name
+   * @param $mappedFields
+   *
    * @return array
    */
-  function exportDAO($objectName, $object, $mappedFields) {
-    $dbFields = & $object->fields();
+  public function exportDAO($objectName, $object, $mappedFields) {
+    $dbFields = &$object->fields();
 
     // Filter the list of keys and values so that we only export interesting stuff
     $keyValues = array();
@@ -424,10 +477,15 @@ class CRM_Utils_Migrate_Export {
       if (isset($object->$name) && $object->$name !== NULL) {
         // hack for extends_entity_column_value
         if ($name == 'extends_entity_column_value') {
-          if ($object->extends == 'Event' ||
-            $object->extends == 'Activity' ||
-            $object->extends == 'Relationship'
-          ) {
+          if (in_array($object->extends, array(
+              'Event',
+              'Activity',
+              'Relationship',
+              'Individual',
+              'Organization',
+              'Household',
+              'Case',
+            ))) {
             if ($object->extends == 'Event') {
               $key = 'event_type';
             }
@@ -437,14 +495,32 @@ class CRM_Utils_Migrate_Export {
             elseif ($object->extends == 'Relationship') {
               $key = 'relationship_type';
             }
-            $keyValues['extends_entity_column_value_option_group'] = $key;
+            elseif ($object->extends == 'Case') {
+              $key = 'case_type';
+            }
             $types = explode(CRM_Core_DAO::VALUE_SEPARATOR, substr($object->$name, 1, -1));
             $values = array();
-            foreach ($types as $type) {
-              $values[] = $this->_xml['optionValue']['idNameMap']["$key.{$type}"];
+            if (in_array($object->extends, array('Individual', 'Organization', 'Household'))) {
+              $key = 'contact_type';
+              $values = $types;
             }
+            else {
+              foreach ($types as $type) {
+                if (in_array($key, array('activity_type', 'event_type', 'case_type'))) {
+                  $ogID = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_OptionGroup', $key, 'id', 'name');
+                  $ovParams = array('option_group_id' => $ogID, 'value' => $type);
+                  CRM_Core_BAO_OptionValue::retrieve($ovParams, $oValue);
+                  $values[] = $oValue['name'];
+                }
+                else {
+                  $relTypeName = CRM_Core_DAO::getFieldValue('CRM_Contact_BAO_RelationshipType', $type, 'name_a_b', 'id');
+                  $values[] = $relTypeName;
+                }
+              }
+            }
+            $keyValues['extends_entity_column_value_option_group'] = $key;
             $value = implode(',', $values);
-            $keyValues['extends_entity_column_value_option_value'] = $value;
+            $object->extends_entity_column_value = $value;
           }
           else {
             echo "This extension: {$object->extends} is not yet handled";
@@ -473,8 +549,9 @@ class CRM_Utils_Migrate_Export {
   /**
    * @param string $tagName
    * @param array $keyValues
-   * @param string $additional XML
-   * @return string XML
+   * @throws Exception
+   * @return string
+   *   XML
    */
   public function renderKeyValueXML($tagName, $keyValues) {
     $xml = "    <$tagName>";
@@ -486,16 +563,21 @@ class CRM_Utils_Migrate_Export {
   }
 
   /**
-   * @param string $name tag name
-   * @param string $value text
+   * @param string $name
+   *   Tag name.
+   * @param string $value
+   *   Text.
    * @param string $prefix
-   * @return string XML
+   *
+   * @throws Exception
+   * @return string
+   *   XML
    */
-  function renderTextTag($name, $value, $prefix = '') {
+  public function renderTextTag($name, $value, $prefix = '') {
     if (!preg_match('/^[a-zA-Z0-9\_]+$/', $name)) {
       throw new Exception("Malformed tag name: $name");
     }
     return $prefix . "<$name>" . htmlentities($value) . "</$name>";
   }
-}
 
+}

@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -22,12 +22,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -39,12 +39,11 @@
 class CRM_Pledge_Form_Task_SearchTaskHookSample extends CRM_Pledge_Form_Task {
 
   /**
-   * build all the data structures needed to build the form
+   * Build all the data structures needed to build the form.
    *
    * @return void
-   * @access public
    */
-  function preProcess() {
+  public function preProcess() {
     parent::preProcess();
     $rows = array();
     // display name and pledge details of all selected contacts
@@ -55,7 +54,7 @@ class CRM_Pledge_Form_Task_SearchTaskHookSample extends CRM_Pledge_Form_Task {
            plg.create_date as create_date,
            ct.display_name as display_name
       FROM civicrm_pledge plg
-INNER JOIN civicrm_contact ct ON ( plg.contact_id = ct.id )       
+INNER JOIN civicrm_contact ct ON ( plg.contact_id = ct.id )
      WHERE plg.id IN ( $pledgeIDs )";
 
     $dao = CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
@@ -70,10 +69,9 @@ INNER JOIN civicrm_contact ct ON ( plg.contact_id = ct.id )
   }
 
   /**
-   * Function to actually build the form
+   * Build the form object.
    *
-   * @return None
-   * @access public
+   * @return void
    */
   public function buildQuickForm() {
     $this->addButtons(array(
@@ -85,5 +83,5 @@ INNER JOIN civicrm_contact ct ON ( plg.contact_id = ct.id )
       )
     );
   }
-}
 
+}

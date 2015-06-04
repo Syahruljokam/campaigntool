@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,14 +28,18 @@
         <div class="messages help">{$priceSet.help_pre}</div>
     {/if}
 
+    {assign var='adminFld' value=false}
+    {if call_user_func(array('CRM_Core_Permission','check'), 'administer CiviCRM') }
+      {assign var='adminFld' value=true}
+    {/if}
+
     {foreach from=$priceSet.fields item=element key=field_id}
-        {* Skip 'Admin' visibility price fields since this tpl is used in online registration. *}
-        {if $element.visibility EQ 'public' || $context eq 'standalone' || $context eq 'search' || $context eq 'participant' || $context eq 'dashboard' || $action eq 1024}
+        {* Skip 'Admin' visibility price fields WHEN this tpl is used in online registration unless user has administer CiviCRM permission. *}
+        {if $element.visibility EQ 'public' || ($element.visibility EQ 'admin' && $adminFld EQ true) || $context eq 'standalone' || $context eq 'advanced' || $context eq 'search' || $context eq 'participant' || $context eq 'dashboard' || $action eq 1024}
             <div class="crm-section {$element.name}-section">
             {if ($element.html_type eq 'CheckBox' || $element.html_type == 'Radio') && $element.options_per_line}
               {assign var="element_name" value="price_"|cat:$field_id}
-                {* quickConfig price sets - use fee_label from event record *}
-                <div class="label">{if $quickConfig && $extends NEQ 'Membership'}{$event.fee_label} <span class="crm-marker" title="This field is required.">*</span>{else}{$form.$element_name.label}{/if}</div>
+          <div class="label">{$form.$element_name.label}</div>
                 <div class="content {$element.name}-content">
                 {assign var="rowCount" value="1"}
                 {assign var="count" value="1"}
@@ -56,25 +60,60 @@
                     <div class="description">{$element.help_post}</div>
                 {/if}
                 </div>
-                <div class="clear"></div>
 
+                {if !empty($extends) && $extends eq "Membership"}
+                  <div id="allow_auto_renew">
+                    <div class='crm-section auto-renew'>
+                      <div class='label'></div>
+                      <div class ='content'>
+                        {if isset($form.auto_renew) }
+                          {$form.auto_renew.html}&nbsp;{$form.auto_renew.label}
+                        {/if}
+                      </div>
+                    </div>
+                  </div>
+                {/if}
+                <div class="clear"></div>
             {else}
 
                 {assign var="element_name" value="price_"|cat:$field_id}
 
                 <div class="label">{$form.$element_name.label}</div>
                 <div class="content {$element.name}-content">{$form.$element_name.html}
-                  {if $element.is_display_amounts && $element.html_type eq 'Text'}
-                    <span class="price-field-amount">
-                      x {foreach item=option from=$element.options}{$option.amount|crmMoney}{/foreach}
+                  {if $element.html_type eq 'Text'}
+                    {if $element.is_display_amounts}
+                    <span class="price-field-amount{if $form.$element_name.frozen EQ 1} sold-out-option{/if}">
+                    {foreach item=option from=$element.options}
+                      {if ($option.tax_amount || $option.tax_amount == "0") && $displayOpt && $invoicing}
+                        {assign var="amount" value=`$option.amount+$option.tax_amount`}
+                        {if $displayOpt == 'Do_not_show'}
+                          {$amount|crmMoney}
+                        {elseif $displayOpt == 'Inclusive'}
+                          {$amount|crmMoney}
+                          <span class='crm-price-amount-label'> (includes {$taxTerm} of {$option.tax_amount|crmMoney})</span>
+                        {else}
+                          {$option.amount|crmMoney}
+                          <span class='crm-price-amount-label'> + {$option.tax_amount|crmMoney} {$taxTerm}</span>
+                        {/if}
+                      {else}
+                        {$option.amount|crmMoney} {$fieldHandle} {$form.$fieldHandle.frozen}
+                      {/if}
+                      {if $form.$element_name.frozen EQ 1} ({ts}Sold out{/ts}){/if}
+                    {/foreach}
                     </span>
+                    {else}
+                      {* Not showing amount, but still need to conditionally show Sold out marker *}
+                      {if $form.$element_name.frozen EQ 1}
+                        <span class="sold-out-option">({ts}Sold out{/ts})<span>
+                      {/if}
+                    {/if}
                   {/if}
-                      {if $element.help_post}<br /><span class="description">{$element.help_post}</span>{/if}
+                  {if $element.help_post}<br /><span class="description">{$element.help_post}</span>{/if}
                 </div>
                 <div class="clear"></div>
 
             {/if}
-            </div>
+          </div>
         {/if}
     {/foreach}
 
@@ -83,8 +122,7 @@
     {/if}
 
 {* Include the total calculation widget if this is NOT a quickconfig event/contribution page. *}
-{if !$quickConfig}
+{if !$quickConfig and !$dontInclCal}
     {include file="CRM/Price/Form/Calculate.tpl"}
 {/if}
-
 </div>

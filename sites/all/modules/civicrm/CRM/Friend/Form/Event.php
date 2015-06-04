@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,12 +23,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -40,22 +40,21 @@
 class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent {
 
   /**
-   * tell a friend id in db
+   * Tell a friend id in db.
    *
    * @var int
    */
-  private $_friendId;
+  public $_friendId;
 
   public function preProcess() {
     parent::preProcess();
   }
 
   /**
-   * This function sets the default values for the form.
+   * Set default values for the form.
    *
-   * @access public
    *
-   * @return None
+   * @return void
    */
   public function setDefaultValues() {
     $defaults = array();
@@ -64,7 +63,7 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent {
       $defaults['entity_table'] = 'civicrm_event';
       $defaults['entity_id'] = $this->_id;
       CRM_Friend_BAO_Friend::getValues($defaults);
-      if (CRM_Utils_Array::value('id', $defaults)) {
+      if (!empty($defaults['id'])) {
         $defaults['tf_id'] = CRM_Utils_Array::value('id', $defaults);
         $this->_friendId = $defaults['tf_id'];
         // lets unset the 'id' since it conflicts with eventID (or contribID)
@@ -89,22 +88,27 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent {
   }
 
   /**
-   * Function to build the form
+   * Build the form object.
    *
-   * @return None
-   * @access public
+   * @return void
    */
   public function buildQuickForm() {
+    if (isset($this->_id)) {
+      $defaults['entity_table'] = 'civicrm_event';
+      $defaults['entity_id'] = $this->_id;
+      CRM_Friend_BAO_Friend::getValues($defaults);
+      $this->_friendId = CRM_Utils_Array::value('id', $defaults);
+    }
+
     CRM_Friend_BAO_Friend::buildFriendForm($this);
     parent::buildQuickForm();
   }
 
   /**
-   * Function to process the form
+   * Process the form submission.
    *
-   * @access public
    *
-   * @return None
+   * @return void
    */
   public function postProcess() {
     // get the submitted form values.
@@ -126,6 +130,9 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent {
 
     CRM_Friend_BAO_Friend::addTellAFriend($formValues);
 
+    // Update tab "disabled" css class
+    $this->ajaxResponse['tabValid'] = !empty($formValues['tf_is_active']);
+
     parent::endPostProcess();
   }
 
@@ -133,10 +140,9 @@ class CRM_Friend_Form_Event extends CRM_Event_Form_ManageEvent {
    * Return a descriptive name for the page, used in wizard header
    *
    * @return string
-   * @access public
    */
   public function getTitle() {
     return ts('Tell a Friend');
   }
-}
 
+}

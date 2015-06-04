@@ -104,14 +104,14 @@ function xml_menu_tree($level = 1, $menuId, $menu = array()) {
 			//drupal_set_message(print_r($item,true));
 			
 	    	if(isset($item['options']['query']) && $item['options']['query']){
-				$linkURL =  $linkURL . "?" . htmlentities($item['options']['query']);
+				$linkURL =  $linkURL . "?" . htmlentities(http_build_query($item['options']['query']));
 			}
 			
 			if(isset($item['options']['fragment']) && $item['options']['fragment']){
 				$linkURL =  $linkURL . "#" . htmlentities($item['options']['fragment']);
 			}
 			
-	    	
+			
 			
 		    if($linkURL == "<front>"){
 		    	$linkURL = base_path();
@@ -226,6 +226,16 @@ function json_menu_tree($level = 1,$menuId, $menu = array()) {
 		    		    
 			$linkURL = drupal_get_path_alias($item['link_path']);
 		
+			
+			if(isset($item['options']['query']) && $item['options']['query']){
+				$linkURL =  $linkURL . "?" . htmlentities(http_build_query($item['options']['query']));
+			}
+				
+			if(isset($item['options']['fragment']) && $item['options']['fragment']){
+				$linkURL =  $linkURL . "#" . htmlentities($item['options']['fragment']);
+			}
+			
+			
 		    if($linkURL == "<front>"){
 		    	$linkURL = base_path();
 		    }else if(substr($linkURL,0,4) == "http" || substr($linkURL,0,1) == "/" || substr($linkURL,0,1) == "#"){

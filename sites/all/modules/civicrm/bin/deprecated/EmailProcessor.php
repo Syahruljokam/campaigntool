@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,18 +23,18 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
 
 /**
- *When runing script from cli :
+ * When runing script from cli :
  * 1. By default script is being used for civimail processing.
  * eg : nice -19 php bin/EmailProcessor.php -u<login> -p<password> -s<sites(or default)>
  *
@@ -46,7 +46,7 @@
 // bootstrap the environment and run the processor
 // you can run this program either from an apache command, or from the cli
 if (php_sapi_name() == "cli") {
-  require_once ("bin/cli.php");
+  require_once "bin/cli.php";
   $cli = new civicrm_cli();
   //if it doesn't die, it's authenticated
   //log the execution of script
@@ -103,9 +103,8 @@ else {
 
   // check if the script is being used for civimail processing or email to
   // activity processing.
-  $isCiviMail = CRM_Utils_Array::value('emailtoactivity', $_REQUEST) ? FALSE : TRUE;
+  $isCiviMail = !empty($_REQUEST['emailtoactivity']) ? FALSE : TRUE;
   CRM_Utils_Mail_EmailProcessor::process($isCiviMail);
 
   $lock->release();
 }
-

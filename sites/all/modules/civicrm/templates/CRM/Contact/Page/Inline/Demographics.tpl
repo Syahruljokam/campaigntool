@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,7 +23,7 @@
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 *}
-<div id="crm-demographic-content" {if $permission EQ 'edit'} class="crm-inline-edit" data-edit-params='{ldelim}"cid": "{$contactId}", "class_name": "CRM_Contact_Form_Inline_Demographics"{rdelim}'{/if}>
+<div id="crm-demographic-content" {if $permission EQ 'edit'} class="crm-inline-edit" data-dependent-fields='["#crm-contactname-content"]' data-edit-params='{ldelim}"cid": "{$contactId}", "class_name": "CRM_Contact_Form_Inline_Demographics"{rdelim}'{/if}>
   <div class="crm-clear crm-inline-block-content" {if $permission EQ 'edit'}title="{ts}Edit demographics{/ts}"{/if}>
     {if $permission EQ 'edit'}
     <div class="crm-edit-help">
@@ -35,7 +35,7 @@
       <div class="crm-content crm-contact-gender_display">{$gender_display}</div>
     </div>
     <div class="crm-summary-row">
-      <div class="crm-label">{ts}Date of birth{/ts}</div>
+      <div class="crm-label">{ts}Date of Birth{/ts}</div>
       <div class="crm-content crm-contact-birth_date_display">
           {if $birthDateViewFormat}
             {$birth_date_display|crmDate:$birthDateViewFormat}

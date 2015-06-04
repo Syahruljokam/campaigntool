@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,13 +28,13 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
 
 /**
- * Page to disply contact information on topi of summary 
+ * Page to disply contact information on topi of summary
  *
  */
 class CRM_Contact_Page_Inline_ContactInfo extends CRM_Core_Page {
@@ -45,22 +45,19 @@ class CRM_Contact_Page_Inline_ContactInfo extends CRM_Core_Page {
    * This method is called after the page is created.
    *
    * @return void
-   * @access public
-   *
    */
-  function run() {
+  public function run() {
     // get the emails for this contact
     $contactId = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullObject, TRUE, NULL, $_REQUEST);
 
     $params = array('id' => $contactId);
 
     $defaults = array();
-    CRM_Contact_BAO_Contact::getValues( $params, $defaults );
+    CRM_Contact_BAO_Contact::getValues($params, $defaults);
 
     //get the current employer name
     if (CRM_Utils_Array::value('contact_type', $defaults) == 'Individual') {
-      if (CRM_Utils_Array::value('employer_id', $defaults) &&
-        CRM_Utils_Array::value('organization_name', $defaults)) {
+      if (!empty($defaults['employer_id']) && !empty($defaults['organization_name'])) {
         $defaults['current_employer'] = $defaults['organization_name'];
         $defaults['current_employer_id'] = $defaults['employer_id'];
       }
@@ -71,9 +68,9 @@ class CRM_Contact_Page_Inline_ContactInfo extends CRM_Core_Page {
 
     // check logged in user permission
     CRM_Contact_Page_View::checkUserPermission($this, $contactId);
- 
-    // finally call parent 
+
+    // finally call parent
     parent::run();
   }
-}
 
+}

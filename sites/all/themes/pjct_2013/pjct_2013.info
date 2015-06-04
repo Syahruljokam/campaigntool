@@ -21,6 +21,7 @@ regions[search_form] = Search Form
 regions[take_action] = Take Action
 regions[social_media] = Social Media
 regions[content_lower] = Content Lower
+regions[content_upper] = Content Upper
 
 regions[home_left] = Home Left
 regions[home_middle] = Home Middle

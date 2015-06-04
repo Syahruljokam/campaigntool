@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
   <div class="icon inform-icon"></div>
         &nbsp;{ts}Are you sure you want to delete the selected cases? This will move the case(s) and all associated activities to the Trash.{/ts}<br/>
         <p>{include file="CRM/Case/Form/Task.tpl"}</p>
-    
+
 </div>
 
 <div class="crm-submit-buttons">

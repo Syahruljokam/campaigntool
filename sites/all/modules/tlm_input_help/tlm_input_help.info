@@ -1,0 +1,9 @@
+name = "Input Help"
+description = "Provides some basic help via the input format help box under the body field."
+package = "TLM"
+core = 7.x
+
+version = "1.0"
+
+
+;1.0 - Initial Release

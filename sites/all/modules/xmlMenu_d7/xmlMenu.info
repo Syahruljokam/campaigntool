@@ -3,7 +3,7 @@ description = "Generates a _menu.xml/json from the primary menu structure."
 package = "TLM"
 core = 7.x
 
-version = "7.x-1.21"
+version = "7.x-1.22"
 
 ;project = "xmlMenu_d7"
 ;project status url = "http://tlm-modules.twistedlime.ca/release_history"
@@ -31,3 +31,4 @@ version = "7.x-1.21"
 ;1.20 - Added ability to pull a given menu id in the xml and override the menu id put out for it.
 
 ;7.x-1.21 - branch to create d7 module.
+;7.x-1.22 - fixed issue with query string

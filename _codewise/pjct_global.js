@@ -5,20 +5,13 @@
 Codewise Presentation Manager - Global Script File, 
 	Peter Julian, Campaign Tool
 
-Copyright (c) 2004-2013 Codewise Systems Inc. & Twisted Lime Media Inc. 
+Copyright (c) 2004-2014 Twisted Lime Media Inc. (nee Codewise Systems Inc.) 
 All rights reserved.
 
 Created: 2013-08-16
 
 Revision History:
-  0.01	- Initial version. TB, 2013-08-16, ??:??
-
-To Do List:
-	- add blank page stuff from EITR project
-
-	- log into the common JIRA system and make sure we can use it
-
-	- integrate simulated CiviCRM content for test pages
+  0.01	- Initial version. TB, 2013-08-16
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -31,10 +24,10 @@ languagePreference = 'en';
 
 siteTitle = 'Peter Julian, Campaign Tool';
 skinPreference = 'pjct';
-sSPEJSV = '0-13';
+sSPEJSV = '0-21';
 sSIPSJSV = 'n\/a';
-sSLCSSV = '0-12';
-sSMCSSV = '0-03'; // You MUST update the equivalent of this in the "pjct_mobile.css" file too!
+sSLCSSV = '0-17';
+sSMCSSV = '0-04'; // You MUST update the equivalent of this in the "pjct_mobile.css" file too!
 sSPCSSV = '0-01';
 fJSV = 'n\/a';
 
@@ -43,12 +36,8 @@ dFN = 'index.html';
 
 QuickTimeDetection = 0;
 
-masterCookieDomain = '.ndp.ca';
-liveServerName = 'http:\/\/peterjulian.ndp.ca';
-	// masterCookieDomain = 'http:\/\/204.244.185.88';
-	// liveServerName = 'http:\/\/204.244.185.88';
-	masterCookieDomain = '.campaigntool.ca';
-	liveServerName = 'http:\/\/campaigntool.ca';
+masterCookieDomain = '.peterjulian.ca';
+liveServerName = 'http:\/\/peterjulian.ca';
 webServerName = liveServerName;
 
 
@@ -59,11 +48,11 @@ var documentFontSizesIndex = 1;
 var documentFontSizes = new Array;
 	documentFontSizes = ['smallFontSize', 'mediumFontSize', 'largeFontSize', 'extraLargeFontSize'];
 
-var logoCarouselAutomatic = 0;
+var logoCarouselAutomatic = 1;
 var logoCarouselAnimationPaused = 0;
 var logoCarouselIndex = 0;
 var logoCarouselLength = 0;
-var logoCarouselLengthOffset = 5;
+var logoCarouselLengthOffset = 3;
 var logoCarouselCounter = 0;
 var logoCarouselInterval = 3000;
 var logoCarouselTimeout = null;
@@ -159,8 +148,8 @@ var ui_searchFieldWarningText_en = 'Enter your keywords here';
 var ui_searchFieldWarningText_fr = 'entrez vos mots-cl\u00E9s ici';
 	var ui_searchFieldWarningText = ui_searchFieldWarningText_en;
 
-var ui_takeAction_en = 'Take Action';
-var ui_takeAction_fr = 'agissez maintenant';
+var ui_takeAction_en = 'Take Action'; // NG. FYI These values are not used in the skin.
+var ui_takeAction_fr = 'agissez maintenant'; // NG. FYI These values are not used in the skin.
 	var ui_takeAction = ui_takeAction_en;
 
 var ui_takeActionFormNameFieldWarningText_en = 'Enter your full name';

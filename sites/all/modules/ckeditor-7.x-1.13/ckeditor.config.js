@@ -11,8 +11,7 @@ CKEDITOR.editorConfig = function(config) {
   config.indentClasses = [ 'rteindent1', 'rteindent2', 'rteindent3', 'rteindent4' ];
 
   // [ Left, Center, Right, Justified ]
-  //config.justifyClasses = [ 'rteleft', 'rtecenter', 'rteright', 'rtejustify' ];
-  config.justifyClasses = [ 'leftAligned rteleft', 'rtecenter', 'rightAligned rteright', 'rtejustify' ];
+  config.justifyClasses = [ 'rteleft', 'rtecenter', 'rteright', 'rtejustify' ];
 
   // The minimum editor width, in pixels, when resizing it with the resize handle.
   config.resize_minWidth = 450;
@@ -24,7 +23,9 @@ CKEDITOR.editorConfig = function(config) {
   // side
   // (as does Drupal), so just leave this line as is.
   config.protectedSource.push(/<\?[\s\S]*?\?>/g); // PHP Code
-  config.protectedSource.push(/<code>[\s\S]*?<\/code>/gi); // Code tags
+
+  // [#1762328] Uncomment the line below to protect <code> tags in CKEditor (hide them in wysiwyg mode).
+  // config.protectedSource.push(/<code>[\s\S]*?<\/code>/gi);
   config.extraPlugins = '';
 
   /*
@@ -58,10 +59,7 @@ CKEDITOR.editorConfig = function(config) {
     config.bodyClass = 'singlepage';
     config.bodyId = 'primary';
   }
-  
 }
-
-
 
 /*
  * Sample toolbars
@@ -74,28 +72,27 @@ Drupal.settings.cke_toolbar_DrupalBasic = [ [ 'Format', 'Bold', 'Italic', '-', '
 Drupal.settings.cke_toolbar_DrupalAdvanced = [
   ['Source'],
   ['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker', 'Scayt'],
-  ['Undo','Redo','Find','Replace','-','SelectAll','RemoveFormat'],
+  ['Undo','Redo','Find','Replace','-','SelectAll'],
   ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar'],
   ['Maximize', 'ShowBlocks'],
   '/',
   ['Format'],
-  ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+  ['Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','RemoveFormat'],
   ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
-  ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiRtl','BidiLtr'],
-  ['Link','Unlink','Anchor','Linkit','LinkToNode','LinkToMenu'],
-  ['DrupalBreak', 'DrupalPageBreak']
+  ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl'],
+  ['Link','Unlink','Anchor','Linkit','LinkToNode','LinkToMenu']
 ];
 
-// Toolbar definiton for all buttons
+// Toolbar definition for all buttons
 Drupal.settings.cke_toolbar_DrupalFull = [
   ['Source'],
   ['Cut','Copy','Paste','PasteText','PasteFromWord','-','SpellChecker', 'Scayt'],
-  ['Undo','Redo','Find','Replace','-','SelectAll','RemoveFormat'],
+  ['Undo','Redo','Find','Replace','-','SelectAll'],
   ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','Iframe'],
   '/',
-  ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
+  ['Bold','Italic','Underline','Strike','-','Subscript','Superscript','-','RemoveFormat'],
   ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
-  ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiRtl','BidiLtr'],
+  ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl','-','Language'],
   ['Link','Unlink','Anchor','Linkit','LinkToNode', 'LinkToMenu'],
   '/',
   ['Format','Font','FontSize'],

@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,14 +23,16 @@
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 *}
+{if $noCalcValueDisplay neq 'false'}
 <div id="pricesetTotal" class="crm-section section-pricesetTotal">
   <div class="label" id="pricelabel"><label>
-         {if ( $extends eq 'Contribution' ) || ( $extends eq 'Membership' )}
-           {ts}Total Amount{/ts}{else}{ts}Total Fee(s){/ts}
-         {/if}</label></div>
+    {if ( $extends eq 'Contribution' ) || ( $extends eq 'Membership' )}
+      {ts}Total Amount{/ts}{else}{ts}Total Fee(s){/ts}
+       {if $isAdditionalParticipants} {ts}for this participant{/ts}{/if}
+    {/if}</label></div>
   <div class="content calc-value" id="pricevalue" ></div>
 </div>
-
+{/if}
 <script type="text/javascript">
 {literal}
 
@@ -57,7 +59,7 @@ cj("input,#priceset select,#priceset").each(function () {
     optionPart = option[1].split(optionSep);
     addprice   = parseFloat( optionPart[0] );
 
-    if( cj(this).attr('checked') ) {
+    if( cj(this).prop('checked') ) {
       totalfee   += addprice;
       price[ele] += addprice;
     }
@@ -65,7 +67,7 @@ cj("input,#priceset select,#priceset").each(function () {
     //event driven calculation of element.
     cj(this).click( function(){
 
-      if ( cj(this).attr('checked') )  {
+      if ( cj(this).prop('checked') )  {
   totalfee   += addprice;
   price[ele] += addprice;
       } else {
@@ -88,7 +90,7 @@ cj("input,#priceset select,#priceset").each(function () {
       price[ele] = 0;
     }
 
-    if( cj(this).attr('checked') ) {
+    if( cj(this).prop('checked') ) {
       totalfee   = parseFloat(totalfee) + addprice - parseFloat(price[ele]);
       price[ele] = addprice;
     }
@@ -106,28 +108,14 @@ cj("input,#priceset select,#priceset").each(function () {
   case 'text':
 
     //default calcution of element.
-    var textval = parseFloat( cj(this).val() );
-    if ( textval ) {
-      eval( 'var option = '+ cj(this).attr('price') );
-      ele         = option[0];
-      if ( ! price[ele] ) {
-       price[ele] = 0;
-      }
-      optionPart = option[1].split(optionSep);
-      addprice   = parseFloat( optionPart[0] );
-      var curval  = textval * addprice;
-      if ( textval >= 0 ) {
-    totalfee   = parseFloat(totalfee) + curval - parseFloat(price[ele]);
-    price[ele] = curval;
-      }
-    }
+    calculateText( this );
 
     //event driven calculation of element.
     cj(this).bind( 'keyup', function() { calculateText( this );
     }).bind( 'blur' , function() { calculateText( this );
     });
-    display( totalfee );
-    break;
+
+   break;
 
   case 'select-one':
 
@@ -179,37 +167,50 @@ cj("input,#priceset select,#priceset").each(function () {
 
 //calculation for text box.
 function calculateText( object ) {
-  eval( 'var option = ' + cj(object).attr('price') );
-  ele = option[0];
-  if ( ! price[ele] ) {
-    price[ele] = 0;
-  }
-  var optionPart = option[1].split(optionSep);
-  addprice    = parseFloat( optionPart[0] );
-  var textval = parseFloat( cj(object).attr('value') );
-  var curval  = textval * addprice;
-    if ( textval >= 0 ) {
-  totalfee   = parseFloat(totalfee) + curval - parseFloat(price[ele]);
-  price[ele] = curval;
-    } else {
-  totalfee   = parseFloat(totalfee) - parseFloat(price[ele]);
-  price[ele] = parseFloat('0');
-    }
-  display( totalfee );
-}
+  //CRM-16034 - comma acts as decimal in price set text pricing
+  var textval = parseFloat( cj(object).val().replace(thousandMarker, '') );
 
+   eval( 'var option = '+ cj(object).attr('price') );
+   ele         = option[0];
+   if ( ! price[ele] ) {
+       price[ele] = 0;
+   }
+   optionPart = option[1].split(optionSep);
+   addprice   = parseFloat( optionPart[0] );
+   var curval  = textval * addprice;
+   if ( textval >= 0 ) {
+       totalfee   = parseFloat(totalfee) + curval - parseFloat(price[ele]);
+       price[ele] = curval;
+   }
+   else {
+       totalfee   = parseFloat(totalfee) - parseFloat(price[ele]);
+       price[ele] = parseFloat('0');
+   }
+   display( totalfee );
+}
+{/literal}
+{if $displayOveride neq 'true'}
+{literal}
 //display calculated amount
 function display( totalfee ) {
+    // totalfee is monetary, round it to 2 decimal points so it can
+    // go as a float - CRM-13491
+    totalfee = Math.round(totalfee*100)/100;
     var totalEventFee  = formatMoney( totalfee, 2, seperator, thousandMarker);
     document.getElementById('pricevalue').innerHTML = "<b>"+symbol+"</b> "+totalEventFee;
     scriptfee   = totalfee;
     scriptarray = price;
     cj('#total_amount').val( totalfee );
+    cj('#pricevalue').data('raw-total', totalfee).trigger('change');
 
     ( totalfee < 0 ) ? cj('table#pricelabel').addClass('disabled') : cj('table#pricelabel').removeClass('disabled');
-
+    if (typeof skipPaymentMethod == 'function') {
+      skipPaymentMethod();
+    }
 }
-
+{/literal}
+{/if}
+{literal}
 //money formatting/localization
 function formatMoney (amount, c, d, t) {
 var n = amount,

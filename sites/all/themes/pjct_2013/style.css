@@ -1,10 +1,296 @@
-.view-events .view-content .views-row .views-field-body .field-content, 
-.view-news .view-content .views-row .views-field-body .field-content { 
-	margin-bottom: 30px;
-	margin-top: 4px;
+/*show the h1 in the forms, and hide the "fake" one.*/
+/*
+body.page-civicrm div.crm-section.title{
+	display: none;	
+}
+body.page-civicrm h1.title{
+	display: block;
+}*/
+
+/*take action drop down on homepage. make the subheading not run with the body.*/
+div#takeActionLeftColumn span#event-summ-start{
+	display: block;
+}
+
+/* civicrm public forms*/
+body.page-civicrm div#intro{
+	display: none;	/*hide the "intro" duplicate*/
 }
 
 
+/*write-to-peter form*/
+form#webform-client-form-309 div.webform-component-textfield > label,  
+form#webform-client-form-309 div.webform-component-select > label,
+form#webform-client-form-309 div.webform-component-email > label,
+form#webform-client-form-309 div.webform-component-number > label,
+form#webform-client-form-309 div.webform-component-date > label,
+form#webform-client-form-309 div.webform-component-webform_time > label
+{
+	width: 120px;
+	display: inline-block;
+}
+
+
+/*request-pins-or-flag form*/
+form#webform-client-form-298 div.webform-component-textfield > label,  
+form#webform-client-form-298 div.webform-component-select > label,
+form#webform-client-form-298 div.webform-component-email > label,
+form#webform-client-form-298 div.webform-component-number > label,
+form#webform-client-form-298 div.webform-component-date > label,
+form#webform-client-form-298 div.webform-component-webform_time > label
+{
+	width: 190px;
+	display: inline-block;
+}
+/* hide the contact 1 fieldset because its empty*/
+form#webform-client-form-298 #webform-component-civicrm-1-contact-1-fieldset-fieldset{
+	display: none;
+}
+
+
+
+h1#page-title.showImportant {	/* for civicrm/petition/sign?sid=4&reset=1 to show the title */
+	display: block !important;
+}
+
+/* un-used right now, modifytpl.tpl remove the JS code to assign this class
+span.crm-button_qf_Signature_next.pushItRightAbit {
+	margin-left: 44px !important;
+}
+*/
+
+
+
+
+/*Styling of the take action form full pages */
+form#Signature  div.crm-petition-form-block{
+	width: 650px;
+	float: left;
+}
+
+form#Signature div.crm-petition-form-block div.content {
+	margin-left: 10px;
+}
+
+
+div.crm-petition-form-block  div.label{
+	width: 100% !important;
+	text-align: left !important;
+}
+div.crm-petition-form-block  div.content{
+	clear: both;
+	margin-left: 0px;
+}
+
+div.crm-petition-form-block div.crm-section div.-section{
+	margin-bottom: 20px !important;
+}
+
+/*
+div.crm-petition-form-block   .page-civicrm-profile-create #crm-profile-block, 
+div.crm-petition-form-block   .page-civicrm-petition-sign ,
+div.crm-petition-form-block   .page-civicrm-event-register .crm-profile,
+div.crm-petition-form-block   .crm-petition-contact-profile {
+	width: auto;
+}*/
+
+
+
+
+
+
+/* wizarded forms steps*/
+div.wizardFormStepsContainer {
+	margin-top: 10px;
+}
+
+div.wizardFormStepsContainer #steps {
+    list-style: none outside none;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100%;
+}
+div.wizardFormStepsContainer #steps li {
+    border-left: 1px solid #BBBBBB;
+    color: #B0B1B3;
+	float: left;
+    font-size: 24px;
+    padding: 10px;
+    width: 20%;
+}
+div.wizardFormStepsContainer #steps li span {
+    display: block;
+    font-size: 11px;
+    line-height: 12px;
+}
+div.wizardFormStepsContainer #steps li.current {
+    color: #000000;
+}
+form.wizardedForm legend{
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    padding: 10px 0;
+}
+
+form.webform-client-form fieldset {
+	/*border: medium none !important;*/
+	padding-left: 20px;
+}
+
+form.webform-client-form fieldset label{
+	font-weight: normal;
+}
+
+fieldset span.fieldset-legend{
+	font-weight: bold;	
+}
+
+.fieldset-wrapper+p {
+	text-align: center;
+}
+
+#edit-actions {
+	text-align: center;
+}
+
+#webform-component-civicrm-2-contact-1-fieldset-fieldset--civicrm-3-contact-1-fieldset-fieldset {
+	visibility: hidden;
+}
+
+/* request greeetings webform*/
+form#webform-client-form-288 div.webform-component-textfield > label, 
+form#webform-client-form-288 div.webform-component-number > label,
+form#webform-client-form-288 div.webform-component-date > label,
+form#webform-client-form-288 div.webform-component-select > label,
+form#webform-client-form-288 div.webform-component-email > label,
+form#webform-client-form-288 div.webform-component-webform_time > label
+	{
+	display: inline-block;
+	width: 150px;
+}
+
+form#webform-client-form-288 div.webform-datepicker,
+form#webform-client-form-288 div.webform-container-inline{
+	display: inline-block;	
+}
+
+
+.view-events .view-content .views-row .views-field-body .field-content, 
+.view-news .view-content .views-row .views-field-body .field-content { 
+	margin-bottom: 10px;
+	margin-top: 4px;
+}
+
+.views-row-last {
+	margin-bottom: 20px;
+}
+
 div.followHomeTwitter1 {
 	margin-top: 10px;
+}
+
+.addtoany_list+.clearfix {
+	display: inline-block !important;
+}
+
+.views-row-even {
+	background: none repeat scroll 0 0 #EFEFEF;
+}
+
+ /* Pager */
+ 
+ .item-list, .item-list .pager, .item-list .pager li, .pager-current {
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    font-size: 10px;
+    line-height: inherit;
+    margin: 0;
+    outline: medium none;
+    padding: 0;
+    vertical-align: baseline;
+}
+div.item-list ul.pager {
+	background-color: #fff;
+		background: -webkit-gradient(linear, 0 0, 0 bottom, from(#FFFFFF), to(#F4F4F4));
+		background: -webkit-linear-gradient(#FFFFFF, #F4F4F4);
+		background: -moz-linear-gradient(#FFFFFF, #F4F4F4);
+		background: -ms-linear-gradient(#FFFFFF, #F4F4F4);
+		background: -o-linear-gradient(#FFFFFF, #F4F4F4);
+		background: linear-gradient(#FFFFFF, #F4F4F4);
+    border-color: #C7CED1 #C7CED1 #B8B8B8;
+	box-shadow: 0px 0px 2px #999999;
+		-moz-box-shadow: 0px 0px 2px #999999;
+		-webkit-box-shadow: 0px 0px 2px #999999;
+    clear: left !important;
+    height: 23px;
+    list-style: none outside none;
+    margin: 41px 4px;
+    overflow: visible;
+    padding: 6px 6px 4px;
+    position: relative;
+}
+ul.pager li, ul.pager li a {
+    float: left;
+}
+ul.pager li.pager-ellipsis, ul.pager li.pager-current, ul.pager li a {
+    color: #666666;
+    font-weight: normal;
+    padding: 3px 10px 4px;
+}
+ul.pager li {
+    border-right: 1px solid #CCCCCC;
+}
+ul.pager li.pager-current {
+    background: none repeat scroll 0 0 #FFFFFF;
+}
+ul.pager li.pager-first a, ul.pager li.pager-previous a, ul.pager li.pager-next a, ul.pager li.pager-last a {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border: 1px solid #C7CED1;
+    color: #808080;
+    font-size: 10px;
+    font-weight: normal;
+    padding: 3px 0 2px;
+    text-decoration: none;
+    width: 62px;
+}
+ul.pager li.pager-next, ul.pager li.pager-last {
+    border-right: 0 none;
+    float: right;
+}
+ul.pager li.pager-first, ul.pager li.pager-last {
+    border-right: 1px solid #FFFFFF !important;
+}
+ul.pager li.pager-previous, ul.pager li.pager-first, ul.pager li.pager-next {
+    border-right: 0 solid #CCCCCC;
+}
+ul.pager li a {
+    text-decoration: none;
+}
+ul.pager li a:hover {
+    background: none repeat scroll 0 0 #C4C4C5;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+ul.pager li.last {
+    right: 0;
+}
+ul.pager li.pager-current, ul.pager li.pager-item {
+    position: static;
+}
+ul.pager li.pager-current {
+    background: none repeat scroll 0 0 #F1601F;
+    color: #FFFFFF;
+}
+
+
+#rightColumn .viewDate {
+	font-weight: bold;
+	padding: 2px;
+}
+
+#rightColumn .viewTeaser {
+	margin-bottom: 10px;
+    margin-top: 6px;
 }

@@ -1,14 +1,8 @@
-<?php /* Smarty version 2.6.27, created on 2013-09-30 17:25:34
+<?php /* Smarty version 2.6.27, created on 2015-06-01 02:28:15
          compiled from CRM/Form/body.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('block', 'ts', 'CRM/Form/body.tpl', 39, false),)), $this); ?>
-<?php $_smarty_tpl_vars = $this->_tpl_vars;
-$this->_smarty_include(array('smarty_include_tpl_file' => "CRM/common/stateCountry.tpl", 'smarty_include_vars' => array()));
-$this->_tpl_vars = $_smarty_tpl_vars;
-unset($_smarty_tpl_vars);
- ?>
-
-<?php if ($this->_tpl_vars['form']['javascript']): ?>
+smarty_core_load_plugins(array('plugins' => array(array('block', 'crmScope', 'CRM/Form/body.tpl', 1, false),array('block', 'ts', 'CRM/Form/body.tpl', 37, false),)), $this); ?>
+<?php $this->_tag_stack[] = array('crmScope', array('extensionKey' => "")); $_block_repeat=true;smarty_block_crmScope($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?><?php if ($this->_tpl_vars['form']['javascript']): ?>
   <?php echo $this->_tpl_vars['form']['javascript']; ?>
 
 <?php endif; ?>
@@ -18,9 +12,9 @@ unset($_smarty_tpl_vars);
 </div>
 <?php endif; ?>
 
-<?php if (! $this->_tpl_vars['suppressForm'] && count ( $this->_tpl_vars['form']['errors'] ) > 0): ?>
+<?php if (( $this->_tpl_vars['snippet'] !== 'json' ) && ! $this->_tpl_vars['suppressForm'] && count ( $this->_tpl_vars['form']['errors'] ) > 0): ?>
    <div class="messages crm-error">
-       <div class="icon red-icon alert-icon"></div>
+       <div class="icon red-icon ui-icon-alert"></div>
      <?php $this->_tag_stack[] = array('ts', array()); $_block_repeat=true;smarty_block_ts($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>Please correct the following errors in the form fields below:<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_ts($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>
      <ul id="errorList">
      <?php $_from = $this->_tpl_vars['form']['errors']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
@@ -50,3 +44,5 @@ unset($_smarty_tpl_vars);
   <?php endforeach; endif; unset($_from); ?>
   </table>
 <?php endif; ?>
+
+<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_crmScope($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>

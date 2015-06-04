@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,12 +23,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -43,11 +43,24 @@ class CRM_Dashlet_Page_Blog extends CRM_Core_Page {
   const BLOG_URL = 'https://civicrm.org/blog/feed';
 
   /**
-   * List blog articles as dashlet
+   * Get the final, usable URL string (after interpolating any variables)
    *
-   * @access public
+   * @return FALSE|string
    */
-  function run() {
+  public function getBlogUrl() {
+    // Note: We use "*default*" as the default (rather than self::BLOG_URL) so that future
+    // developers can change BLOG_URL without needing to update {civicrm_setting}.
+    $url = CRM_Core_BAO_Setting::getItem(CRM_Core_BAO_Setting::SYSTEM_PREFERENCES_NAME, 'blogUrl', NULL, '*default*');
+    if ($url === '*default*') {
+      $url = self::BLOG_URL;
+    }
+    return CRM_Utils_System::evalUrl($url);
+  }
+
+  /**
+   * List blog articles as dashlet.
+   */
+  public function run() {
     $context = CRM_Utils_Request::retrieve('context', 'String', $this, FALSE, 'dashlet');
     $this->assign('context', $context);
 
@@ -57,12 +70,10 @@ class CRM_Dashlet_Page_Blog extends CRM_Core_Page {
   }
 
   /**
-   * Load blog articles from cache
+   * Load blog articles from cache.
    * Refresh cache if expired
    *
    * @return array
-   *
-   * @access private
    */
   private function _getBlog() {
     // Fetch data from cache
@@ -72,7 +83,7 @@ class CRM_Dashlet_Page_Blog extends CRM_Core_Page {
       $expire = time() - (60 * 60 * 24 * self::CACHE_DAYS);
       // Refresh data after CACHE_DAYS
       if (strtotime($cache->created_date) < $expire) {
-        $new_data = $this->_getFeed();
+        $new_data = $this->_getFeed($this->getBlogUrl());
         // If fetching the new rss feed was successful, return it
         // Otherwise use the old cached data - it's better than nothing
         if ($new_data) {
@@ -81,19 +92,20 @@ class CRM_Dashlet_Page_Blog extends CRM_Core_Page {
       }
       return unserialize($cache->data);
     }
-    return $this->_getFeed();
+    return $this->_getFeed($this->getBlogUrl());
   }
 
   /**
-   * Parse rss feed and cache results
+   * Parse rss feed and cache results.
    *
-   * @return array|NULL array of blog items; or NULL if not available
+   * @param $url
    *
-   * @access private
+   * @return array|NULL
+   *   array of blog items; or NULL if not available
    */
-  private function _getFeed() {
+  public function _getFeed($url) {
     $httpClient = new CRM_Utils_HttpClient(self::CHECK_TIMEOUT);
-    list ($status, $rawFeed) = $httpClient->get(self::BLOG_URL);
+    list ($status, $rawFeed) = $httpClient->get($url);
     if ($status !== CRM_Utils_HttpClient::STATUS_OK) {
       return NULL;
     }
@@ -105,7 +117,7 @@ class CRM_Dashlet_Page_Blog extends CRM_Core_Page {
         $item = (array) $item;
         // Clean up description - remove tags that would break dashboard layout
         $description = preg_replace('#<h[1-3][^>]*>(.+?)</h[1-3][^>]*>#s', '<h4>$1</h4>', $item['description']);
-        $item['description'] = strip_tags($description, "<a><p><h4><h5><h6><b><i><em><strong><ol><ul><li><dd><dt><code><pre><br>");
+        $item['description'] = strip_tags($description, "<a><p><h4><h5><h6><b><i><em><strong><ol><ul><li><dd><dt><code><pre><br/>");
         $blog[] = $item;
       }
       if ($blog) {
@@ -114,4 +126,5 @@ class CRM_Dashlet_Page_Blog extends CRM_Core_Page {
     }
     return $blog;
   }
+
 }

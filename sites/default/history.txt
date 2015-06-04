@@ -1,0 +1,1000 @@
+   14  cd /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/templates/CRM/Activity/Form/
+   15  vi Activity.tpl 
+   16  grep -irn 'u can optionally assign this activity to someone' .
+   17  vi Activity.tpl 
+   18  cd ../../../../
+   19  cd ..
+   20  ls -alh
+   21  vi civicrm.patches 
+   22  cd civicrm/css/
+   23  vi civicrm.css 
+   24  cd ../../
+   25  vi civicrm.patches 
+   26  cd /var/www/html/git/ct_call-to-action/
+   27  clear
+   28  git status
+   29  vi drupal_modules/civicrm/css/extras.css
+   30  cd /var/www/html/pj.campaigntool.ca/
+   31  drush cc all
+   32  clear
+   33  ls
+   34  clear
+   35  pwd
+   36  cd sites/all/modules/civicrm/CRM/Report/Form
+   37  clear
+   38  vi Instance.php 
+   39  pwd
+   40  cd ../../../../../../default/
+   41  vi civicrm.settings.php
+   42  php -l civicrm.settings.php
+   43  cd files/civicrm/templates_c/
+   44  vi mail.log 
+   45  vi ../../../civicrm.settings.php
+   46  vi mail.log 
+   47  nano mail.log 
+   48  vi  mail.log  | less
+   49  clear
+   50  vi ../../../civicrm.settings.php
+   51  php
+   52  clear
+   53  php -l 
+   54  cd /var/www/html/git/ct_call-to-action/
+   55  git pull
+   56  git status
+   57  git pull
+   58  cd /var/www/html/git/ct_call-to-action/
+   59  git pull
+   60  cd ..
+   61  cd pj.campaigntool.ca/sites/all/modules/civicrm/css/
+   62  vi civicrm.css 
+   63  drush cc all
+   64  celar
+   65  clear
+   66  cd ../../..
+   67  cd ../.
+   68  cd ../..
+   69  ls
+   70  cp -r pj.campaigntool.ca/ pjtest.campaigntool.ca
+   71  cd pjtest.campaigntool.ca/
+   72  ls
+   73  cd sites/default/files/
+   74  cd ..
+   75  vi civicrm.settings.php
+   76  vi settings.php
+   77  cd /etc/httpd/conf/httpd.conf 
+   78  vi /etc/httpd/conf/httpd.conf 
+   79  /etc/init.d/httpd restart
+   80  cd files/civicrm/
+   81  rm -rf templates_c/
+   82  cd ../..
+   83  chmod -R 777 files/civicrm/
+   84  cd files/civicrm/ConfigAndLog/
+   85  rm Config.IDS.ini 
+   86  drush cc all
+   87  cd ../../..
+   88  cd ..
+   89  cd ../..
+   90  cd git/ct_call-to-action/
+   91  git pull
+   92  cd ../..
+   93  cd ..
+   94  cd html/pjtest.campaigntool.ca/sites/all/modules
+   95  ls
+   96  cd /root/backup/
+   97  ls
+   98  mysqldump -uroot -p ct_001_civ > /root/backup/ct_001_civ.2014.mysql
+   99  mysqldump -uroot -p drupal_nowct > /root/backup/drupal_nowct.2014.mysql
+  100  ls -alh
+  101  mysql -uroot -p
+  102  mysql -uroot -p ct_test_civ < ct_001_civ.2014.mysql 
+  103  mysql -uroot -p ct_test_drp < drupal_nowct.2014.mysql 
+  104  cd 
+  105  cd /var/www/html/pjtest.campaigntool.ca/sites/default/
+  106  vi civicrm.settings.php
+  107  vi settings.php
+  108  mysql -uroot -p
+  109  vi /var/www/html/pj.campaigntool.ca/sites/default/civicrm.settings.php
+  110  mysql -uroot -p
+  111  sudo chmod -R 777 files/
+  112  cd civicrm.settings.php
+  113  ls
+  114  cd modules/
+  115  ls
+  116  ls -alh
+  117  cd /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/CRM/Contact/Form/Search/Custom
+  118  vi ActivitySearch.php 
+  119  mysql -uroot -p
+  120  clear
+  121  cd
+  122  cd /var/www/html/pjtest.campaigntool.ca/sites/all/modules/civicrm/CRM/
+  123  cd ../..
+  124  ls
+  125  tar -czvf civicrm
+  126  tar -czvf civicrm.tgz civicrm/
+  127  clear
+  128  pwd
+  129  ls
+  130  cd ../../../sites/default/files/
+  131  ls
+  132  cd ci
+  133  cd civicrm/
+  134  clear
+  135  ls
+  136  cd civicrm_php/
+  137  ls
+  138  cd ../
+  139  cd civicrm_templates/
+  140  ls
+  141  cd CRM/
+  142  ls
+  143  cd Contact/
+  144  ls
+  145  cd FO
+  146  cd Form/
+  147  ls
+  148  cd Task/
+  149  ls
+  150  cd Map/
+  151  ls
+  152  clear
+  153  ls
+  154  cd ..
+  155  ls
+  156  cd ..
+  157  ls
+  158  cd ..
+  159  clear
+  160  ls
+  161  cd ..
+  162  ls
+  163  cd Campaign/
+  164  ls
+  165  cd Form/
+  166  ls
+  167  cd Petition/
+  168  ls
+  169  pwd
+  170  cd ..
+  171  ls
+  172  cd ..
+  173  ls
+  174  cd ..
+  175  ls
+  176  clear
+  177  ls
+  178  cd Block/
+  179  ls
+  180  cd ..
+  181  ls
+  182  cd Block/
+  183  ls
+  184  cd ..
+  185  cd CRM/
+  186  clear
+  187  ls
+  188  cd Activity/
+  189  clear
+  190  ls
+  191  cd Form/
+  192  ls
+  193  cd Task/
+  194  ls
+  195  cd ..
+  196  ls
+  197  cd ..
+  198  clear
+  199  ls
+  200  cd ..
+  201  clear
+  202  ls
+  203  cd ..
+  204  ls
+  205  cd ..
+  206  clear
+  207  ls
+  208  cd Extensions/
+  209  ls
+  210  clear
+  211  cd  ..
+  212  cd civicrm_templates/
+  213  clear
+  214  ls
+  215  cd CRM/
+  216  clear
+  217  ls
+  218  tar -xzvf templs.tgz Campaign/ Block/
+  219  tar -czvf templs.tgz Campaign/ Block/
+  220  pwd
+  221  rm -rf templs.tgz 
+  222  cd ../../../..
+  223  cd ../all/modules
+  224  ls
+  225  wget http://downloads.sourceforge.net/project/civicrm/civicrm-stable/4.4.3/civicrm-4.4.3-l10n.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fcivicrm%2Ffiles%2Fcivicrm-stable%2F4.4.3%2F&ts=1389796173&use_mirror=citylan
+  226  clear
+  227  ls
+  228  pwd
+  229  rm -rf civicrm
+  230  tar -xzvf civicrmNew.tgz
+  231  clear
+  232  top
+  233  /etc/init.d/httpd restart
+  234  cd ../../../
+  235  ls
+  236  cd sites/default/files/civicrm/
+  237  clear
+  238  ls
+  239  ls -alh
+  240  unlink civicrm_php
+  241  cp -R /var/www/html/git/ct_call-to-action/civicrm_php/ .
+  242  ls
+  243  cd civicrm_templates/
+  244  clear
+  245  ls
+  246  cd CRM/
+  247  clear
+  248  ls
+  249  ls -alh
+  250  unlink Extra
+  251  cp -r /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/Extra/ .
+  252  unlink Profile
+  253  cp -r /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/Profile/ .
+  254  unlink Report
+  255  cp -r /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/Report/
+  256  cp -r /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/Report/ .
+  257  clear
+  258  ls -alh
+  259  unlink UF
+  260  cp -r /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/UF/ .
+  261  clear
+  262  cd ..
+  263  pwd
+  264  ls -alh
+  265  tar -xzvf git.tgz 
+  266  rm -rf git.tgz 
+  267  rm -rf civicrm_php/CRM/Report/Form/Event/ParticipantListing.php~
+  268  ls -alh
+  269  cd civicrm_php/CRM/Report/Form/Event/
+  270  ls
+  271  clear
+  272  ls
+  273  vi ParticipantListing.php 
+  274  pwd
+  275  cd /var/www/html/git/ct_call-to-action/
+  276  gitp ull
+  277  git pull
+  278  cd /var/www/html/pj.campaigntool.ca/
+  279  cd sites/default/
+  280  ls
+  281  grep mysql civicrm.settings.php
+  282  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  283  exit
+  284  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  285  echo $PWD'>'
+  286  service httpd restart
+  287  cd /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/css/
+  288  vi civicrm.css 
+  289  drush pm-list
+  290  vi /var/www/html/pj.campaigntool.ca/modules/php/php.module
+  291  cd ../..
+  292  cd ../themes/
+  293  ls
+  294  cd pjct_2013/
+  295  ls
+  296  vi homepage-block-9-stay-connected.php 
+  297  clear
+  298  cd /var/www/html/pj.campaigntool.ca/sites/default/files/civicrm/ConfigAndLog/
+  299  clear
+  300  ls
+  301  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  302  clear
+  303  ls -alh
+  304  clear
+  305  ls -alh
+  306  date
+  307  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  308  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  309  cd /var/www/html/git/ct_call-to-action/
+  310  clear
+  311  git revert 4c8488779292d78320288b33046a68d1f151f928
+  312  git reset --soft HEAD^
+  313  git status
+  314  git reset civicrm_php/CRM/Activity/BAO/Query.php
+  315  git checkout civicrm_php/CRM/Activity/BAO/Query.php
+  316  clear
+  317  git pull
+  318  git pull upstream master
+  319  git pull origin master
+  320  clear
+  321  vi civicrm_php/CRM/Activity/Form/Search.php
+  322  git pull
+  323  vi civicrm_php/CRM/Activity/Form/Search.php
+  324  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  325  vi civicrm_php/CRM/Activity/Form/Search.php
+  326  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  327  clear
+  328  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  329  clear
+  330  vi civicrm_php/CRM/Activity/Form/Search.php
+  331  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  332  clear
+  333  cd ../../pj.campaigntool.ca/sites/default/files/civicrm/ConfigAndLog/
+  334  clear
+  335  ls
+  336  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  337  clear
+  338  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  339  lcear
+  340  clear
+  341  ls -alh
+  342  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  343  vi /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/CRM/Core/OptionGroup.php
+  344  vi /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/CRM/Report/Utils/Report.php
+  345  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  346  ls -alh
+  347  date
+  348  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  349  cd /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/css/
+  350  clear
+  351  vi civicrm.css 
+  352  drush cc all
+  353  cd ../../../../default/files/civicrm/ConfigAndLog/
+  354  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  355  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  356  cd ../../../../default/files/civicrm/ConfigAndLog/
+  357  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  358  service httpd restart
+  359  top
+  360  clear
+  361  cd /var/www/html/git/ct_call-to-action/
+  362  clear
+  363  git pull
+  364  git status
+  365  /var/www/html/pj.campaigntool.ca/
+  366  cd /var/www/html/pj.campaigntool.ca/
+  367  git pull
+  368  drush cc all
+  369  cd sites/default/files/civicrm/ConfigAndLog/
+  370  clear
+  371  vi CiviCRM.74e1e3d2c38ff2137a3af0db9dbcc283.log
+  372  clear
+  373  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  374  clear
+  375  cd /var/www/html/pjtest.campaigntool.ca/sites/default/
+  376  vi civicrm.settings.php
+  377  vi settings.php
+  378  ls
+  379  cd civicrm.settings.php.mariadb 
+  380  vi civicrm.settings.php.mariadb 
+  381  vi /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/CRM/Dedupe/Merger.php
+  382  php -l /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/CRM/Dedupe/Merger.php
+  383  ls
+  384  cd /var/www/html/git/ct_call-to-action/civicrm_php/CRM/Activity/Form/
+  385  pwd
+  386  ls
+  387  cd /var/www/html/pj.campaigntool.ca/sites/all/themes/pjct_2013/
+  388  ls
+  389  vi homepage-block-9-stay-connected.php 
+  390  echo $PWD'>'
+  391  service httpd restart
+  392  crontab
+  393  crontab -e
+  394  top
+  395  cd /var/www/html/pj.campaigntool.ca/sites/default/
+  396  ls
+  397  cd /root
+  398  echo $PWD'>'
+  399  cd /var/www/git/ct
+  400  cd /var/www/html/git/ct_call-to-action/
+  401  git pull
+  402  cd
+  403  cd /var/www/html/pjtest.campaigntool.ca/sites/default/files/civicrm/
+  404  clear
+  405  ls
+  406  ls -alh
+  407  cd civicrm_
+  408  cd civicrm_php/
+  409  ls -alh
+  410  pwd
+  411  cd ../../../
+  412  vi civicrm.settings.php
+  413  clear
+  414  ls
+  415  clear
+  416  cd backup/
+  417  clear
+  418  ls
+  419  mysqldump -uroot -p drupal_nowct > /root/backup/drupal_nowct.17012014.mysql
+  420  mysqldump -uroot -p ct_001_civ > /root/backup/ct_001_civ.17012014.mysql
+  421  cd /var/www/html/git/ct_call-to-action/civicrm_php/CRM/Activity/BAO/
+  422  vi Query.php 
+  423  cd ../Form/
+  424  vi Search.php 
+  425  rm -rf /var/www/html/pj.campaigntool.ca/sites/default/files/civicrm/templates_c/
+  426  cd /var/www/html/pj.campaigntool.ca/sites/default/
+  427  drush cc all
+  428  chmod -R 777 files/civicrm/templates_c/
+  429  service memcached restart
+  430  clea
+  431  clear
+  432  vi /var/www/html/git/ct_call-to-action/
+  433  vi /var/www/html/git/ct_call-to-action/civicrm_php/CRM/Activity/Form/Search.php 
+  434  clear
+  435  git status
+  436  cd /var/www/html/git/ct_call-to-action/
+  437  clear
+  438  git status
+  439  git diff civicrm_php/CRM/Activity/Form/Search.php
+  440  clear
+  441  git diff civicrm_php/CRM/Activity/Form/Search.php
+  442  clear
+  443  git checkout civicrm_php/CRM/Activity/Form/Search.php
+  444  git pull
+  445  cd /var/www/html/pj.campaigntool.ca/
+  446  ls
+  447  cd ../ | ls
+  448  cd .. | ls
+  449  cd ..
+  450  ls
+  451  cd git
+  452  ls
+  453  cd ct_call-to-action/
+  454  ls
+  455  vi neee.patch 
+  456  cd ../..
+  457  cd pj.campaigntool.ca/sites/all/modules
+  458  cd civicrm
+  459  cd CRM/Dedupe/BAO/
+  460  vi Rule.php 
+  461  cd 
+  462  cd /var/www/html/git/ct_call-to-action/
+  463  ls
+  464  cd civicrm_php/CRM/Activity/BAO/
+  465  vi Query.php 
+  466  cd ../..
+  467  cd /var/www/html/pj.campaigntool.ca/sites/all/modules/civicrm/CRM/Campaign/BAO/
+  468  vi Petition.php 
+  469  pwd
+  470  cd /var/www/html/git/ct_call-to-action/
+  471  ls
+  472  cd civicrm_php/CRM/Activity/Form/
+  473  vi Search.php 
+  474  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  475  clear
+  476  cd /ba
+  477  cd backup/
+  478  clear
+  479  ls
+  480  rm -rf ct_001_civ.17012014.mysql
+  481  mysqldump -uroot -p ct_001_civ > /root/backup/ct_001_civ.17012014.mysql
+  482  /etc/init.d/mysql restart
+  483  clear
+  484  cd /var/www/html/pj.campaigntool.ca/sites/all/modules/
+  485  ls
+  486  tar -czvf civicrm.tgz civicrm/
+  487  df -h
+  488  cd /root/backup/
+  489  clear
+  490  ls -alh
+  491  rm -rf ct_001_civ20131015.sql ct_001_civ.20131123.mysql ct_001_civ.20131210.mysql ct_001_civ.20131211.mysql ct_001_civ_backup11-10-2013.sql ct_001_civ.n.20131123.mysql
+  492  clear
+  493  df -h
+  494  /etc/init.d/mysql restart
+  495  clear
+  496  df -h
+  497  ls a-lh
+  498  ls -alh
+  499  rm -rf ct_crm_nov8.sql ct_001_civ.20131011.mysql civ_db.20131115.mysql
+  500  clear
+  501  ls -alh
+  502  tar -czvf ct_001_civ.17012014.mysql.tgz ct_001_civ.17012014.mysql
+  503  rm -rf ct_001_civ.17012014.mysql
+  504  tar -czvf ct_001_civ.2014.mysql.tgz ct_001_civ.2014.mysql
+  505  rm -rf ct_001_civ.2014.mysql
+  506  clear
+  507  df -h
+  508  ls -alh
+  509  rm -rf drupal_nowct.20131123.mysql
+  510  clear
+  511  df -h
+  512  ls -alh
+  513  rm -rf ct_crm.sql
+  514  clear
+  515  df -h
+  516  ls -alh
+  517  cd ..
+  518  ls
+  519  clear
+  520  ls -alh
+  521  cd automysqlbackup
+  522  clear
+  523  ls -alh
+  524  cd automysqlbackup
+  525  vi automysqlbackup.conf
+  526  cd automysqlbackup
+  527  vi automysqlbackup.conf
+  528  vi automysqlbackup
+  529  cd ..
+  530  clear
+  531  ls -alh
+  532  cd /var/www/backups/
+  533  clear
+  534  ls -alh
+  535  clear
+  536  ls -alh
+  537  pwd
+  538  cd db
+  539  ls
+  540  clear
+  541  ls -alh
+  542  cd ..
+  543  clear
+  544  ls -alh
+  545  clear
+  546  cd /var/www/html/pj.campaigntool.ca/sites/all/modules
+  547  clear
+  548  ls -alh
+  549  rm -rf civicrm.tgz 
+  550  tar -czvf civicrm.tgz civicrm/
+  551  rm -rf civicrm.tgz 
+  552  clear
+  553  cd
+  554  cd backup/
+  555  clear
+  556  ls -alh
+  557  rm -rf ct_001_civ.17012014.mysql.tgz ct_001_civ.20131011.mysql.gz ct_crm_nov8.tgz civi.tgz civicrm.tgz 20131113.civ.mysql.tgz
+  558  clear
+  559  ls -alh
+  560  rm -rf mysqldump.tgz 
+  561  mysqldump -uroot -p ct_001_civ > /root/backup/ct_001_civ.20012014.mysql
+  562  pwd
+  563  cd /var/www/html/pj.campaigntool.ca/sites/default/modules/campaigntool/
+  564  vi campaigntool.module 
+  565  drush cc all
+  566  vi campaigntool.module 
+  567  drush cc all
+  568  clear
+  569  drush cc all
+  570  clear
+  571  vi campaigntool
+  572  vi campaigntool.module 
+  573  clear
+  574  drush cc all
+  575  vi campaigntool.module 
+  576  drush cc all
+  577  cd
+  578  cd /var/www/html/git/ct_call-to-action/
+  579  clear
+  580  git status
+  581  git diff drupal_modules/campaigntool/campaigntool.module
+  582  git checkout drupal_modules/campaigntool/campaigntool.module
+  583  rm -rf drupal_modules/campaigntool/.campaigntool.module.swp
+  584  clear
+  585  git pull
+  586  cd ../../pj.campaigntool.ca/
+  587  drush cc all
+  588  ci sites/default/modules/campaigntool/campaigntool.module 
+  589  vi sites/default/modules/campaigntool/campaigntool.module 
+  590  drush cc all
+  591  vi sites/default/modules/campaigntool/campaigntool.module 
+  592  drush cc all
+  593  cd ../git/ct_call-to-action/
+  594  git checkout drupal_modules/campaigntool/campaigntool.module
+  595  git pull
+  596  cd ../../pj.campaigntool.ca/
+  597  drush cc all
+  598  clear
+  599  vi sites/default/modules/campaigntool/campaigntool.module 
+  600  php -l sites/default/modules/campaigntool/campaigntool.module 
+  601  drush cc all
+  602  php -l sites/default/modules/campaigntool/campaigntool.module 
+  603  vi sites/default/modules/campaigntool/campaigntool.module 
+  604  drush cc all
+  605  vi sites/default/modules/campaigntool/campaigntool.module 
+  606  drush cc all
+  607  vi sites/default/modules/campaigntool/campaigntool.module 
+  608  cd ../git/ct_call-to-action/
+  609  git checkout drupal_modules/campaigntool/campaigntool.module
+  610  git pull 
+  611  cd ../../pj.campaigntool.ca/
+  612  drush cc all
+  613  df -h
+  614  du -sh /
+  615  du -sh /etc/
+  616  du -sh /etc/*
+  617  du -sh /var
+  618  cd /var
+  619  ls
+  620  du -sh /var/www
+  621  cd www
+  622  ls
+  623  cd ..
+  624  du -sh /var/mysqlbackups/
+  625  cd www
+  626  ls
+  627  du -sh /var/www
+  628  du -sh /var/www/*
+  629  du -sh /var/www/html/*
+  630  du -sh /var/mysqlbackups/
+  631  du -sh /var/mysqlbackups/*
+  632  du -sh /var/*
+  633  du -sh /*
+  634  du -sh /opt/*
+  635  clear
+  636  cd backup/
+  637  cleas
+  638  clear
+  639  ls
+  640  rm -rf ct_001_civ.2014.mysql.tgz
+  641  mysql -uct_001 -pz3f8u85DpcWTssnD 
+  642  mysql -uroot -p
+  643  clear
+  644  ls -alh
+  645  mysql -uroot -p ct_test_drp < drupal_nowct.17012014.mysql
+  646  mysql -uroot -p ct_test_civ < ct_001_civ.20012014.mysql
+  647  clear
+  648  ls
+  649  cd /var/www/html/pjtest.campaigntool.ca/sites/all/modules
+  650  clear
+  651  ls
+  652  rm -rf civicrmNew.tgz
+  653  rm -rf civicrm
+  654  tar -xzvf civicrm.tgz
+  655  clear
+  656  df -h
+  657  clear
+  658  ls
+  659  clear
+  660  ls
+  661  rm -rf civicrm
+  662  tar -xzvf Newcivicrm.tar.gz
+  663  clear
+  664  ls
+  665  mv Newcivicrm civicrm
+  666  clear
+  667  ls -alh
+  668  clear
+  669  ls
+  670  clear
+  671  ls
+  672  cd ../../
+  673  cd default/modules/
+  674  ls
+  675  ls -alh
+  676  cd ../files/civicrm/
+  677  clear
+  678  ls
+  679  mv civicrm_php civicrm_php.bak
+  680  cp /var/www/html/git/ct_call-to-action/civicrm_php/
+  681  cp /var/www/html/git/ct_call-to-action/civicrm_php/ .
+  682  ls
+  683  cp -R /var/www/html/git/ct_call-to-action/civicrm_php/ .
+  684  ls
+  685  cd civicrm_
+  686  cd civicrm_templates/
+  687  clear
+  688  ls
+  689  cd CRM/
+  690  clear
+  691  ls
+  692  cd Activity/
+  693  ls
+  694  cd Form/
+  695  ls
+  696  cd Search/
+  697  ls
+  698  cd ../Task/
+  699  ls
+  700  cd ../../../
+  701  clear
+  702  ls
+  703  rm -rf Extra/
+  704  ln -s /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/Extra/
+  705  rm -rf Report
+  706  ln -s /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/Report/
+  707  cp -R /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/Profile/ .
+  708  cp -R /var/www/html/git/ct_call-to-action/civicrm_templates/CRM/UF/ .
+  709  clear
+  710  ls
+  711  cd ../
+  712  cd civicrm_php/CRM/
+  713  pwd
+  714  cd ../../civicrm_templates/CRM/
+  715  clear
+  716  ls
+  717  clear
+  718  pwd
+  719  ls
+  720  mv Block.tpl UF/Form/
+  721  mv Dynamic.tpl Profile/Form/
+  722  clear
+  723  ls
+  724  mv Dynamic.tpl Profile/Form/
+  725  ls
+  726  mv Block.tpl UF/Form/
+  727  clear
+  728  ls
+  729   cd ../../
+  730  cd civicrm_php
+  731  clea
+  732  rls
+  733  clear
+  734  ls
+  735  cd CRM/
+  736  clear
+  737  ls
+  738  mv Query.php Contact/BAO/Query.php 
+  739  ls
+  740  clear
+  741  cd Contact/BAO/
+  742  ls
+  743  clear
+  744  cd ..
+  745  ..
+  746  cd ../
+  747  ls
+  748  cd Report/Form
+  749  clea
+  750  rls
+  751  clear
+  752  ls
+  753  mkdir Event
+  754  cd Event/
+  755  pwd
+  756  ls
+  757  cd ../../../../
+  758  cd /var/mysqlbackups/
+  759  ls -al
+  760  ls -al daily/
+  761  ls -al daily/ct_001_civ/
+  762  cd /opt/mariadb-data/
+  763  ls -al
+  764  pwd
+  765  ls -al 
+  766  ls -al ct_001_civ/
+  767  cd /var/www/backups/
+  768  ls -al
+  769  rm -rf c* dbs* dr* f* i*
+  770  ls
+  771  ls db
+  772  ls -al db
+  773  rm -rf db
+  774  ls -al
+  775  rm .2*
+  776  rm 20131202.0350.ct_001_civ.mysql 
+  777  rm 20131202.ct_001_civ.sql 
+  778  ls -al
+  779  cd /opt/mariadb-data/
+  780  ls
+  781  rm mysql-bin.00000* mysql-bin.00001*
+  782  rm -f mysql-bin.00000* mysql-bin.00001*
+  783  ls -al
+  784  rm -f mysql-bin.00003* mysql-bin.00002*
+  785  rm -f mysql-bin.00004*
+  786  rm -f mysql-bin.00005*
+  787  rm -f mysql-bin.00006*
+  788  rm -f mysql-bin.00007*
+  789  rm -f mysql-bin.00008*
+  790  ls -al
+  791  cd /opt/mariadb-data/
+  792  ls -al
+  793  mysql -uct_001 -pz3f8u85DpcWTssnD
+  794  show tables;
+  795  ls -al daily/
+  796  cd /var/www/html/pj.campaigntool.ca/sites/default/
+  797  ls
+  798  grep mysql civicrm.settings.php
+  799  mysql -uct_001 -pz3f8u85DpcWTssnD ct_001_civ
+  800  echo $PWD'>'
+  801  cd /opt/mariadb-data
+  802  ls
+  803  ls -w
+  804  ls ?
+  805  ls -?
+  806  ls --?
+  807  ls --help
+  808  ls -a
+  809  ls -s
+  810  du -sh /opt/maria-db-data
+  811  du -sh /opt/mariadb-data
+  812  du -sh /opt/mariadb-data/*
+  813  ps -aux
+  814  service --status-all
+  815  service --status-all | grep mysql
+  816  service mariadb status
+  817  service mysql status
+  818  service mariadb restart
+  819  ps aux | grep mysqld
+  820  clear
+  821  ps aux | grep mysqld
+  822  service mariadb restart
+  823  clear
+  824  cd backup/
+  825  clear
+  826  ls
+  827  mysqldump -uroot -p ct_001_civ > /root/backup/ct_001_civ.22012014.mysql
+  828  mysqldump -uroot -p drupal_nowct > /root/backup/drupal_nowct.22012014.mysql
+  829  clear
+  830  cd
+  831  cd /var/www/html/pjtest.campaigntool.ca/sites/all/modules/
+  832  ls
+  833  cp Newcivicrm.tar.gz /var/www/html/pj.campaigntool.ca/sites/all/modules/
+  834  cp civicrm-4.4.3-l10n.tar.gz /var/www/html/pj.campaigntool.ca/sites/all/modules/
+  835  cd /var/www/html/pj.campaigntool.ca/sites/all/modules/
+  836  ls
+  837  tar -czvf civicrm.tgz civicrm
+  838  clear
+  839  ls
+  840  rm -rf civicrm
+  841  tar -xzvf Newcivicrm.tar.gz
+  842  clear
+  843  ls
+  844  mv Newcivicrm civicrm
+  845  cear
+  846  clear
+  847  ls
+  848  tar -xzvf civicrm-4.4.3-l10n.tar.gz 
+  849  clear
+  850  ls -alf
+  851  ls -alh
+  852  clear
+  853  ls -al
+  854  clear
+  855  ls
+  856  cd civicrm
+  857  ls
+  858  clear
+  859  cd ..
+  860  ls
+  861  pwd
+  862  clear
+  863  ls
+  864  cd civicrm
+  865  ls
+  866  drush cc all
+  867  service memcached restart
+  868  cd /var/www/html/pj.campaigntool.ca/sites/all/modules/Newcivicrm/
+  869  clear
+  870  ls
+  871  cd ..
+  872  clear
+  873  ls
+  874  rm -rf ../../default/files/civicrm/templates_c/
+  875  mysql -uroot -p
+  876  clear
+  877  pwd
+  878  rm -rf ../../default/files/civicrm/templates_c/
+  879  cd /var/www/html/git/ct_call-to-action/
+  880  git pull
+  881  git stash
+  882  git pull
+  883  git stash pop
+  884  clear
+  885  cd /var/www/html/pj.campaigntool.ca/
+  886  drush cc all
+  887  chmod -R 777 /var/www/html/pj.campaigntool.ca/sites/default/files/civicrm/templates_c/
+  888  cd /var/www/html/git/ct_call-to-action/
+  889  clear
+  890  git status
+  891  cd ../../
+  892  cd pj.campaigntool.ca/
+  893  drush cc all
+  894  service memcached restart
+  895  clear
+  896  git status
+  897  cd ../git/ct_call-to-action/
+  898  git status
+  899  git diff drupal_modules/civicrm/css/extras.css
+  900  clear
+  901  git status
+  902  git diff civicrm_templates/CRM/Profile/Form/Dynamic.tpl
+  903  cd ../../pj.campaigntool.ca/sites/all/modules/civicrm/css/
+  904  ls
+  905  rm -rf extras.css
+  906  ln -s /var/www/html/git/ct_call-to-action/drupal_modules/civicrm/css/extras.css 
+  907  drush cc all
+  908  cd ../../../
+  909  cd ../../../pjtest.campaigntool.ca/sites/all/modules/civicrm/css/
+  910  clear
+  911  ls
+  912  rm -rf extras.css
+  913  ln -s /var/www/html/git/ct_call-to-action/drupal_modules/civicrm/css/extras.css 
+  914  drush cc all
+  915  cd ../../../
+  916  cd ../../../pj.campaigntool.ca/sites/all/modules
+  917  clear
+  918  ls
+  919  rm civicrm-4.4.3-l10n.tar.gz
+  920  clear
+  921  ls
+  922  rm -f civicrm-4.4.3-l10n.tar.gz
+  923  clear
+  924  ls
+  925  vi civicrm.patches
+  926  rm -f Newcivicrm.tar.gz
+  927  vi civicrm.tgz /root/backup/
+  928  cd /var/www/html/pj.campaigntool.ca/sites/all/modules
+  929  clear
+  930  ls
+  931  mv civicrm.tgz /root/backup/
+  932  ls
+  933  clear
+  934  drush cc all
+  935  clear
+  936  cd /var/www/html/git
+  937  git clone https://github.com/JMAConsulting/biz.jmaconsulting.sigs.git
+  938  cd /var/www/html/pjtest.campaigntool.ca/sites/default/files/civicrm/Extensions/
+  939  ls
+  940  ln -s /var/www/html/git/biz.jmaconsulting.sigs/
+  941  cd biz.jmaconsulting.sigs/
+  942  ls
+  943  cd sql/
+  944  vi sigs_install.sql 
+  945  cd /var/www/html/git
+  946  ls
+  947  rm -rf biz.jmaconsulting.sigs
+  948  cd /var/www/html/pjtest.campaigntool.ca/sites/default/files/civicrm/
+  949  ls
+  950  cd Extensions/
+  951  ls
+  952  unlink biz.jmaconsulting.sigs 
+  953  clear
+  954  ls
+  955  ls automysqlbackup/
+  956  ls -al automysqlbackup/
+  957  ls backup/
+  958  ls -al backup/
+  959  cd /var/www/html/pj.campaigntool.ca/sites/default/
+  960  ls
+  961  grep mysql civicrm.settings.php
+  962  mysqldump -udrupal -pc83zUUVXzHXbeVUn -h unix(/opt/mariadb-data/mariadb.sock) drupal_nowct > /root/backup/drupal_nowct.20120124.mysql
+  963  mysqldump -udrupal -pc83zUUVXzHXbeVUn  drupal_nowct > /root/backup/drupal_nowct.20120124.mysql
+  964  mysqldump -uct_001 -pz3f8u85DpcWTssnD ct_001_civ > /root/backup/ct_001_civ.20120124.mysql
+  965  cd /root/backup/
+  966  ls
+  967  mv drupal_nowct.20120124.mysql drupal_nowct.20140124.mysql
+  968  mv ct_001_civ.20120124.mysql ct_001_civ.20140124.mysql
+  969  ls *201401*
+  970  tar -czf 20140124.mysql.tgz *201401*
+  971  ls -al
+  972  ls *.20140124.m*
+  973  rm -f *.20140124.m*
+  974  ls -al
+  975  pwd
+  976  exit
+  977  tar -czf /root/backup/20140124.files.tgz /var/www/html/pj.campaigntool.ca/
+  978  exit
+  979  mysql -uroot -p
+  980  cd /var/www/
+  981  cd html/git
+  982  ls
+  983  cd ct_call-to-action/
+  984  ls
+  985  cd drupal_modules/
+  986  ls
+  987  cd campaigntool/
+  988  ls
+  989  vi campaigntool.module 
+  990  mysql -uroot -p
+  991  cd ../..
+  992  git pull
+  993  cd ..
+  994  cd pj.campaigntool.ca/sites/all/themes/
+  995  ls
+  996  cd pjct_2013/
+  997  ls
+  998  clear
+  999  ls
+ 1000  vi homepage-block-9-stay-connected.php 
+ 1001  cd /var/www//html
+ 1002  ls
+ 1003  cd pj.campaigntool.ca/
+ 1004  cd sites/default/
+ 1005  vi civicrm.settings.php
+ 1006  ls
+ 1007  ls -alh
+ 1008  rm .civicrm.settings.php.swp
+ 1009  vi civicrm.settings.php.mariadb
+ 1010  vi civicrm.settings.php
+ 1011  mysql -uroot -p
+ 1012  history
+ 1013  history > history.txt

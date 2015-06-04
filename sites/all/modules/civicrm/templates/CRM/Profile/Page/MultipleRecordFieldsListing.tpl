@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -24,83 +24,61 @@
  +--------------------------------------------------------------------+
 *}
 {if $showListing}
-<h1>{ts}{$customGroupTitle}{/ts}</h1>
-
-    {if $records and $headers}
+  {if $dontShowTitle neq 1}<h1>{ts}{$customGroupTitle}{/ts}</h1>{/if}
+  {if $pageViewType eq 'customDataView'}
+     {assign var='dialogId' value='custom-record-dialog'}
+  {else}
+     {assign var='dialogId' value='profile-dialog'}
+  {/if}
+  {if $records and $headers}
     {include file="CRM/common/jsortable.tpl"}
-   
-      <div id="browseValues">
-        <div>
+    <div id="custom-{$customGroupId}-table-wrapper" {if $pageViewType eq 'customDataView'}class="crm-entity" data-entity="contact" data-id="{$contactId}"{/if}>
+      <div>
         {strip}
-        <table id="records" class="display">
-          <thead>
+          <table id="records" class="display">
+            <thead>
             <tr>
-          {foreach from=$headers key=recId item=head}
-             <th>{ts}{$head}{/ts}</th>
-          {/foreach}
-             <th></th>
-             </tr>
-          </thead>
-          {foreach from=$records key=recId item=rows}   
-            <tr class="{cycle values="odd-row,even-row"}">
-              {foreach from=$headers key=hrecId item=head}
-                <td>{$rows.$hrecId}</td>
+              {foreach from=$headers key=recId item=head}
+                <th>{ts}{$head}{/ts}</th>
               {/foreach}
-              <td>{$rows.action}</td>
+              <th></th>
+              {foreach from=$dateFields key=fieldId item=v}
+                <th class='hiddenElement'></th>
+              {/foreach}
             </tr>
-          {/foreach}
-         </table>
+            </thead>
+            {foreach from=$records key=recId item=rows}
+              <tr class="{cycle values="odd-row,even-row"}">
+                {foreach from=$headers key=hrecId item=head}
+                  <td {crmAttributes a=$attributes.$hrecId.$recId}>{$rows.$hrecId}</td>
+                {/foreach}
+                <td>{$rows.action}</td>
+                {foreach from=$dateFieldsVals key=fid item=rec}
+                    <td class='crm-field-{$fid}_date hiddenElement'>{$rec.$recId}</td>
+                {/foreach}
+              </tr>
+            {/foreach}
+          </table>
         {/strip}
-       </div>
       </div>
-<div id='profile-dialog' class="hiddenElement"></div>
-{literal}
-<script type='text/javascript'>
-cj(function() {
+    </div>
+    <div id='{$dialogId}' class="hiddenElement"></div>
+  {elseif !$records}
+    <div class="messages status no-popup">
+      <div class="icon inform-icon"></div>
+      &nbsp;
+      {ts 1=$customGroupTitle}No records of type '%1' found.{/ts}
+    </div>
+    <div id='{$dialogId}' class="hiddenElement"></div>
+  {/if}
 
-function formDialog(dataURL, dialogTitle){
-      cj.ajax({
-         url: dataURL,
-         success: function( content ) {
-	       cj('#profile-dialog').show( ).html( content ).dialog({
-                 title: dialogTitle,
-                 modal: true,
-                 width: 680,
-                 overlay: {
-                   opacity: 0.5,
-                   background: "black"
-                 },
-		 
-                 close: function(event, ui) {
-	           cj('#profile-dialog').html('');
-                 }
-             });
-	     cj('.action-link').hide();
-             cj('#profile-dialog #crm-profile-block .edit-value label').css('display', 'inline');
-	 }});
-}
-
-cj('.action-item').each(function(){
- cj(this).attr('jshref', cj(this).attr('href'));
- cj(this).attr('href', '#browseValues');
-});
-
- cj(".action-item").click(function(){
-    dataURL = cj(this).attr('jshref');
-    dialogTitle = cj(this).attr('title');       
-    formDialog(dataURL, dialogTitle);
- });
-});
-</script>
-{/literal}
-{elseif !$records}
-<div class="messages status no-popup">
-  <div class="icon inform-icon"></div>&nbsp;
-        {ts}No multi-record entries found. Note: check is Include in multi-record listing property of the fields you want to display in listings{/ts}
- </div>
-{/if}
-
-{if !$reachedMax}
-<a accesskey="N" href="{crmURL p='civicrm/profile/edit' q="id=`$contactId`&multiRecord=add&gid=`$gid`"}" class="button"><span><div class="icon add-icon"></div>{ts}Add New Record{/ts}</span></a>
-{/if}
+  {if !$reachedMax}
+    {if $pageViewType eq 'customDataView'}
+      <br/><a accesskey="N" title="{ts 1=$customGroupTitle}Add %1 Record{/ts}" href="{crmURL p='civicrm/contact/view/cd/edit' q="reset=1&type=$ctype&groupID=$customGroupId&entityID=$contactId&cgcount=$cgcount&multiRecordDisplay=single&mode=add"}"
+       class="button action-item"><span><div class="icon ui-icon-circle-plus"></div>{ts 1=$customGroupTitle}Add %1 Record{/ts}</span></a>
+    {else}
+      <a accesskey="N" href="{crmURL p='civicrm/profile/edit' q="reset=1&id=`$contactId`&multiRecord=add&gid=`$gid`&context=multiProfileDialog&onPopupClose=`$onPopupClose`"}"
+       class="button action-item"><span><div class="icon ui-icon-circle-plus"></div>{ts}Add New Record{/ts}</span></a>
+    {/if}
+  {/if}
 {/if}

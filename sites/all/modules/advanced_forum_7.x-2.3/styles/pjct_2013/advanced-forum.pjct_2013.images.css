@@ -1,0 +1,68 @@
+/* FORUM LIST ICONS *********************************************************/
+
+.forum-list-icon-wrapper {
+  border-top: 1px solid #FFFFFF;
+  background: #B5CDDF;
+  background: -webkit-gradient(linear, left top, left bottom, from(#B5CDDF), to(#C8DBEA));
+  background: -moz-linear-gradient(top, #B5CDDF, #C8DBEA);
+  color: #f5862d;
+}
+
+tr.even td.forum-folder .forum-list-icon-wrapper span,
+tr.odd td.forum-folder .forum-list-icon-wrapper span {
+  background: transparent url(images/forum_list_default.png) no-repeat center center;
+}
+
+tr.even td.forum-folder-new-posts .forum-list-icon-wrapper span,
+tr.odd td.forum-folder-new-posts .forum-list-icon-wrapper span,
+.forum-list-icon-legend .forum-list-icon-new-posts {
+  background: transparent url(images/forum_list_new_posts.png) no-repeat center center;
+}
+
+/* BUTTONIZED LINKS - GENERAL ***********************************************/
+/* Based on http://css-tricks.com/examples/ButtonMaker */
+
+div#forum a.af-button-large,
+div#forum a.af-button-large:link,
+div#forum a.af-button-large:visited,
+div#forum a.af-button-small,
+div#forum a.af-button-small:link,
+div#forum a.af-button-small:visited,
+div#forum a.author-pane-link,
+div#forum a.author-pane-link:link,
+div#forum a.author-pane-link:visited {
+  color: #f5862d !important;
+}
+
+div#forum .af-button-large,
+div#forum .af-button-small,
+div#forum .author-pane-link {
+  border-top: 1px solid #FFFFFF;
+  background: #EDF5FA;
+  background: -webkit-gradient(linear, left top, left bottom, from(#EDF5FA), to(#C8DBEA));
+  background: -moz-linear-gradient(top, #EDF5FA, #C8DBEA);
+  color: #f5862d !important;
+}
+
+div#forum a.af-button-large:hover,
+div#forum a.af-button-small:hover,
+div#forum a.author-pane-link:hover {
+  background: #C8DBEA;
+  color: #f5862d !important;
+  border-top-color: #EFEFEF;
+}
+
+div#forum a.af-button-large:active,
+div#forum a.af-button-small:active,
+div#forum a.author-pane-link:active {
+  background: #C8DBEA;
+  color: #f5862d !important;
+  border-top-color: #EFEFEF;
+}
+
+div#forum ::selection {
+	background: #ccc;
+		-moz-text-shadow: none;
+		-webkit-text-shadow: none;
+	text-shadow: none;
+}

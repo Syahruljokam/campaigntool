@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -37,8 +37,8 @@
             <th>{ts}SKU{/ts}</th>
             <th>{ts}Market Value{/ts}</th>
             <th>{ts}Min Contribution{/ts}</th>
-	    <th>{ts}Financial Type{/ts}</th>
-            <th>{ts}Weight{/ts}</th>
+      <th>{ts}Financial Type{/ts}</th>
+            <th>{ts}Order{/ts}</th>
             <th></th>
         </tr>
         {foreach from=$rows item=row}
@@ -47,7 +47,7 @@
           <td class="crm-contribution-form-block-sku">{$row.sku}</td>
           <td class="crm-contribution-form-block-price">{$row.price }</td>
           <td class="crm-contribution-form-block-min_contribution">{$row.min_contribution}</td>
-	    	  <td class="crm-contribution-form-block-financial_type">{$row.financial_type_id}</td>
+          <td class="crm-contribution-form-block-financial_type">{$row.financial_type_id}</td>
           <td class="nowrap crm-contribution-form-block-weight">{$row.weight}</td>
           <td class="crm-contribution-form-block-action">{$row.action}</td>
         </tr>

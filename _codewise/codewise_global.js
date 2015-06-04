@@ -254,6 +254,7 @@ var rFS = '\/'; // rootFolderSlash
 
 var sansStyle = 0;
 var sBW = 16; // scrollBarWidth
+var scrollPageBodySelectorText = 'html, body';
 // var scrollPage = 0;
 var searchStringContentDefault = '';
 var searchStringContent = '';
@@ -364,6 +365,7 @@ var sVJSV = '1-01'; // skinVersionsJavaScriptVersion
 var sSPEJSV = 'n\/a'; // skinSpecificPageElementsJavaScriptVersion
 var sSIPSJSV = 'n\/a'; // skinSpecificInPageStylesJavaScriptVersion
 var sSLCSSV = 'n\/a'; // skinSpecificLayoutCSSVersion
+var sSCCSSV = 'n\/a'; // skinSpecificContentCSSVersion
 var sSMCSSV = 'n\/a'; // skinSpecificMobileCSSVersion
 var sSPCSSV = 'n\/a'; // skinSpecificPrintCSSVersion
 
@@ -433,6 +435,15 @@ var is_ipod = (agent.indexOf('ipod') != -1);
 var is_chrome = (agent.indexOf('chrome') != -1);
 	if (is_chrome) {
 		is_safari = false;
+
+		chrome_version = agent.split('chrome\/')[1];
+		chrome_version_major = chrome_version.split('.')[0];
+		chrome_version_minor = chrome_version.split('.')[1];
+			if (chrome_version_minor.indexOf('.') != -1) {
+				chrome_version_minor = chrome_version_minor.split('.')[0];
+			};
+
+		chrome_version = ((chrome_version_major * 1) + (chrome_version_minor / 10) * 1);
 	};
 // var is_chrome1 = (agent.indexOf('chrome\/1.0') != -1);
 // var is_chrome2 = (agent.indexOf('chrome\/2.0') != -1);
@@ -462,7 +473,7 @@ var is_nav6up = is_nav5up;
 var is_nav7up = (is_nav && (is_major >= 7));
 var is_nav8up = (is_nav && (is_major >= 8));
 
-var is_ie = (agent.indexOf('msie') != -1);
+var is_ie = ((agent.indexOf('msie') != -1) || (agent.indexOf('trident\/7.') != -1));
 var is_ie3 = (is_ie && (is_major < 4));
 var is_ie4 = (is_ie && (is_major == 4) && (agent.indexOf('msie 5.0') == -1) && (agent.indexOf('msie 5.1') == -1) && (agent.indexOf('msie 5.5') == -1) && (agent.indexOf('msie 6.0') == -1));
 var is_ie4r0 = (is_ie && (is_major == 4) && (agent.indexOf('msie 4.0') != -1) && (agent.indexOf('msie 4.5') == -1) && (agent.indexOf('msie 5') == -1) && (agent.indexOf('msie 6') == -1));
@@ -480,12 +491,13 @@ var is_ie7 = (is_ie && (is_major == 4) && (agent.indexOf('msie 7.0') != -1));
 var is_ie8 = (is_ie && (agent.indexOf('msie 8.0') != -1));
 var is_ie9 = (is_ie && ((agent.indexOf('msie 9.0') != -1) || ((agent.indexOf('msie 7.0') != -1) && (agent.indexOf('trident\/5.') != -1))));
 var is_ie10 = (is_ie && ((agent.indexOf('msie 10.0') != -1) || ((agent.indexOf('msie 7.0') != -1) && (agent.indexOf('trident\/6.') != -1))));
-var is_ie5up = (is_ie && (is_ie5 || is_ie5r1 || is_ie5r2 || is_ie5r5 || is_ie6 || is_ie7 || is_ie8));
-var is_ie6up = (is_ie && (is_ie6 || is_ie7 || is_ie8 || is_ie9 || is_ie10));
-var is_ie7up = (is_ie && (is_ie7 || is_ie8 || is_ie9 || is_ie10));
-var is_ie8up = (is_ie && (is_ie8 || is_ie9 || is_ie10));
-var is_ie9up = (is_ie && (is_ie9 || is_ie10));
-var is_ie10up = (is_ie && (is_ie10));
+var is_ie11 = (is_ie && ((agent.indexOf('msie 11.0') != -1) || (agent.indexOf('trident\/7.') != -1)));
+// var is_ie5up = (is_ie && (is_ie5 || is_ie5r1 || is_ie5r2 || is_ie5r5 || is_ie6 || is_ie7 || is_ie8 || is_ie9 || is_ie10 || is_ie11));
+// var is_ie6up = (is_ie && (is_ie6 || is_ie7 || is_ie8 || is_ie9 || is_ie10 || is_ie11));
+var is_ie7up = (is_ie && (is_ie7 || is_ie8 || is_ie9 || is_ie10 || is_ie11));
+var is_ie8up = (is_ie && (is_ie8 || is_ie9 || is_ie10 || is_ie11));
+var is_ie9up = (is_ie && (is_ie9 || is_ie10 || is_ie11));
+var is_ie10up = (is_ie && (is_ie10 || is_ie11));
 
 var is_mozilla = ((agent.indexOf('mozilla') != -1) && ((agent.indexOf('netscape') == -1) && (agent.indexOf('navigator') == -1)) && !is_ie);
 	if (is_mozilla) {
@@ -496,16 +508,16 @@ var is_mozilla = ((agent.indexOf('mozilla') != -1) && ((agent.indexOf('netscape'
 		is_mozilla = false;
 	};
 var is_firefox = (is_mozilla && (agent.indexOf('firefox') != -1));
-if (is_firefox) {
-	firefox_version = agent.split('firefox\/')[1];
-	firefox_version_major = firefox_version.split('.')[0];
-	firefox_version_minor = firefox_version.split('.')[1];
-		if (firefox_version_minor.indexOf('.') != -1) {
-			firefox_version_minor = firefox_version_minor.split('.')[0];
-		};
+	if (is_firefox) {
+		firefox_version = agent.split('firefox\/')[1];
+		firefox_version_major = firefox_version.split('.')[0];
+		firefox_version_minor = firefox_version.split('.')[1];
+			if (firefox_version_minor.indexOf('.') != -1) {
+				firefox_version_minor = firefox_version_minor.split('.')[0];
+			};
 
-	firefox_version = ((firefox_version_major * 1) + (firefox_version_minor / 10) * 1);
-};
+		firefox_version = ((firefox_version_major * 1) + (firefox_version_minor / 10) * 1);
+	};
 var is_firefox1r0 = (is_firefox && (agent.indexOf('firefox\/1.0') != -1));
 var is_firefox1r5 = (is_firefox && (agent.indexOf('firefox\/1.5') != -1));
 var is_firefox2r0 = (is_firefox && (agent.indexOf('firefox\/2.') != -1));

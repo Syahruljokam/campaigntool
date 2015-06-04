@@ -594,8 +594,12 @@ function wCSSFL(CSSFileType, newStyleCSSEmbeddingSwitch) { // writeCSSFileLink(C
 		if (CSSFileType == 'internal') {
 			iSSHTML = '<st' + 'yle type="te' + 'xt\/css"><!-' + '-' + iSSHTML + '-' + '-><\/sty' + 'le>'; // me' + 'dia="scr' + 'een"
 			wHC(iSSHTML);
+
 		} else if ((CSSFileType == 'layout') && (sSLCSSV != 'n\/a')) {
 			wHC('<li' + 'nk type="te' + 'xt\/css" rel="style' + 'sheet" href="' + fDPO + sSFN + dSFN + skinPreference + '_layout_' + sSLCSSV + '.css" \/>'); // me' + 'dia="scr' + 'een"
+
+		} else if ((CSSFileType == 'content') && (sSLCSSV != 'n\/a')) {
+			wHC('<li' + 'nk type="te' + 'xt\/css" rel="style' + 'sheet" href="' + fDPO + sSFN + dSFN + skinPreference + '_content_' + sSCCSSV + '.css" \/>'); // me' + 'dia="scr' + 'een"
 
 		} else if ((CSSFileType == 'mobile') && (sSMCSSV != 'n\/a') && isMobileVersion) {
 			wHC('<li' + 'nk type="te' + 'xt\/css" rel="style' + 'sheet" href="' + fDPO + sSFN + dSFN + skinPreference + '_mobile_' + sSMCSSV + '.css" \/>'); // me' + 'dia="hand' + 'held"

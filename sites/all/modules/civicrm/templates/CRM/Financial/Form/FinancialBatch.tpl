@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -24,14 +24,6 @@
  +--------------------------------------------------------------------+
 *}
 {* this template is used for adding/editing/deleting financial batch  *}
-<h3>{if $action eq 8}
-  {ts}Delete Batch{/ts} - {$batchTitle}
-  {elseif $action eq 1}
-  {ts}Add New Batch{/ts}
-  {elseif $action eq 2}
-  {ts}Edit Batch{/ts} - {$batchTitle}
-  {/if}
-</h3>
 <div class="crm-block crm-form-block crm-financial_type-form-block">
 {if $action eq 8}
   <div class="messages status">
@@ -52,9 +44,9 @@
     </tr>
     {if $action eq 2}
       <tr class="crm-contribution-form-block-contact">
-      	<td class="label">{ts}Created By{/ts}</td>
-      	<td class="html-adjust">{$contactName}</td>
-      </tr>   
+        <td class="label">{ts}Created By{/ts}</td>
+        <td class="html-adjust">{$contactName}</td>
+      </tr>
       <tr class="crm-contribution-form-block-open_date">
         <td class="label">{ts}Opened Date{/ts}</td>
         <td class="html-adjust">{$created_date|crmDate}</td>
@@ -92,10 +84,3 @@
   <div class="crm-submit-buttons">{include file="CRM/common/formButtons.tpl" location="botttom"}</div>
 </div>
 {include file="CRM/Form/validate.tpl"}
-{literal}
-<script type="text/javascript">
-cj(function($){
-  $().crmAccordions();
-});
-</script>
-{/literal}

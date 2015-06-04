@@ -167,10 +167,12 @@ div.bannerContainer {
 	/* width: auto; */
 	width: 320px;
 	height: 300px;
+height: 255px;
 }
 body.landscape div.bannerContainer {
 	width: 480px;
 	height: 400px;
+height: 350px;
 }
 	div.bannerContainer div.slides {
 
@@ -182,11 +184,13 @@ body.landscape div.bannerContainer {
 			/* width: auto; */
 			width: 320px;
 			height: 300px;
+height: 250px;
 			overflow: hidden;
 		}
 		body.landscape div.banner {
 			width: 480px;
 			height: 400px;
+height: 355px;
 		}
 			div.banner div.bannerCopy {
 				padding: 6px;
@@ -721,13 +725,15 @@ hr.header, hr.footer {
 	#bannerContainerInner {
 		width: auto;
 		min-width: 320px;
-		height: 330px;
+		/* height: 330px; */
+		height: 285px;
 		margin: 0px;
 		padding: 0px;
 	}
 	body.landscape #bannerContainerInner {
 		min-width: 480px;
-		height: 430px;
+		/* height: 430px; */
+		height: 380px;
 	}
 		#bannerRightColumn {
 			display: none;
@@ -750,14 +756,17 @@ hr.header, hr.footer {
 			}
 
 			#bannerContainer div.slidesOuter, #bannerContainer div.slidesOuter div.slides, #bannerContainer div.slidesOuter div.slides div.banner {
-				height: 300px;
+				/* height: 300px; */
+				height: 255px;
 			}
 			#bannerContainer div.slidesOuter, #bannerContainer div.slidesOuter div.slides div.banner {
 				width: 320px;
-				height: 300px;
+				/* height: 300px; */
+				height: 255px;
 			}
 			body.landscape #bannerContainer div.slidesOuter, body.landscape #bannerContainer div.slidesOuter div.slides, body.landscape #bannerContainer div.slidesOuter div.slides div.banner {
-				height: 400px;
+				/* height: 400px; */
+				height: 350px;
 			}
 			body.landscape #bannerContainer div.slidesOuter, body.landscape #bannerContainer div.slidesOuter div.slides div.banner {
 				width: 480px;
@@ -766,6 +775,17 @@ hr.header, hr.footer {
 				background-position: center center;
 				border: none;
 			}
+
+			div.banner div.bannerCopy {
+				
+			}
+				div.banner div.bannerCopy h2 {
+					/* margin-top: -3px; */
+				}
+
+				div.banner div.bannerCopy div, div.banner div.bannerCopy p {
+					display: none;
+				}
 
 		#bannerContainerInner div.sliderNavPanelButtons {
 			display: block;
@@ -913,6 +933,24 @@ hr.header, hr.footer {
 						display: none;
 					}
 
+div.subColumnLast div.tabbed ul.tabbedLinks li a {
+	padding-right: 10px;
+	padding-left: 10px;
+}
+
+div.highslideImageGallery.rightAligned {
+	float: none;
+	margin-right: 0px;
+	margin-left: 0px;
+}
+	div.highslideImageGallery img {
+		max-width: 300px;
+	}
+
+#atlwdg-trigger, #atlwdg-blanket, #atlwdg-container {
+	display: none;
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 #footerContainerOuter {
@@ -993,6 +1031,29 @@ hr.header, hr.footer {
 			padding: 12px 0px 12px 0px;
 			text-align: center;
 		}
+			#copyright a, #copyright a:visited {
+				color: #f5862d;
+			}
+
+			#copyright #accessibilityInfo {
+				display: block;
+			}
+			#accessibilityInfo {
+				float: none;
+				margin-bottom: 10px;
+				text-align: center;
+			}
+				#copyright #accessibilityInfo p {
+					
+				}
+					/* #copyright #accessibilityInfo p span.tooltip {
+						color: #444444;
+					}
+						#copyright #accessibilityInfo p span.tooltip a {
+							color: #0673ba;
+							text-decoration: underline;
+						} */
+
 			#copyright p {
 				margin-bottom: 0px;
 				/* color: #808080; */

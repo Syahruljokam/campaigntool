@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,12 +23,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -40,15 +40,14 @@
 class CRM_Contact_Page_View_CustomData extends CRM_Core_Page {
 
   /**
-   * the id of the object being viewed (note/relationship etc)
+   * The id of the object being viewed (note/relationship etc)
    *
    * @int
-   * @access protected
    */
   public $_groupId;
 
   /**
-   * class constructor
+   * Class constructor.
    *
    * @return CRM_Contact_Page_View_CustomData
    */
@@ -57,13 +56,11 @@ class CRM_Contact_Page_View_CustomData extends CRM_Core_Page {
   }
 
   /**
-   * add a few specific things to view contact
+   * Add a few specific things to view contact.
    *
    * @return void
-   * @access public
-   *
    */
-  function preProcess() {
+  public function preProcess() {
     $this->_contactId = CRM_Utils_Request::retrieve('cid', 'Positive', $this, TRUE);
     $this->assign('contactId', $this->_contactId);
 
@@ -75,6 +72,10 @@ class CRM_Contact_Page_View_CustomData extends CRM_Core_Page {
 
     $this->_groupId = CRM_Utils_Request::retrieve('gid', 'Positive', $this, TRUE);
     $this->assign('groupId', $this->_groupId);
+
+    $this->_multiRecordDisplay = CRM_Utils_Request::retrieve('multiRecordDisplay', 'String', $this, FALSE);
+    $this->_cgcount = CRM_Utils_Request::retrieve('cgcount', 'Positive', $this, FALSE);
+    $this->_recId = CRM_Utils_Request::retrieve('recId', 'Positive', $this, FALSE);
   }
 
   /**
@@ -83,15 +84,10 @@ class CRM_Contact_Page_View_CustomData extends CRM_Core_Page {
    * This method is called after the page is created. It checks for the
    * type of action and executes that action.
    *
-   * @access public
    *
-   * @param object $page - the view page which created this one
-   *
-   * @return none
-   * @static
-   *
+   * @return void
    */
-  function run() {
+  public function run() {
     $this->preProcess();
 
     //set the userContext stack
@@ -114,12 +110,52 @@ class CRM_Contact_Page_View_CustomData extends CRM_Core_Page {
 
     if ($this->_action == CRM_Core_Action::BROWSE) {
       //Custom Groups Inline
-      $entityType    = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
+      $entityType = CRM_Contact_BAO_Contact::getContactType($this->_contactId);
       $entitySubType = CRM_Contact_BAO_Contact::getContactSubType($this->_contactId);
-      $groupTree     = &CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId,
+      $groupTree = &CRM_Core_BAO_CustomGroup::getTree($entityType, $this, $this->_contactId,
         $this->_groupId, $entitySubType
       );
-      CRM_Core_BAO_CustomGroup::buildCustomDataView($this, $groupTree);
+
+      $displayStyle = CRM_Core_DAO::getFieldValue('CRM_Core_DAO_CustomGroup',
+        $this->_groupId,
+        'style'
+      );
+
+      if ($this->_multiRecordDisplay != 'single') {
+        $id = "custom_{$this->_groupId}";
+        $this->ajaxResponse['tabCount'] = CRM_Contact_BAO_Contact::getCountComponent($id, $this->_contactId, $groupTree[$this->_groupId]['table_name']);
+      }
+
+      if ($displayStyle === 'Tab with table' && $this->_multiRecordDisplay != 'single') {
+        $ctype = CRM_Core_DAO::getFieldValue('CRM_Contact_DAO_Contact',
+          $this->_contactId,
+          'contact_type'
+        );
+
+        $this->assign('displayStyle', 'tableOriented');
+        // here the multi custom data listing code will go
+        $multiRecordFieldListing = TRUE;
+        $page = new CRM_Profile_Page_MultipleRecordFieldsListing();
+        $page->set('contactId', $this->_contactId);
+        $page->set('customGroupId', $this->_groupId);
+        $page->set('action', CRM_Core_Action::BROWSE);
+        $page->set('multiRecordFieldListing', $multiRecordFieldListing);
+        $page->set('pageViewType', 'customDataView');
+        $page->set('contactType', $ctype);
+        $page->run();
+      }
+      else {
+        $recId = NULL;
+        if ($this->_multiRecordDisplay == 'single') {
+          $groupTitle = CRM_Core_BAO_CustomGroup::getTitle($this->_groupId);
+          CRM_Utils_System::setTitle(ts('View %1 Record', array(1 => $groupTitle)));
+
+          $recId = $this->_recId;
+          $this->assign('multiRecordDisplay', $this->_multiRecordDisplay);
+          $this->assign('skipTitle', 1);
+        }
+        CRM_Core_BAO_CustomGroup::buildCustomDataView($this, $groupTree, FALSE, NULL, NULL, $recId);
+      }
     }
     else {
 
@@ -138,5 +174,5 @@ class CRM_Contact_Page_View_CustomData extends CRM_Core_Page {
     }
     return parent::run();
   }
-}
 
+}

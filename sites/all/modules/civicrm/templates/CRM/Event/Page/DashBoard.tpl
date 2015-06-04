@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -35,8 +35,8 @@
     <div class="float-right">
   <table class="form-layout-compressed">
      <tr>
-    <td><a href="{$configPagesURL}" class="button"><span>{ts}Manage Events{/ts}</span></a></td>
-    <td><a href="{$newEventURL}" class="button"><span><div class="icon add-icon"></div>{ts}New Event{/ts}</span></a></td>
+    <td><a href="{$configPagesURL}" class="button no-popup"><span>{ts}Manage Events{/ts}</span></a></td>
+    <td><a href="{$newEventURL}" class="button"><span><div class="icon ui-icon-circle-plus"></div>{ts}New Event{/ts}</span></a></td>
      </tr>
   </table>
     </div>
@@ -57,7 +57,16 @@
     <tbody>
     {foreach from=$eventSummary.events item=values key=id}
     <tr class="crm-event_{$id}">
-        <td class="crm-event-eventTitle"><a href="{crmURL p="civicrm/event/info" q="reset=1&id=`$id`"}" title="{ts}View event info page{/ts}">{$values.eventTitle}</a></td>
+        <td class="crm-event-eventTitle"><a href="{crmURL p="civicrm/event/info" q="reset=1&id=`$id`"}" title="{ts}View event info page{/ts}">{$values.eventTitle}</a>
+            {if $values.is_repeating_event}
+                <br/>
+                {if $values.is_repeating_event eq $id}
+                    <span>{ts}Repeating Event{/ts} - ({ts}Parent{/ts})</span>
+                {else}
+                    <span>{ts}Repeating Event{/ts} - ({ts}Child{/ts})</span>
+                {/if}
+            {/if}
+        </td>
         <td class="crm-event-id">{$id}</td>
         <td class="crm-event-eventType">{$values.eventType}</td>
         <td class="crm-event-isPublic">{$values.isPublic}</td>
@@ -90,35 +99,35 @@
             {foreach from=$values.statuses item=class}
                 {if $class}
                     {foreach from=$class item=status}
-                        <a href="{$status.url}" title="{ts 1=$status.name}List %1 participants{/ts}">{$status.name}: {$status.count}</a>
+                        <a href="{$status.url}" title="{ts 1=$status.label}List %1 participants{/ts}">{$status.label}: {$status.count}</a>
                     {/foreach}
                     <hr />
                 {/if}
             {/foreach}
             {if $values.maxParticipants}{ts 1=$values.maxParticipants}(max %1){/ts}{/if}
         </td>
-  {if $actionColumn}
+      {if $actionColumn}
         <td class="crm-event-isMap">
-            {if $values.isMap}
-                <a href="{$values.isMap}" title="{ts}Map event location{/ts}">&raquo;&nbsp;{ts}Map{/ts}</a>&nbsp;|&nbsp;
-            {/if}
-            {if $values.configure}
-              <div class="crm-configure-actions">
-                <span id="{$id}" class="btn-slide">{ts}Configure{/ts}
-                <ul class="panel" id="panel_info_{$id}">
-                <li><a title="Info and Settings" class="action-item-wrap" href="{crmURL p='civicrm/event/manage/settings' q="reset=1&action=update&id=`$id`"}">{ts}Info and Settings{/ts}</a></li>
-                <li><a title="Location" class="action-item-wrap {if NOT $values.is_show_location} disabled{/if}" href="{crmURL p='civicrm/event/manage/location' q="reset=1&action=update&id=`$id`"}">{ts}Location{/ts}</a></li>
-                <li><a title="Fees" class="action-item {if NOT $values.is_monetary} disabled{/if}" href="{crmURL p='civicrm/event/manage/fee' q="reset=1&action=update&id=`$id`"}">{ts}Fees{/ts}</a></li>
-                <li><a title="Online Registration" class="action-item-wrap {if NOT $values.is_online_registration} disabled{/if}" href="{crmURL p='civicrm/event/manage/registration' q="reset=1&action=update&id=`$id`"}">{ts}Online Registration{/ts}</a></li>
-          <li><a title="Schedule Reminders" class="action-item-wrap {if NOT $values.reminder} disabled{/if}" href="{crmURL p='civicrm/event/manage/reminder' q="reset=1&action=update&id=`$id`"}">{ts}Schedule Reminders{/ts}</a></li>
-                <li><a title="Conference Slots" class="action-item-wrap {if NOT $values.is_subevent} disabled{/if}" href="{crmURL p='civicrm/event/manage/conference' q="reset=1&action=update&id=`$id`"}">{ts}Conference Slots{/ts}</a></li>
-                <li><a title="Tell a Friend" class="action-item-wrap {if NOT $values.friend} disabled{/if}" href="{crmURL p='civicrm/event/manage/friend' q="reset=1&action=update&id=`$id`"}">{ts}Tell a Friend{/ts}</a></li>
-          <li><a title="{ts}Personal Campaign Pages{/ts}" class="action-item-wrap {if NOT $values.is_pcp_enabled} disabled{/if}" href="{crmURL p='civicrm/event/manage/pcp' q="reset=1&action=update&id=`$id`"}">{ts}Personal Campaign Pages{/ts}</a></li>
+          {if $values.isMap}
+            <a href="{$values.isMap}" title="{ts}Map event location{/ts}">&raquo;&nbsp;{ts}Map{/ts}</a>
+            &nbsp;|&nbsp;
+          {/if}
+          {if $values.configure}
+            <div class="crm-configure-actions">
+                <span id="{$id}" class="btn-slide crm-hover-button">{ts}Configure{/ts}
+                  <ul class="panel" id="panel_info_{$id}">
+                    {foreach from=$eventSummary.tab key=k item=v}
+                      {assign var="fld" value=$v.field}
+                      {if NOT $values.$fld}{assign var="status" value="disabled"}{else}{assign var="status" value="enabled"}{/if}
+                      <li><a title="{$v.title}" class="action-item crm-hover-button no-popup {$status}"
+                             href="{crmURL p="`$v.url`" q="reset=1&action=update&id=`$id`"}">{$v.title}</a></li>
+                    {/foreach}
+                  </ul>
                 </span>
-              </div>
-            {/if}
+            </div>
+          {/if}
         </td>
-  {/if}
+      {/if}
     </tr>
     {/foreach}
 

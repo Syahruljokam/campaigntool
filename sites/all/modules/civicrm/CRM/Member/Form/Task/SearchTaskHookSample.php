@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -22,12 +22,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -39,12 +39,11 @@
 class CRM_Member_Form_Task_SearchTaskHookSample extends CRM_Member_Form_Task {
 
   /**
-   * build all the data structures needed to build the form
+   * Build all the data structures needed to build the form.
    *
    * @return void
-   * @access public
    */
-  function preProcess() {
+  public function preProcess() {
     parent::preProcess();
     $rows = array();
     // display name and membership details of all selected contacts
@@ -53,10 +52,10 @@ class CRM_Member_Form_Task_SearchTaskHookSample extends CRM_Member_Form_Task {
     $query = "
     SELECT mem.start_date  as start_date,
            mem.end_date    as end_date,
-           mem.source      as source,  
-           ct.display_name as display_name    
+           mem.source      as source,
+           ct.display_name as display_name
 FROM       civicrm_membership mem
-INNER JOIN civicrm_contact ct ON ( mem.contact_id = ct.id )     
+INNER JOIN civicrm_contact ct ON ( mem.contact_id = ct.id )
 WHERE      mem.id IN ( $memberIDs )";
 
     $dao = CRM_Core_DAO::executeQuery($query, CRM_Core_DAO::$_nullArray);
@@ -72,10 +71,9 @@ WHERE      mem.id IN ( $memberIDs )";
   }
 
   /**
-   * Function to actually build the form
+   * Build the form object.
    *
-   * @return None
-   * @access public
+   * @return void
    */
   public function buildQuickForm() {
     $this->addButtons(array(
@@ -87,5 +85,5 @@ WHERE      mem.id IN ( $memberIDs )";
       )
     );
   }
-}
 
+}

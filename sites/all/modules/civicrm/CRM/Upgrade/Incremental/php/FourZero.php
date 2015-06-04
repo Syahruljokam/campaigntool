@@ -1,10 +1,9 @@
 <?php
-
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,22 +22,30 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
 class CRM_Upgrade_Incremental_php_FourZero {
-  function verifyPreDBstate(&$errors) {
+  /**
+   * @param $errors
+   *
+   * @return bool
+   */
+  public function verifyPreDBstate(&$errors) {
     return TRUE;
   }
 
-  function upgrade_4_0_alpha1($rev) {
+  /**
+   * @param $rev
+   */
+  public function upgrade_4_0_alpha1($rev) {
     // do nothing, db is already upgraded to 3.4.alpha1.
   }
-}
 
+}

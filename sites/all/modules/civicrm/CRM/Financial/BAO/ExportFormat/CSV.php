@@ -1,10 +1,9 @@
 <?php
-
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -24,20 +23,19 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
 
-/*
- * @see http://wiki.civicrm.org/confluence/display/CRM/CiviAccounts+Specifications+-++Batches#CiviAccountsSpecifications-Batches-%C2%A0Overviewofimplementation
+/**
+ * @link http://wiki.civicrm.org/confluence/display/CRM/CiviAccounts+Specifications+-++Batches#CiviAccountsSpecifications-Batches-%C2%A0Overviewofimplementation
  */
-
 class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat {
 
   // For this phase, we always output these records too so that there isn't data referenced in the journal entries that isn't defined anywhere.
@@ -48,19 +46,22 @@ class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat 
   );
 
   /**
-   * class constructor
+   * Class constructor.
    */
-  function __construct() {
+  public function __construct() {
     parent::__construct();
   }
 
-  function export($exportParams) {
+  /**
+   * @param array $exportParams
+   */
+  public function export($exportParams) {
     $export = parent::export($exportParams);
 
     // Save the file in the public directory
     $fileName = self::putFile($export);
 
-    foreach ( self::$complementaryTables as $rct ) {
+    foreach (self::$complementaryTables as $rct) {
       $func = "export{$rct}";
       $this->$func();
     }
@@ -71,7 +72,12 @@ class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat 
     $this->output($fileName);
   }
 
-  function generateExportQuery($batchId) {
+  /**
+   * @param int $batchId
+   *
+   * @return Object
+   */
+  public function generateExportQuery($batchId) {
     $sql = "SELECT
       ft.id as financial_trxn_id,
       ft.trxn_date,
@@ -85,7 +91,7 @@ class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat 
       c.source AS source,
       ft.currency AS currency,
       cov_status.label AS status,
-      CASE 
+      CASE
         WHEN efti.entity_id IS NOT NULL
         THEN efti.amount
         ELSE eftc.amount
@@ -114,15 +120,20 @@ class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat 
       WHERE eb.batch_id = ( %1 )";
 
     $params = array(1 => array($batchId, 'String'));
-    $dao = CRM_Core_DAO::executeQuery( $sql, $params );
+    $dao = CRM_Core_DAO::executeQuery($sql, $params);
 
     return $dao;
   }
 
-  function putFile($export) {
+  /**
+   * @param $export
+   *
+   * @return string
+   */
+  public function putFile($export) {
     $config = CRM_Core_Config::singleton();
-    $fileName = $config->uploadDir.'Financial_Transactions_'.$this->_batchIds.'_'.date('YmdHis').'.'.$this->getFileExtension();
-    $this->_downloadFile[] = $config->customFileUploadDir.CRM_Utils_File::cleanFileName(basename($fileName));
+    $fileName = $config->uploadDir . 'Financial_Transactions_' . $this->_batchIds . '_' . date('YmdHis') . '.' . $this->getFileExtension();
+    $this->_downloadFile[] = $config->customFileUploadDir . CRM_Utils_File::cleanFileName(basename($fileName));
     $out = fopen($fileName, 'w');
     fputcsv($out, $export['headers']);
     unset($export['headers']);
@@ -136,12 +147,12 @@ class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat 
   }
 
   /**
-   * Format table headers
+   * Format table headers.
    *
    * @param array $values
    * @return array
    */
-  function formatHeaders($values) {
+  public function formatHeaders($values) {
     $arrayKeys = array_keys($values);
     $headers = '';
     if (!empty($arrayKeys)) {
@@ -153,18 +164,16 @@ class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat 
   }
 
   /**
-   * Generate CSV array for export
+   * Generate CSV array for export.
    *
    * @param array $export
-   *
    */
-  function makeCSV($export) {
+  public function makeCSV($export) {
     foreach ($export as $batchId => $dao) {
       $financialItems = array();
       $this->_batchIds = $batchId;
       while ($dao->fetch()) {
-        $creditAccountName = $creditAccountType = 
-          $creditAccount = NULL;
+        $creditAccountName = $creditAccountType = $creditAccount = NULL;
         if ($dao->credit_account) {
           $creditAccountName = $dao->credit_account_name;
           $creditAccountType = $dao->credit_account_type_code;
@@ -173,16 +182,18 @@ class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat 
         else {
           $creditAccountName = $dao->from_credit_account_name;
           $creditAccountType = $dao->from_credit_account_type_code;
-          $creditAccount = $dao->from_credit_account;   
+          $creditAccount = $dao->from_credit_account;
         }
-        
+
         $financialItems[] = array(
+          'Internal ID' => $dao->financial_trxn_id,
           'Transaction Date' => $dao->trxn_date,
           'Debit Account' => $dao->to_account_code,
           'Debit Account Name' => $dao->to_account_name,
           'Debit Account Type' => $dao->to_account_type_code,
           'Debit Account Amount (Unsplit)' => $dao->debit_total_amount,
           'Transaction ID (Unsplit)' => $dao->trxn_id,
+          'Debit amount (Split)' => $dao->amount,
           'Payment Instrument' => $dao->payment_instrument,
           'Check Number' => $dao->check_number,
           'Source' => $dao->source,
@@ -201,16 +212,20 @@ class CRM_Financial_BAO_ExportFormat_CSV extends CRM_Financial_BAO_ExportFormat 
     parent::initiateDownload();
   }
 
-  function getFileExtension() {
+  /**
+   * @return string
+   */
+  public function getFileExtension() {
     return 'csv';
   }
 
-  function exportACCNT() {
+  public function exportACCNT() {
   }
 
-  function exportCUST() {
+  public function exportCUST() {
   }
 
-  function exportTRANS() {
+  public function exportTRANS() {
   }
+
 }

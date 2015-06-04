@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,29 +23,62 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  * The extension manager handles installing, disabling enabling, and
  * uninstalling extensions.
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
 interface CRM_Extension_Manager_Interface {
+  /**
+   * Perform type-specific installation logic (before marking the
+   * extension as installed or clearing the caches).
+   *
+   * @param CRM_Extension_Info $info
+   */
   public function onPreInstall(CRM_Extension_Info $info);
+
+  /**
+   * Perform type-specific installation logic (after marking the
+   * extension as installed but before clearing the caches).
+   *
+   * @param CRM_Extension_Info $info
+   */
   public function onPostInstall(CRM_Extension_Info $info);
 
+  /**
+   * Perform type-specific installation logic (after marking the
+   * extension as installed and clearing the caches).
+   *
+   * @param CRM_Extension_Info $info
+   */
+  public function onPostPostInstall(CRM_Extension_Info $info);
+
+  /**
+   * @param CRM_Extension_Info $info
+   *
+   * @return mixed
+   */
   public function onPreEnable(CRM_Extension_Info $info);
+
+  /**
+   * @param CRM_Extension_Info $info
+   *
+   * @return mixed
+   */
   public function onPostEnable(CRM_Extension_Info $info);
 
   /**
    * Perform type-specific removal logic (before updating the extension
    * row in the "civicrm_extension" table).
-   * 
-   * @param CRM_Extension_Info $info may be generated from xml or DB (which is lossy)
+   *
+   * @param CRM_Extension_Info $info
+   *   May be generated from xml or DB (which is lossy).
    * @see CRM_Extension_Manager::createInfoFromDB
    */
   public function onPreDisable(CRM_Extension_Info $info);
@@ -54,7 +87,8 @@ interface CRM_Extension_Manager_Interface {
    * Perform type-specific removal logic (after updating the extension
    * row in the "civicrm_extension" table).
    *
-   * @param CRM_Extension_Info $info may be generated from xml or DB (which is lossy)
+   * @param CRM_Extension_Info $info
+   *   May be generated from xml or DB (which is lossy).
    * @see CRM_Extension_Manager::createInfoFromDB
    */
   public function onPostDisable(CRM_Extension_Info $info);
@@ -63,7 +97,8 @@ interface CRM_Extension_Manager_Interface {
    * Perform type-specific removal logic (before removing the extension
    * row in the "civicrm_extension" table).
    *
-   * @param CRM_Extension_Info $info may be generated from xml or DB (which is lossy)
+   * @param CRM_Extension_Info $info
+   *   May be generated from xml or DB (which is lossy).
    * @see CRM_Extension_Manager::createInfoFromDB
    */
   public function onPreUninstall(CRM_Extension_Info $info);
@@ -72,11 +107,26 @@ interface CRM_Extension_Manager_Interface {
    * Perform type-specific removal logic (after removing the extension
    * row in the "civicrm_extension" table).
    *
-   * @param CRM_Extension_Info $info may be generated from xml or DB (which is lossy)
+   * @param CRM_Extension_Info $info
+   *   May be generated from xml or DB (which is lossy).
    * @see CRM_Extension_Manager::createInfoFromDB
    */
   public function onPostUninstall(CRM_Extension_Info $info);
 
+  /**
+   * @param CRM_Extension_Info $oldInfo
+   * @param CRM_Extension_Info $newInfo
+   *
+   * @return mixed
+   */
   public function onPreReplace(CRM_Extension_Info $oldInfo, CRM_Extension_Info $newInfo);
+
+  /**
+   * @param CRM_Extension_Info $oldInfo
+   * @param CRM_Extension_Info $newInfo
+   *
+   * @return mixed
+   */
   public function onPostReplace(CRM_Extension_Info $oldInfo, CRM_Extension_Info $newInfo);
+
 }

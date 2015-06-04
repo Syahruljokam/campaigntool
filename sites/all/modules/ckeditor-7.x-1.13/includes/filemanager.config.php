@@ -51,7 +51,7 @@ function CheckAuthentication() {
         } while (!($bootstrap_file_found = file_exists($drupal_path . '/includes/bootstrap.inc')) && $depth < 10);
       }
     }
-    
+
     if (!isset($bootstrap_file_found) || !$bootstrap_file_found) {
       $drupal_path = '../../../../..';
       if (!file_exists($drupal_path . '/includes/bootstrap.inc')) {
@@ -62,7 +62,6 @@ function CheckAuthentication() {
         } while (!($bootstrap_file_found = file_exists($drupal_path . '/includes/bootstrap.inc')) && $depth < 10);
       }
     }
-    
     if (!isset($bootstrap_file_found) || $bootstrap_file_found) {
       $current_cwd = getcwd();
       chdir($drupal_path);
@@ -87,7 +86,14 @@ CheckAuthentication();
 
 if (isset($_SESSION['ckeditor']['UserFilesPath'], $_SESSION['ckeditor']['UserFilesAbsolutePath'])) {
   $baseUrl = $_SESSION['ckeditor']['UserFilesPath'];
-  $baseDir = $_SESSION['ckeditor']['UserFilesAbsolutePath'];
+  // To deal with multiple application servers it's better to let CKFinder guess the server path based on the URL,
+  // because the server side path changes on each request (#2127467).
+  if (isset($_SERVER['PANTHEON_ENVIRONMENT'])) {
+    $baseDir = resolveUrl($baseUrl);
+  }
+  else {
+    $baseDir = $_SESSION['ckeditor']['UserFilesAbsolutePath'];
+  }
 }
 else {
   // Nothing in session? Shouldn't happen... anyway let's try to upload it in the (almost) right place

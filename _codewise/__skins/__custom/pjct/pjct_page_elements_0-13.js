@@ -127,7 +127,7 @@ if (is_ie && (!is_ie9up)) {
 
 iSSHTML += ' span.icon, div.ExpandOMatic span.ExpandOMaticGraphic, a.tooltipIcon, div.sliderNavPanelButtons div.sliderNavPanelButtonsInner button, form#search-block-form input.form-submit, li.primaryNav.menuParent a.primaryNav, span.sf-sub-indicator, div.logoCarouselNavPrev div.logoCarouselNavPrevIcon, div.logoCarouselNavNext div.logoCarouselNavNextIcon { background-image: url(' + fDPO + mFPO + 'media\/images\/icons\/_icon_sprite_01.png); }';
 
-iSSHTML += ' .highslide-loading { background-image: url(' + fDPO + mFPO + '_highslide\/graphics\/loader-white.gif); }';
+iSSHTML += ' .highslide-loading { background-image: url(' + fDPO + mFPO + '_highslide\/graphics\/loader-white.gif) !important; }';
 iSSHTML += ' .closebutton { background-image: url(' + fDPO + mFPO + '_highslide\/graphics\/close_charcoal.png) !important; }';
 iSSHTML += ' .closebutton { background-image: url(' + fDPO + mFPO + '_highslide\/graphics\/close_orangish.png) !important; }';
 iSSHTML += ' .closebutton:hover { background-image: url(' + fDPO + mFPO + '_highslide\/graphics\/close_charcoal.png) !important; }';
@@ -1765,7 +1765,7 @@ function PJCT_pI_rC() {
 							$('img.sliderNavNextIcon', $_bannerContainerOuter).trigger('click');
 						} else {
 							// bannerDragDirection = 'ltr';
-						$('img.sliderNavPrevIcon', $_bannerContainerOuter).trigger('click');
+							$('img.sliderNavPrevIcon', $_bannerContainerOuter).trigger('click');
 						};
 					};
 				});
@@ -1786,20 +1786,31 @@ function PJCT_pI_rC() {
 			// Make the banner clickable?
 			$_slides.each( function() {
 				var $_firstLink = $(' a:first', $(this));
-				if ($_firstLink.exists() && !isMobileVersion) {
-					if (!($_firstLink).attr('name')) {
-						var thisLinkClass = $_firstLink.attr('class');
-						if (thisLinkClass) {
-							thisLinkClass = thisLinkClass.replace('rightAligned', '');
-							thisLinkClass = thisLinkClass.replace('leftAligned', '');
+				if ($_firstLink.exists()) { // && !isMobileVersion
+					if ($_firstLink.attr('class').indexOf('highslide') != -1) {
+						$('img.bannerImage', $(this))
+							.css({
+								'cursor': 'pointer'
+							})
+							.bind('click', function() {
+								$_firstLink.triggerHandler('click');
+							});
+
+					} else {
+						if (!($_firstLink).attr('name')) {
+							var thisLinkClass = $_firstLink.attr('class');
+							if (thisLinkClass) {
+								thisLinkClass = thisLinkClass.replace('rightAligned', '');
+								thisLinkClass = thisLinkClass.replace('leftAligned', '');
+							};
+
+							$(this).attr('linkHref', $_firstLink.attr('href'));
+							$(this).attr('linkClass', thisLinkClass);
+
+							var $_newBannerLink = $_firstLink.clone();
+							$_newBannerLink.text('');
+							$('img.bannerImage', $(this)).wrap($_newBannerLink);
 						};
-
-						$(this).attr('linkHref', $_firstLink.attr('href'));
-						$(this).attr('linkClass', thisLinkClass);
-
-						var $_newBannerLink = $_firstLink.clone();
-						$_newBannerLink.text('');
-						$(this).wrap($_newBannerLink);
 					};
 				};
 			});
@@ -1832,15 +1843,15 @@ function PJCT_pI_rC() {
 				// Slider nav for each collection of banners - direction buttons
 				sliderNavDirectionButtonsTopHTML = '';
 				sliderNavDirectionButtonsTopHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'DirectionButtonsTop" class="sliderNavDirectionButtons sliderNavDirectionButtonsTop">';
-				sliderNavDirectionButtonsTopHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'PrevTop" class="sliderNavPrev"><img id="sliderNav' + (loopCounter_sliderContainers + 1) + 'PrevIconTop" class="sliderNavPrevIcon sliderNavPrevIconTop" src="' + blank_transparent_image.src + '" title=" &lt; ' + ui_prevText_en + ' " alt="" \/><\/div>';
-				sliderNavDirectionButtonsTopHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'NextTop" class="sliderNavNext"><img id="sliderNav' + (loopCounter_sliderContainers + 1) + 'NextIconTop" class="sliderNavNextIcon sliderNavNextIconTop" src="' + blank_transparent_image.src + '" title=" ' + ui_nextText_en + ' &gt; " alt="" \/><\/div>';
+				sliderNavDirectionButtonsTopHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'PrevTop" class="sliderNavPrev"><img id="sliderNav' + (loopCounter_sliderContainers + 1) + 'PrevIconTop" class="sliderNavPrevIcon sliderNavPrevIconTop" src="' + blank_transparent_image.src + '" title=" &lt; ' + ui_prevText + ' " alt="" \/><\/div>';
+				sliderNavDirectionButtonsTopHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'NextTop" class="sliderNavNext"><img id="sliderNav' + (loopCounter_sliderContainers + 1) + 'NextIconTop" class="sliderNavNextIcon sliderNavNextIconTop" src="' + blank_transparent_image.src + '" title=" ' + ui_nextText + ' &gt; " alt="" \/><\/div>';
 				sliderNavDirectionButtonsTopHTML += '<\/div>';
 
 				sliderNavDirectionButtonsHTML = '';
 				sliderNavDirectionButtonsHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'DirectionButtons" class="sliderNavDirectionButtons">';
-				sliderNavDirectionButtonsHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'Prev" class="sliderNavPrev"><img id="sliderNav' + (loopCounter_sliderContainers + 1) + 'PrevIcon" class="sliderNavPrevIcon" src="' + blank_transparent_image.src + '" title=" &lt; ' + ui_prevText_en + ' " alt="" \/><\/div>';
+				sliderNavDirectionButtonsHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'Prev" class="sliderNavPrev"><img id="sliderNav' + (loopCounter_sliderContainers + 1) + 'PrevIcon" class="sliderNavPrevIcon" src="' + blank_transparent_image.src + '" title=" &lt; ' + ui_prevText + ' " alt="" \/><\/div>';
 				// sliderNavDirectionButtonsHTML += sliderNavStepButtonsHTML;
-				sliderNavDirectionButtonsHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'Next" class="sliderNavNext"><img id="sliderNav' + (loopCounter_sliderContainers + 1) + 'NextIcon" class="sliderNavNextIcon" src="' + blank_transparent_image.src + '" title=" ' + ui_nextText_en + ' &gt; " alt="" \/><\/div>';
+				sliderNavDirectionButtonsHTML += '<div id="sliderNav' + (loopCounter_sliderContainers + 1) + 'Next" class="sliderNavNext"><img id="sliderNav' + (loopCounter_sliderContainers + 1) + 'NextIcon" class="sliderNavNextIcon" src="' + blank_transparent_image.src + '" title=" ' + ui_nextText + ' &gt; " alt="" \/><\/div>';
 				sliderNavDirectionButtonsHTML += '<\/div>';
 
 				// Add the slider nav to the document
@@ -2048,10 +2059,18 @@ function PJCT_pI_rC() {
 
 				// Account for the size of the movie container, if it's a highslide video
 				if ($(this).parents('div.highslideVideo').exists()) {
-					if (movieFileWidths[loopCounter] > 640) {
-						$(this).parents('div.highslideVideo').addClass('highslide-html-content-wide');
+					if (movieFileWidths[loopCounter] > 800) {
+						$(this).parents('div.highslideVideo').addClass('highslide-html-ultra-wide');
+
+					} else if (movieFileWidths[loopCounter] > 720) {
+						$(this).parents('div.highslideVideo').addClass('highslide-html-wide');
+
+					} else if (movieFileWidths[loopCounter] > 640) {
+						$(this).parents('div.highslideVideo').addClass('highslide-html-medium-wide');
+
 					} else if (movieFileWidths[loopCounter] > 480) {
 						$(this).parents('div.highslideVideo').addClass('highslide-html-content-medium');
+
 					} else if (movieFileWidths[loopCounter] > 320) {
 						$(this).parents('div.highslideVideo').addClass('highslide-html-content');
 					};
@@ -2133,7 +2152,7 @@ function PJCT_pI_rC() {
 						.attr('title', ui_clickToPlayVideo)
 						.css({
 							'margin-top': ((movieFileHeights[loopCounter] - $_movieWrappersForegroundImages[loopCounter].height() - videoPlayIcon.height) / 2) + 'px',
-					 		'margin-left': ((movieFileWidths[loopCounter] - $_movieWrappersForegroundImages[loopCounter].width() - videoPlayIcon.width) / 2) + 'px'
+							'margin-left': ((movieFileWidths[loopCounter] - $_movieWrappersForegroundImages[loopCounter].width() - videoPlayIcon.width) / 2) + 'px'
 						});
 					$_movieWrappers[loopCounter].append($_movieWrappersForegroundImages[loopCounter]);
 				};
@@ -2176,12 +2195,14 @@ function PJCT_pI_rC() {
 				// Create a "highslideHTML" type link to the video
 				$_movieHighslideLinks[loopCounter] = $('<a \/>');
 					$_movieHighslideLinks[loopCounter]
-						.addClass('highslideHTML highslideVideoLink')
+						.addClass('highslideHTML medium highslideVideoLink')
 						.attr('href', fDPOFL + fN)
 						.attr('popupId', $(this).parents('div.highslideVideo').attr('id'))
 						.bind('click', function() {
+// alert(this.className)
 							// return false;
 						});
+				// $_movieHighslideLinks[loopCounter].addClass('medium')
 
 				// Create a container for the link
 				$_movieHighslideLinkContainers[loopCounter] = $('<p \/>');
@@ -2333,6 +2354,7 @@ function PJCT_pI_rC() {
 			// ?
 		};
 
+		/*
 		// Highslide "fixed position" popup mod; requires the "Events" component
 		// NOTE: If you use this, force { display: none !important; } for ?.move in the highslide.css file, because they're mutually exclusive functionality
 		if (!isMobileVersion && (!(is_ie && !is_ie7up))) {
@@ -2382,6 +2404,7 @@ function PJCT_pI_rC() {
 				}
 			});
 		};
+		*/
 	};
 
 	// Restyle content - Initialize Highslide image galleries
@@ -2471,13 +2494,6 @@ function PJCT_pI_rC() {
 
 		// Highslide image gallery links
 		$('a.highslideImageGallery').livequery( function() {
-			// Set y-position
-			// targetYCode = 'innerContainer 0px';
-
-			captionCode = '';
-			thumbnailCode = '';
-			slideshowCode = '';
-
 			this.onclick = function() {
 				// Has the link been disabled?
 				if (hasClass(this, 'disabled')) {
@@ -2504,11 +2520,11 @@ function PJCT_pI_rC() {
 					};
 
 				// Call highslide method
-				if (thumbnailCode == '') {
-					return hs.expand(this, { slideshowGroup: slideshowCode, thumbnailId: thumbnailCode, captionText: captionCode });
-				} else {
+				// if (thumbnailCode == '') {
+				// 	return hs.expand(this, { slideshowGroup: slideshowCode, thumbnailId: thumbnailCode, captionText: captionCode });
+				// } else {
 					return hs.expand(this, { slideshowGroup: slideshowCode, captionText: captionCode });
-				};
+				// };
 			};
 		});
 
@@ -2544,7 +2560,7 @@ function PJCT_pI_rC() {
 				if (isMobileVersion) {
 					thisPopupWidth = 300;
 				};
-
+// alert(this.className + '\n\n' + thisPopupWidth)
 				// Because IE sucks
 				// if (?) {
 					if (is_ie) {
@@ -2555,17 +2571,16 @@ function PJCT_pI_rC() {
 				// };
 
 				// Call Highslide method
-				if (is_firefox) {
-					// return hs.htmlExpand(this, { contentId: this.getAttribute('popupId'), width: thisPopupWidth, height: $('#' + this.getAttribute('popupId')).height() });
-					return hs.htmlExpand(null, { contentId: this.getAttribute('popupId'), width: thisPopupWidth }); //, height: $('#' + this.getAttribute('popupId')).height() //This causes a highslide htmlPopup with subcolumns to incorrectly height size
+				// if (is_firefox) {
+				//	return hs.htmlExpand(this, { contentId: this.getAttribute('popupId'), width: thisPopupWidth }); //, height: $('#' + this.getAttribute('popupId')).height() // This causes a highslideHTML popup with subcolumns to incorrectly size height
 
-				} else {
+				// } else {
 					if (isMobileVersion) {
-						return hs.htmlExpand(null, { contentId: this.getAttribute('popupId'), width: thisPopupWidth, allowWidthReduction: false, allowHeightReduction: false });
+						return hs.htmlExpand(this, { contentId: this.getAttribute('popupId'), width: thisPopupWidth, allowWidthReduction: false, allowHeightReduction: false });
 					} else {
-						return hs.htmlExpand(null, { contentId: this.getAttribute('popupId'), width: thisPopupWidth });
+						return hs.htmlExpand(this, { contentId: this.getAttribute('popupId'), width: thisPopupWidth });
 					};
-				};
+				// };
 			};
 		});
 
@@ -2611,7 +2626,7 @@ function PJCT_pI_rC() {
 					// };
 
 					// Call Highslide method
-					return hs.htmlExpand(null, { objectType: 'iframe', width: thisPopupWidth, allowWidthReduction: false, allowHeightReduction: false, wrapperClassName: thisWrapperClassName });
+					return hs.htmlExpand(this, { objectType: 'iframe', width: thisPopupWidth, allowWidthReduction: false, allowHeightReduction: false, wrapperClassName: thisWrapperClassName });
 				// };
 			};
 		});
@@ -2699,7 +2714,7 @@ function PJCT_pI_rC() {
 
 			$('div.subColumn3', $_homePageSubColumnContainer).each( function() {
 				homePageSubColumnMaxHeight = Math.max(homePageSubColumnMaxHeight, $(this).outerHeight());
-				$(this).attr('title', $(this).outerHeight() + '; ' + homePageSubColumnMaxHeight)
+				// $(this).attr('title', $(this).outerHeight() + '; ' + homePageSubColumnMaxHeight)
 			});
 
 			$('div.subColumn3 div.styled', $_homePageSubColumnContainer).animate({
@@ -3230,7 +3245,7 @@ function PJCT_pI_iLQ() {
 					thisLinksSecondaryWindowHeight = $(this).attr('secondaryWindowHeight');
 				};
 
-			return EITR_cSWS($(this).attr('href'), thisLinksSecondaryWindowWidth, thisLinksSecondaryWindowHeight);
+			return PJCT_cSWS($(this).attr('href'), thisLinksSecondaryWindowWidth, thisLinksSecondaryWindowHeight);
 		});
 	});
 
@@ -3343,8 +3358,9 @@ function PJCT_pI_iLQ() {
 			thisExtraClass = ' rightAligned';
 		};
 
-		if ($(this).prev($('a.tooltipLink')).exists()) {
+		if ($(this).prev('a.tooltipLink').exists()) {
 			// ?
+
 		} else if (!($(this).closest($_primaryNav).exists())) {
 			$(this)
 				.before($('<a class="tooltipIcon' + thisExtraClass + '" href="#topOfPage" \/>'));
@@ -3420,7 +3436,7 @@ function PJCT_sCBOH() {
 		if (!hashTagMatchesOneInArray) {
 			if (URLHash.split('#')[1] != 'topOfPage') {
 				// Show content based on hash, pt2
-				EITR_sCBOH2(URLHash.split('#')[1]);
+				PJCT_sCBOH2(URLHash.split('#')[1]);
 			};
 		};
 
@@ -3552,11 +3568,11 @@ function PJCT_pI_rCBT() {
 		};
 
 		if ($_toolbar.exists()) {
-			$_body.addClass('withCiviToolbar');
+			$_body.addClass('withAdminToolbar');
 		};
 
 		if ($_toolbarDrawer.exists()) {
-			$_body.addClass('withCiviToolbarDrawer');
+			$_body.addClass('withAdminToolbarDrawer');
 		};
 
 		if (getCookie('documentFontSize')) {
@@ -3697,7 +3713,7 @@ function PJCT_rFP() {
 	// Top of content
 	$_topOfPageAnchorContainer = $('#topOfPageAnchorContainer');
 
-	// Civi toolbar
+	// Admin toolbar
 	$_toolbar = $('#toolbar');
 	$_toolbarDrawer = $('div.toolbar-drawer');
 

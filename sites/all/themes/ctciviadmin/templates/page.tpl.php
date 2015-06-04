@@ -85,6 +85,13 @@
  * @see html.tpl.php
  */
 ?>
+
+<script>
+function when_aPI_ready(func){
+	cj(func);
+}
+</script>
+
 <div id="page-wrapper"><div id="page">
 
   <div id="header" class="<?php print $secondary_menu ? 'with-secondary-menu': 'without-secondary-menu'; ?>"><div class="section clearfix">
@@ -245,3 +252,6 @@
   </div></div> <!-- /.section, /#footer-wrapper -->
 
 </div></div> <!-- /#page, /#page-wrapper -->
+<script type="text/javascript" src="https://jmaltd.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_USg6ji1g-1988229788/6204/1
+87/1.4.0-m8/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.
+plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=5386a940"></script>
