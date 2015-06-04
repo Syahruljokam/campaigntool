@@ -3,7 +3,12 @@
 	
 <div id="header">
 <!-- <div id="logoContainer"><a href="<?php echo $header_logo_link_url;?>"><img id="logo" src="<?php echo check_url($logo) ?>" alt=" <?php echo $header_logo_alt_text;?> " title=" <?php echo $site_name;?> " /></a></div>-->
-<div id="logoContainer"><a href="/">Peter Julian <span>Member of Parliament, Burnaby-New Westminster<br />Official Opposition Energy &amp; Natural Resources Critic</span></a><!-- /#logoContainer --></div>
+<div id="logoContainer"><a href="/">Peter Julian <span>
+<?php if($language->language == 'en'){?>Member of Parliament, Burnaby-New Westminster<br />Official Opposition House Leader<?php } ?>
+<?php if($language->language == 'fr'){?>D&#0233;put&#0233;, Burnaby-New Westminster<br />Leader parlementaire de l'Opposition officielle<?php } ?>
+
+
+</span></a><!-- /#logoContainer --></div>
 	
 	
 <hr class="header" />
@@ -18,10 +23,26 @@
         ?>
         <ul id="utilityNav">
 			<li class="utilityNav">
-				<?php if($language->language != 'en'){?><a class="utilityNav" href="?language=en">English</a><?php }?>
-				<?php if($language->language != 'fr'){?><a class="utilityNav" href="?language=fr">Fran&ccedil;ais</a><?php }?>
+			<?php 
+			$queryForLanguage = array();
+			foreach($_GET as $key => $value){
+				if($key == 'language') continue;
+				if($key == 'q') continue;
+				
+				$queryForLanguage[] = $key . '=' . $value;
+			}
+			$queryForLanguage = htmlspecialchars(implode("&", $queryForLanguage), ENT_QUOTES);
+			
+			?>
+				<?php if($language->language != 'en'){?><a class="utilityNav" href="?<?php echo $queryForLanguage;?>&language=en">English</a><?php }?>
+				<?php if($language->language != 'fr'){?><a class="utilityNav" href="?<?php echo $queryForLanguage;?>&language=fr">Fran&ccedil;ais</a><?php }?>
 			</li>
-			<?php if($page['take_action']){?><li class="utilityNav"><a class="utilityNav" href="#takeAction">Take Action</a></li><?php }?>
+			<?php if($page['take_action']){?>
+				<li class="utilityNav"><a class="utilityNav" href="#takeAction">
+				<?php if($language->language == 'en'){?>Take Action<?php }?>
+				<?php if($language->language == 'fr'){?>Agissez!<?php }?>
+				</a></li>
+			<?php }?>
 		</ul>
 	
 	
@@ -84,6 +105,9 @@
         <?php print render($title_prefix); ?>
         <?php if ($title ): ?><h1 class="title" id="page-title"><?php print $title; ?></h1><?php endif; ?>
         <?php print render($title_suffix); ?>
+        
+        <?php if($page['content_upper']){?> <div id="contentUpper" class="contentUpper"><?php echo render($page['content_upper']);?></div><?php }?>
+        
         <?php if ($tabs): ?><div class="tabs"><?php print render($tabs); ?></div><?php endif; ?>
         <?php print render($page['help']); ?>
         <?php if ($action_links): ?><ul class="action-links"><?php print render($action_links); ?></ul><?php endif; ?>
@@ -132,8 +156,8 @@
 
 
 	<ul id="footerUtilityNav">
-		<li><a class="footerUtilityNav" href="#topOfPage">Top</a></li>
-		<li><a class="footerUtilityNav" href="/privacy_policy.html">Privacy Policy</a></li>
+		<li><a class="footerUtilityNav" href="#topOfPage"><?php echo t('Top');?></a></li>
+		<li><a class="footerUtilityNav" href="/privacy_policy.html"><?php echo t('Privacy Policy');?></a></li>
 		<!-- li><a class="footerUtilityNav" href="/site_credits.html">Site Credits</a></li -->
 	<!-- /#footerUtilityNav --></ul>
 	
@@ -147,3 +171,6 @@
 	<div id="JavaScriptWarning"><?php echo $footer_javascriptWarning;?></div><!-- /#JavaScriptWarning -->
 	
 	</div><!-- /#footer -->
+
+    <!-- <script type="text/javascript" src="https://jmaltd.atlassian.net/s/d41d8cd98f00b204e9800998ecf8427e/en_USg6ji1g-1988229788/6204/187/1.4.0-m8/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?collectorId=5386a940"></script> -->
+

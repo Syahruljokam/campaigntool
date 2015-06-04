@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,12 +23,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -36,36 +36,52 @@
 /**
  * Adds inline help
  *
- * @param array  $params the function params
- * @param object $smarty reference to the smarty object
+ * @param array $params
+ *   The function params.
+ * @param CRM_Core_Smarty $smarty
+ *   Reference to the smarty object.
  *
- * @return string the help html to be inserted
- * @access public
+ * @return string
+ *   the help html to be inserted
  */
 function smarty_function_help($params, &$smarty) {
   if (!isset($params['id']) || !isset($smarty->_tpl_vars['config'])) {
-    return;
+    return NULL;
   }
 
   if (empty($params['file']) && isset($smarty->_tpl_vars['tplFile'])) {
     $params['file'] = $smarty->_tpl_vars['tplFile'];
   }
   elseif (empty($params['file'])) {
-    return $help;
+    return NULL;
   }
 
   $params['file'] = str_replace(array('.tpl', '.hlp'), '', $params['file']);
 
   if (empty($params['title'])) {
-    // Avod overwriting existing vars CRM-11900
-    $oldID = $smarty->get_template_vars('id');
+    $vars = $smarty->get_template_vars();
     $smarty->assign('id', $params['id'] . '-title');
     $name = trim($smarty->fetch($params['file'] . '.hlp'));
-    $smarty->assign('id', $oldID);
+    $additionalTPLFile = $params['file'] . '.extra.hlp';
+    if ($smarty->template_exists($additionalTPLFile)) {
+      $name .= trim($smarty->fetch($additionalTPLFile));
+    }
+    // Ensure we didn't change any existing vars CRM-11900
+    foreach ($vars as $key => $value) {
+      if ($smarty->get_template_vars($key) !== $value) {
+        $smarty->assign($key, $value);
+      }
+    }
   }
   else {
     $name = trim(strip_tags($params['title']));
   }
+
+  $class = "helpicon";
+  if (!empty($params['class'])) {
+    $class .= " {$params['class']}";
+  }
+
   // Escape for html
   $title = htmlspecialchars(ts('%1 Help', array(1 => $name)));
   // Escape for html and js
@@ -76,5 +92,5 @@ function smarty_function_help($params, &$smarty) {
   foreach ($params as &$param) {
     $param = is_bool($param) || is_numeric($param) ? (int) $param : (string) $param;
   }
-  return '<a class="helpicon" title="' . $title . '" href="#" onclick=\'CRM.help(' . $name . ', ' . json_encode($params) . '); return false;\'>&nbsp;</a>';
+  return '<a class="' . $class . '" title="' . $title . '" href="#" onclick=\'CRM.help(' . $name . ', ' . json_encode($params) . '); return false;\'>&nbsp;</a>';
 }

@@ -494,8 +494,8 @@ function _collapse_text_process_text_item ($item, $options) {
     return array(
       '#type'   => 'markup',
       '#markup' => $item,
-      '#prefix' => '<div>', //<div class="collapse-text-text">',
-      '#suffix' => '</div>',
+      '#prefix' => '', //<div>', //<div class="collapse-text-text">',		//not sure why the div's here dont work with the EOM's
+      '#suffix' => '', //</div>',
     );
   }
   else {
@@ -510,15 +510,17 @@ function _collapse_text_process_child_item ($item, $options) {
   
   // translate the "tag" into a proper tag, and then parse it
   // as an xml tag; this is more robust than the previous method
+  //NG. Added the & replacement to prevent xml error.
   $tag = preg_replace(
-    array('/^\[/', '/\]$/'),
-    array('<',     '/>'),
+    array('/^\[/', '/\]$/', '/&(?!#?[a-z0-9]+;)/'),
+    array('<',     '/>', '&amp;'),
     $item['tag']
   );
   
   // turn HTML entities into XML entities
   // Issue #1109792 by eronte
   $tag = _collapse_text_html_to_xml_entities($tag);
+  
   
   $xmltag = simplexml_load_string($tag);
   

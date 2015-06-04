@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,12 +23,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -39,35 +39,42 @@
 class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
   /**
-   * the group id, used when editing a group
+   * The group id, used when editing a group
    *
    * @var int
    */
   protected $_id;
 
   /**
-   * the contact_id of domain
+   * The contact_id of domain.
    *
    * @var int
    */
   protected $_contactId;
 
   /**
-   * default from email address option value id.
+   * Default from email address option value id.
    *
    * @var int
    */
   protected $_fromEmailId = NULL;
 
   /**
-   * how many locationBlocks should we display?
+   * Default location type fields.
+   *
+   * @var array
+   */
+  protected $_locationDefaults = array();
+
+  /**
+   * How many locationBlocks should we display?
    *
    * @var int
    * @const
    */
-  CONST LOCATION_BLOCKS = 1; 
+  const LOCATION_BLOCKS = 1;
 
-  function preProcess() {
+  public function preProcess() {
     CRM_Utils_System::setTitle(ts('Organization Address and Contact Info'));
     $breadCrumbPath = CRM_Utils_System::url('civicrm/admin', 'reset=1');
     CRM_Utils_System::appendBreadCrumb(ts('Administer CiviCRM'), $breadCrumbPath);
@@ -83,17 +90,17 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
     $location->preProcess($this);
   }
 
-  /*
-   * This function sets the default values for the form.
-   * the default values are retrieved from the database
+  /**
+   * This virtual function is used to set the default values of.
+   * various form elements
    *
-   * @access public
-   * @return None
+   * @return array
+   *   reference to the array of default values
+   *
    */
-  function setDefaultValues() {
-    $defaults  = array();
-    $params    = array();
-    $locParams = array();
+  public function setDefaultValues() {
+    $defaults = array();
+    $params = array();
 
     if (isset($this->_id)) {
       $params['id'] = $this->_id;
@@ -115,42 +122,26 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
       unset($params['id']);
       $locParams = array('contact_id' => $domainDefaults['contact_id']);
-      $defaults = CRM_Core_BAO_Location::getValues($locParams);
+      $this->_locationDefaults = $defaults = CRM_Core_BAO_Location::getValues($locParams);
 
       $config = CRM_Core_Config::singleton();
       if (!isset($defaults['address'][1]['country_id'])) {
         $defaults['address'][1]['country_id'] = $config->defaultContactCountry;
       }
-      
+
       if (!isset($defaults['address'][1]['state_province_id'])) {
         $defaults['address'][1]['state_province_id'] = $config->defaultContactStateProvince;
       }
 
-      if (!empty($defaults['address'])) {
-        foreach ($defaults['address'] as $key => $value) {
-          CRM_Contact_Form_Edit_Address::fixStateSelect($this,
-            "address[$key][country_id]",
-            "address[$key][state_province_id]",
-            "address[$key][county_id]",
-            CRM_Utils_Array::value('country_id', $value,
-              $config->defaultContactCountry
-            ),
-            CRM_Utils_Array::value('state_province_id', $value,
-              $config->defaultContactStateProvince
-            )
-          );
-        }
-      }
     }
     $defaults = array_merge($defaults, $domainDefaults);
     return $defaults;
   }
 
   /**
-   * Function to actually build the form
+   * Build the form object.
    *
-   * @return None
-   * @access public
+   * @return void
    */
   public function buildQuickForm() {
 
@@ -166,17 +157,17 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
     CRM_Contact_Form_Location::buildQuickForm($this);
 
     $this->addButtons(array(
-        array(
-          'type' => 'next',
-          'name' => ts('Save'),
-          'subName' => 'view',
-          'isDefault' => TRUE,
-        ),
-        array(
-          'type' => 'cancel',
-          'name' => ts('Cancel'),
-        ),
-      ));
+      array(
+        'type' => 'next',
+        'name' => ts('Save'),
+        'subName' => 'view',
+        'isDefault' => TRUE,
+      ),
+      array(
+        'type' => 'cancel',
+        'name' => ts('Cancel'),
+      ),
+    ));
 
     if ($this->_action & CRM_Core_Action::VIEW) {
       $this->freeze();
@@ -185,29 +176,32 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
   }
 
   /**
-   * Add local and global form rules
+   * Add local and global form rules.
    *
-   * @access protected
    *
    * @return void
    */
-  function addRules() {
+  public function addRules() {
     $this->addFormRule(array('CRM_Contact_Form_Domain', 'formRule'));
   }
 
   /**
-   * global validation rules for the form
+   * Global validation rules for the form.
    *
-   * @param array $fields posted values of the form
+   * @param array $fields
+   *   Posted values of the form.
    *
-   * @return array list of errors to be posted back to the form
-   * @static
-   * @access public
+   * @return array
+   *   list of errors to be posted back to the form
    */
-  static function formRule($fields) {
-    $errors = array();
+  public static function formRule($fields) {
     // check for state/country mapping
-    CRM_Contact_Form_Edit_Address::formRule($fields, $errors);
+    $errors = CRM_Contact_Form_Edit_Address::formRule($fields, CRM_Core_DAO::$_nullArray, CRM_Core_DAO::$_nullObject);
+    // $errors === TRUE means no errors from above formRule excution,
+    // so declaring $errors to array for futher processing
+    if ($errors === TRUE) {
+      $errors = array();
+    }
 
     //fix for CRM-3552,
     //as we use "fromName"<emailaddresss> format for domain email.
@@ -227,13 +221,11 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
   }
 
   /**
-   * Process the form when submitted
+   * Process the form when submitted.
    *
    * @return void
-   * @access public
    */
   public function postProcess() {
-    $params = array();
     $params = $this->exportValues();
     $params['entity_id'] = $this->_id;
     $params['entity_table'] = CRM_Core_BAO_Domain::getTableName();
@@ -241,21 +233,43 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
 
     $defaultLocationType = CRM_Core_BAO_LocationType::getDefault();
 
-    $location = array();
-    $params['address'][1]['location_type_id'] = $defaultLocationType->id;
-    $params['phone'][1]['location_type_id'] = $defaultLocationType->id;
-    $params['email'][1]['location_type_id'] = $defaultLocationType->id;
-    $params += array('contact_id' => $this->_contactId);
-    $contactParams = array (
-      'sort_name'    => $domain->name,
-      'display_name' => $domain->name,
-      'legal_name'   => $domain->name,
-      'organization_name' => $domain->name,
-      'contact_id' => $this->_contactId,              
-    );
-    CRM_Contact_BAO_Contact::add($contactParams);
-    $location = CRM_Core_BAO_Location::create($params, TRUE);
+    if (isset($this->_locationDefaults['address'][1]['location_type_id'])) {
+      $params['address'][1]['location_type_id'] = $this->_locationDefaults['address'][1]['location_type_id'];
+    }
+    else {
+      $params['address'][1]['location_type_id'] = $defaultLocationType->id;
+    }
 
+    if (isset($this->_locationDefaults['phone'][1]['location_type_id'])) {
+      $params['phone'][1]['location_type_id'] = $this->_locationDefaults['phone'][1]['location_type_id'];
+    }
+    else {
+      $params['phone'][1]['location_type_id'] = $defaultLocationType->id;
+    }
+
+    if (isset($this->_locationDefaults['email'][1]['location_type_id'])) {
+      $params['email'][1]['location_type_id'] = $this->_locationDefaults['email'][1]['location_type_id'];
+    }
+    else {
+      $params['email'][1]['location_type_id'] = $defaultLocationType->id;
+    }
+
+    $params += array('contact_id' => $this->_contactId);
+    $contactParams = array(
+      'sort_name' => $domain->name,
+      'display_name' => $domain->name,
+      'legal_name' => $domain->name,
+      'organization_name' => $domain->name,
+      'contact_id' => $this->_contactId,
+      'contact_type' => 'Organization',
+    );
+
+    if ($this->_contactId) {
+      $contactParams['contact_sub_type'] = CRM_Contact_BAO_Contact::getContactSubType($this->_contactId);
+    }
+
+    CRM_Contact_BAO_Contact::add($contactParams);
+    CRM_Core_BAO_Location::create($params, TRUE);
 
     CRM_Core_BAO_Domain::edit($params, $this->_id);
 
@@ -284,7 +298,6 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
       $emailParams['weight'] = CRM_Utils_Weight::getDefaultWeight('CRM_Core_DAO_OptionValue', $fieldValues);
     }
 
-
     //reset default within domain.
     $emailParams['reset_default_for'] = array('domain_id' => CRM_Core_Config::domainID());
 
@@ -294,5 +307,5 @@ class CRM_Contact_Form_Domain extends CRM_Core_Form {
     $session = CRM_Core_Session::singleton();
     $session->replaceUserContext(CRM_Utils_System::url('civicrm/admin', 'reset=1'));
   }
-}
 
+}

@@ -1,11 +1,9 @@
 <?php
-// $Id$
-
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -25,53 +23,65 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
-
-/**
- * File for the CiviCRM APIv3 batch functions
- *
- * @package CiviCRM_APIv3
- * @subpackage API_Batch
- *
  */
 
 /**
- * Save a Batch
+ * This api exposes CiviCRM Batch records.
  *
- * Allowed @params array keys are:
- * {@getfields batch_create}
- * @example BatchCreate.php
+ * @package CiviCRM_APIv3
+ */
+
+/**
+ * Save a Batch.
  *
- * @return array of newly created batch property values.
- * @access public
+ * @param array $params
+ *
+ * @return array
  */
 function civicrm_api3_batch_create($params) {
   return _civicrm_api3_basic_create(_civicrm_api3_get_BAO(__FUNCTION__), $params);
 }
 
 /**
- * Get a Batch
+ * Adjust Metadata for Create action.
  *
- * Allowed @params array keys are:
- * {@getfields batch_get}
- * @example BatchCreate.php
+ * The metadata is used for setting defaults, documentation & validation.
  *
- * @return array of retrieved batch property values.
- * @access public
+ * @param array $params
+ *   Array of parameters determined by getfields.
+ */
+function _civicrm_api3_batch_create_spec(&$params) {
+  //@todo - the entity table field looks like it is not actually required & should probably be removed (or a description added if
+  // it is actually required)
+  $params['entity_table']['api.default'] = "civicrm_batch";
+  $params['entity_table']['type'] = CRM_Utils_Type::T_STRING;
+  $params['entity_table']['title'] = 'Batch Entity Table - remove?';
+
+  $params['modified_date']['api.default'] = "now";
+  $params['status_id']['api.required'] = 1;
+  $params['title']['api.required'] = 1;
+  $params['status_id']['api.required'] = 1;
+}
+
+/**
+ * Get a Batch.
+ *
+ * @param array $params
+ *
+ * @return array
+ *   Array of retrieved batch property values.
  */
 function civicrm_api3_batch_get($params) {
   return _civicrm_api3_basic_get(_civicrm_api3_get_BAO(__FUNCTION__), $params);
 }
 
 /**
- * Delete a Batch
+ * Delete a Batch.
  *
- * Allowed @params array keys are:
- * {@getfields batch_delete}
- * @example BatchCreate.php
+ * @param array $params
  *
- * @return array of deleted values.
- * @access public
+ * @return array
+ *   Array of deleted values.
  */
 function civicrm_api3_batch_delete($params) {
   return _civicrm_api3_basic_delete(_civicrm_api3_get_BAO(__FUNCTION__), $params);

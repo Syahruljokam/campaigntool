@@ -56,4 +56,7 @@ http://forum.civicrm.org/index.php/board,20.0.html
 
 Installing the latest developmental code requires some special steps. Full
 instructions are on the wiki:
-http://wiki.civicrm.org/confluence/display/CRMDOC43/Github+for+CiviCRM
+http://wiki.civicrm.org/confluence/display/CRMDOC/Github+for+CiviCRM
+
+Report all issues to CiviCRM via JIRA:
+http://issues.civicrm.org

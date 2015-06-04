@@ -59,7 +59,10 @@ define( 'CIVICRM_UF'               , 'Drupal'        );
  * Datasource (DSN) format:
  *      define( 'CIVICRM_UF_DSN', 'mysql://cms_db_username:cms_db_password@db_server/cms_database?new_link=true');
  */
-define( 'CIVICRM_UF_DSN'           , 'mysql://drupal:c83zUUVXzHXbeVUn@localhost/drupal_nowct?new_link=true' );
+// Joe Murray changed Nov 22, 2013 to use a non-standard socket using dsn format specified 
+// at http://pear.php.net/manual/en/package.database.db.intro-connect.php
+//define( 'CIVICRM_UF_DSN'           , 'mysql://civicrm_prod:cL^&(6i5BhLA@unix(/var/lib/mysql/mysql.sock)/drupal_nowct?new_link=true' );
+define( 'CIVICRM_UF_DSN'           , 'mysql://root:root@localhost/peterjulian_prod_dru?new_link=true' );
 
 /**
  * CiviCRM Database Settings
@@ -80,7 +83,7 @@ define( 'CIVICRM_UF_DSN'           , 'mysql://drupal:c83zUUVXzHXbeVUn@localhost/
  *      define( 'CIVICRM_DSN'         , 'mysql://civicrm:YOUR_PASSWORD@localhost/civicrm?new_link=true' );
  *
  */
-define( 'CIVICRM_DSN'          , 'mysql://ct_001:z3f8u85DpcWTssnD@localhost/ct_001_civ?new_link=true' );
+define( 'CIVICRM_DSN'          , 'mysql://root:root@localhost/peterjulian_prod_civ?new_link=true' );
 
 /**
  * CiviCRM Logging Database
@@ -132,8 +135,8 @@ define('CIVICRM_LOGGING_DSN', CIVICRM_DSN);
 
 global $civicrm_root;
 
-$civicrm_root = '/var/www/html/sites/all/modules/civicrm';
-define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/html/sites/default/files/civicrm/templates_c/' );
+$civicrm_root = '/home/edsel/public_html/peterjulian.ca/sites/all/modules/civicrm';
+define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/home/edsel/public_html/peterjulian.ca/sites/default/files/civicrm/templates_c/' );
 
 /**
  * Site URLs:
@@ -160,7 +163,7 @@ define( 'CIVICRM_TEMPLATE_COMPILEDIR', '/var/www/html/sites/default/files/civicr
  *      define( 'CIVICRM_UF_BASEURL' , 'http://www.example.com/joomla/' );
  *
  */
-define( 'CIVICRM_UF_BASEURL'      , 'http://campaigntool.ca/' );
+define( 'CIVICRM_UF_BASEURL'      , 'http://localhost/' );
 
 /*
  * If you are using any CiviCRM script in the bin directory that
@@ -173,7 +176,7 @@ define( 'CIVICRM_SITE_KEY', '6983baafc81742d5d403a95ac2a7b161' );
 /*
  * If you want to disable IDS, set this to 0.
  */
-define( 'CIVICRM_IDS_ENABLE', 1);
+define( 'CIVICRM_IDS_ENABLE', 0);
 
 /**
  * Enable this constant, if you want to send your email through the smarty
@@ -188,7 +191,7 @@ define( 'CIVICRM_MAIL_SMARTY', 0 );
  * The CIVICRM_MAIL_LOG is a debug option which disables MTA (mail transport agent) interaction.
  * You must disable CIVICRM_MAIL_LOG before CiviCRM will talk to your MTA.
  */
-// define( 'CIVICRM_MAIL_LOG', '/var/www/html/sites/default/files/civicrm/templates_c/mail.log' );
+// define( 'CIVICRM_MAIL_LOG', '/var/www/peterjulian.ca/sites/default/files/civicrm/templates_c/mail.log' );
 
 define( 'CIVICRM_DOMAIN_ID'      , 1 );
 
@@ -215,7 +218,7 @@ define( 'CIVICRM_DOMAIN_ID'      , 1 );
  * To not use any caching (not recommended), use a value of 'NoCache'
  *
  */
-define( 'CIVICRM_DB_CACHE_CLASS', 'ArrayCache' );
+define( 'CIVICRM_DB_CACHE_CLASS', 'ArrayCache' );	//ArrayCache
 
 /**
  * Change this to the IP address of your cache server if it is not on the
@@ -250,8 +253,8 @@ define( 'CIVICRM_MEMCACHE_PREFIX', '' );
  * default fr_FR (for French), set one or more of the constants below to an
  * appropriate regional value.
  */
-// define('CIVICRM_LANGUAGE_MAPPING_FR', 'fr_CA');
-// define('CIVICRM_LANGUAGE_MAPPING_EN', 'en_CA');
+define('CIVICRM_LANGUAGE_MAPPING_FR', 'fr_CA');
+define('CIVICRM_LANGUAGE_MAPPING_EN', 'en_CA');
 // define('CIVICRM_LANGUAGE_MAPPING_ES', 'es_MX');
 // define('CIVICRM_LANGUAGE_MAPPING_PT', 'pt_BR');
 // define('CIVICRM_LANGUAGE_MAPPING_ZH', 'zh_TW');
@@ -303,3 +306,5 @@ if ($memLimit >= 0 and $memLimit < 134217728) {
 
 require_once 'CRM/Core/ClassLoader.php';
 CRM_Core_ClassLoader::singleton()->register();
+
+define( 'CIVICRM_USE_MEMCACHE', 0);

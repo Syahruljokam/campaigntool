@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,12 +23,7 @@
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
 *}
-{if $groupCount == 0 and $mailingCount == 0}
-  <div class="status">
-  <div class="icon inform-icon"></div>
-        {ts}To send a mailing, you must have a valid group of recipients - either at least one group that's a Mailing List or at least one previous mailing.{/ts}
-  </div>
-{else}
+
 <div class="crm-block crm-form-block crm-mailing-group-form-block">
 {include file="CRM/common/WizardHeader.tpl"}
 
@@ -49,9 +44,18 @@
         <td class="label">{$form.dedupe_email.label}</td>
         <td>{$form.dedupe_email.html} {help id="dedupe-email"}</td>
     </tr>
+    <tr class="crm-mailing-group-form-block-locationTypeId">
+        <td class="label">{$form.location_type_id.label}</td>
+        <td>{$form.location_type_id.html}</td>
+    </tr>
+    <tr class="crm-mailing-group-form-block-locationSelectionMethod">
+        <td class="label">{$form.email_selection_method.label}</td>
+        <td>{$form.email_selection_method.html} {help id="email-selection"}</td>
+    </tr>
+
   </table>
 
-
+{if ($groupCount > 0|| $mailingCount > 0)}
 <div id="id-additional" class="form-item">
 <div class="crm-accordion-wrapper ">
  <div class="crm-accordion-header">
@@ -78,19 +82,8 @@
   {/strip}
  </div><!-- /.crm-accordion-body -->
 </div><!-- /.crm-accordion-wrapper -->
-
+{/if}
   <div class="crm-submit-buttons">{include file="CRM/common/formButtons.tpl"}</div>
 </div>
-
-{literal}
-<script type="text/javascript">
-cj(function() {
-   cj().crmAccordions();
-});
-</script>
-{/literal}
-
-{* include jscript to warn if unsaved form field changes *}
-{include file="CRM/common/formNavigate.tpl"}
 </div>
-{/if}
+

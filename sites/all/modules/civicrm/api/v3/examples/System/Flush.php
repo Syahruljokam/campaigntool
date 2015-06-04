@@ -1,48 +1,65 @@
 <?php
-
-/*
- Flush all system caches
+/**
+ * Test Generated example demonstrating the System.flush API.
+ *
+ * Flush all system caches
+ *
+ * @return array
+ *   API result array
  */
-function system_flush_example(){
-$params = array( 
-  'version' => 3,
-);
+function system_flush_example() {
+  $params = array();
 
-  $result = civicrm_api( 'system','flush',$params );
+  try{
+    $result = civicrm_api3('System', 'flush', $params);
+  }
+  catch (CiviCRM_API3_Exception $e) {
+    // Handle error here.
+    $errorMessage = $e->getMessage();
+    $errorCode = $e->getErrorCode();
+    $errorData = $e->getExtraParams();
+    return array(
+      'error' => $errorMessage,
+      'error_code' => $errorCode,
+      'error_data' => $errorData,
+    );
+  }
 
   return $result;
 }
 
-/*
- * Function returns array of result expected from previous function
+/**
+ * Function returns array of result expected from previous function.
+ *
+ * @return array
+ *   API result array
  */
-function system_flush_expectedresult(){
+function system_flush_expectedresult() {
 
-  $expectedResult = array( 
-  'is_error' => 0,
-  'version' => 3,
-  'count' => 1,
-  'values' => 1,
-);
+  $expectedResult = array(
+    'is_error' => 0,
+    'version' => 3,
+    'count' => 1,
+    'values' => 1,
+  );
 
-  return $expectedResult  ;
+  return $expectedResult;
 }
 
-
 /*
-* This example has been generated from the API test suite. The test that created it is called
-*
-* testFlush and can be found in
-* http://svn.civicrm.org/civicrm/trunk/tests/phpunit/CiviTest/api/v3/SystemTest.php
+* This example has been generated from the API test suite.
+* The test that created it is called "testFlush"
+* and can be found at:
+* https://github.com/civicrm/civicrm-core/blob/master/tests/phpunit/api/v3/SystemTest.php
 *
 * You can see the outcome of the API tests at
-* http://tests.dev.civicrm.org/trunk/results-api_v3
+* https://test.civicrm.org/job/CiviCRM-master-git/
 *
 * To Learn about the API read
-* http://book.civicrm.org/developer/current/techniques/api/
+* http://wiki.civicrm.org/confluence/display/CRMDOC/Using+the+API
 *
-* and review the wiki at
-* http://wiki.civicrm.org/confluence/display/CRMDOC/CiviCRM+Public+APIs
+* Browse the api on your own site with the api explorer
+* http://MYSITE.ORG/path/to/civicrm/api
 *
 * Read more about testing here
 * http://wiki.civicrm.org/confluence/display/CRM/Testing

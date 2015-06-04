@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -46,7 +46,10 @@
           {if $element.field_type == 'File'}
             {if $element.field_value.displayURL}
                 <div class="crm-content crm-custom_data crm-displayURL">
-                  <a href="#" onclick="imagePopUp('{$element.field_value.imageURL}'); return false;" ><img src="{$element.field_value.displayURL}" height = "{$element.field_value.imageThumbHeight}" width="{$element.field_value.imageThumbWidth}"></a>
+                  <a href="{$element.field_value.displayURL}" class='crm-image-popup'>
+                    <img src="{$element.field_value.displayURL}" height = "{$element.field_value.imageThumbHeight}"
+                         width="{$element.field_value.imageThumbWidth}">
+                  </a>
                 </div>
             {else}
                 <div class="crm-content crm-custom_data crm-fileURL">
@@ -58,6 +61,8 @@
             <div class="crm-content crm-custom-data crm-contact-reference">
               <a href="{crmURL p='civicrm/contact/view' q="reset=1&cid=`$element.contact_ref_id`"}" title="view contact">{$element.field_value}</a>
             </div>
+          {elseif $element.field_data_type EQ 'Memo'}
+            <div class="crm-content crm-custom-data">{$element.field_value|nl2br}</div>
           {else}
             <div class="crm-content crm-custom-data">{$element.field_value}</div>
           {/if}

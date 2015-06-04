@@ -73,6 +73,12 @@ function embedTwitter(options){
                  }
             }
  
+            
+            if(displayCounter == 1){
+            	feedHTML += 'No tweets. Pas de tweets.';
+            }
+            
+            
             $(options.containingDiv).html(feedHTML);
             
             if(options.callback){

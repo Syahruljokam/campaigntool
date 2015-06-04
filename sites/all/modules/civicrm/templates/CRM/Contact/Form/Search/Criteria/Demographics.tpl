@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3
+ | CiviCRM version 4.6
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -33,7 +33,6 @@
    <td>
             {$form.is_deceased.label}<br />
            {$form.is_deceased.html}
-             <span class="crm-clear-link">(<a href="#" title="unselect" onclick="unselectRadio('is_deceased', 'Advanced'); return false;" >{ts}clear{/ts}</a>)</span>
          </td>
       </tr>
       <tr>
@@ -42,8 +41,8 @@
       </tr>
       <tr>
          <td>
-            {$form.gender.label}<br />
-            {$form.gender.html}<span class="crm-clear-link">(<a href="#" title="unselect" onclick="unselectRadio('gender', 'Advanced'); return false;" >{ts}clear{/ts}</a>)</span>
+            {$form.gender_id.label}<br />
+            {$form.gender_id.html}
          </td>
       </tr>
     </table>

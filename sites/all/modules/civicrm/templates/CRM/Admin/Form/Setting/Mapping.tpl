@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -47,22 +47,24 @@
          <tr class="crm-map-form-block-geoAPIKey">
              <td>{$form.geoAPIKey.label}</td>
              <td>{$form.geoAPIKey.html|crmAddClass:huge}<br />
-             <span class="description">{ts}Enter the API key or Application ID associated with your geocoding provider.{/ts}</span></td>
+             <span class="description">{ts}Enter the API key or Application ID associated with your geocoding provider (not required for Yahoo).{/ts}</span></td>
          </tr>
     </table>
     <div class="crm-submit-buttons">{include file="CRM/common/formButtons.tpl" location="bottom"}</div>
 </div>
 {literal}
 <script type="text/javascript">
-cj(function() {
-  showHideMapAPIkey( cj('#mapProvider').val( ) );
-});
-function showHideMapAPIkey( mapProvider ) {
-  if ( mapProvider && ( mapProvider == 'OpenStreetMaps' ) ) {
-    cj('#Mapping tr.crm-map-form-block-mapAPIKey').hide( );
-  } else {
-    cj('#Mapping tr.crm-map-form-block-mapAPIKey').show( );
+CRM.$(function($) {
+  var $form = $('form.{/literal}{$form.formClass}{literal}');
+  function showHideMapAPIkey() {
+    var mapProvider = $(this).val();
+    if ( !mapProvider || ( mapProvider === 'OpenStreetMaps' ) ) {
+      $('tr.crm-map-form-block-mapAPIKey', $form).hide( );
+    } else {
+      $('tr.crm-map-form-block-mapAPIKey', $form).show( );
+    }
   }
-}
+  $('#mapProvider').each(showHideMapAPIkey).change(showHideMapAPIkey);
+});
 </script>
 {/literal}

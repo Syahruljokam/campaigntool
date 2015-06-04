@@ -1,8 +1,8 @@
-<?php /* Smarty version 2.6.27, created on 2013-10-01 10:43:11
+<?php /* Smarty version 2.6.27, created on 2015-06-01 02:28:15
          compiled from CRM/Campaign/Form/Petition/Signature.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('block', 'ts', 'CRM/Campaign/Form/Petition/Signature.tpl', 40, false),)), $this); ?>
-
+smarty_core_load_plugins(array('plugins' => array(array('block', 'crmScope', 'CRM/Campaign/Form/Petition/Signature.tpl', 1, false),array('block', 'ts', 'CRM/Campaign/Form/Petition/Signature.tpl', 40, false),)), $this); ?>
+<?php $this->_tag_stack[] = array('crmScope', array('extensionKey' => "")); $_block_repeat=true;smarty_block_crmScope($this->_tag_stack[count($this->_tag_stack)-1][1], null, $this, $_block_repeat);while ($_block_repeat) { ob_start(); ?>
 
 <script>
 <?php echo '
@@ -33,6 +33,8 @@ $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
 <?php else: ?>
+
+	
   <div class="crm-section crm-petition-contact-profile">
     <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "CRM/Campaign/Form/Petition/Block.tpl", 'smarty_include_vars' => array('fields' => $this->_tpl_vars['petitionContactProfile'])));
@@ -49,6 +51,14 @@ unset($_smarty_tpl_vars);
  ?>
   </div>
 
+  <?php if ($this->_tpl_vars['isCaptcha']): ?>
+      <?php $_smarty_tpl_vars = $this->_tpl_vars;
+$this->_smarty_include(array('smarty_include_tpl_file' => 'CRM/common/ReCAPTCHA.tpl', 'smarty_include_vars' => array()));
+$this->_tpl_vars = $_smarty_tpl_vars;
+unset($_smarty_tpl_vars);
+ ?>
+  <?php endif; ?>
+
   <div class="crm-submit-buttons">
     <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => "CRM/common/formButtons.tpl", 'smarty_include_vars' => array('location' => 'bottom')));
@@ -56,6 +66,8 @@ $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
  ?>
   </div>
+  
 <?php endif; ?>
 
 </div>
+<?php $_block_content = ob_get_contents(); ob_end_clean(); $_block_repeat=false;echo smarty_block_crmScope($this->_tag_stack[count($this->_tag_stack)-1][1], $_block_content, $this, $_block_repeat); }  array_pop($this->_tag_stack); ?>

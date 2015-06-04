@@ -1,0 +1,3 @@
+par_donor_id,par_donor_bank_id,par_donor_bank_name,par_donor_branch_id,par_donor_branch_name,par_donor_account,par_donor_name,par_donor_type,par_donor_owner_id,par_donor_envelope,par_donor_uc_direct,par_donor_nsf,par_donor_removed,par_donor_ms_amount,par_donor_cong_amount,par_donor_other_amount,par_donor_update_date,par_donor_comment,par_donor_ms_number,par_donor_end_date,par_donor_start_date,par_donor_num_installments,send_on_synch,keep_name,email_address
+4067,3,Royal Bank of Canada,1642,THE ROYAL BANK,07079924,"BLUNDELL, DAVID/NANCY",OT,1860868,406,0,0,0,10,30,10,3/8/2010 17:03:27:696,,5140090,,,,,,
+4950,10,Canadian Imperial Bank of Commerce,2952,BANK OF COMMERCE,007907435,"BROUGHTON, CHERYL & JIM",OT,1860868,405,0,0,0,40,80,0,3/8/2010 17:03:27:696,,5140090,,,,,,

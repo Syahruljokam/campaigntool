@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -28,7 +28,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -45,14 +45,12 @@ class CRM_Contact_Page_Inline_OpenID extends CRM_Core_Page {
    * This method is called after the page is created.
    *
    * @return void
-   * @access public
-   *
    */
-  function run() {
+  public function run() {
     // get the emails for this contact
     $contactId = CRM_Utils_Request::retrieve('cid', 'Positive', CRM_Core_DAO::$_nullObject, TRUE, NULL, $_REQUEST);
 
-    $locationTypes = CRM_Core_PseudoConstant::locationDisplayName();
+    $locationTypes = CRM_Core_PseudoConstant::get('CRM_Core_DAO_Address', 'location_type_id', array('labelColumn' => 'display_name'));
 
     $entityBlock = array('contact_id' => $contactId);
     $openids = CRM_Core_BAO_OpenID::getValues($entityBlock);
@@ -61,15 +59,15 @@ class CRM_Contact_Page_Inline_OpenID extends CRM_Core_Page {
         $value['location_type'] = $locationTypes[$value['location_type_id']];
       }
     }
-   
+
     $this->assign('contactId', $contactId);
     $this->assign('openid', $openids);
 
     // check logged in user permission
     CRM_Contact_Page_View::checkUserPermission($this, $contactId);
- 
-    // finally call parent 
+
+    // finally call parent
     parent::run();
   }
-}
 
+}

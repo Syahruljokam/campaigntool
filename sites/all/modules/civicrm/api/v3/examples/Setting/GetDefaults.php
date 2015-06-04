@@ -1,59 +1,77 @@
 <?php
-
-/*
- gets defaults setting a variable for a given domain - if no domain is set current is assumed
+/**
+ * Test Generated example demonstrating the Setting.getdefaults API.
+ *
+ * Gets defaults setting a variable for a given domain - if no domain is set current is assumed.
+ *
+ * @return array
+ *   API result array
  */
-function setting_getdefaults_example(){
-$params = array( 
-  'version' => 3,
-  'name' => 'address_format',
-);
+function setting_getdefaults_example() {
+  $params = array(
+    'name' => 'address_format',
+  );
 
-  $result = civicrm_api( 'setting','getdefaults',$params );
+  try{
+    $result = civicrm_api3('Setting', 'getdefaults', $params);
+  }
+  catch (CiviCRM_API3_Exception $e) {
+    // Handle error here.
+    $errorMessage = $e->getMessage();
+    $errorCode = $e->getErrorCode();
+    $errorData = $e->getExtraParams();
+    return array(
+      'error' => $errorMessage,
+      'error_code' => $errorCode,
+      'error_data' => $errorData,
+    );
+  }
 
   return $result;
 }
 
-/*
- * Function returns array of result expected from previous function
+/**
+ * Function returns array of result expected from previous function.
+ *
+ * @return array
+ *   API result array
  */
-function setting_getdefaults_expectedresult(){
+function setting_getdefaults_expectedresult() {
 
-  $expectedResult = array( 
-  'is_error' => 0,
-  'version' => 3,
-  'count' => 1,
-  'id' => 1,
-  'values' => array( 
-      '1' => array( 
-          'address_format' => '{contact.address_name}
+  $expectedResult = array(
+    'is_error' => 0,
+    'version' => 3,
+    'count' => 1,
+    'id' => 1,
+    'values' => array(
+      '1' => array(
+        'address_format' => '{contact.address_name}
 {contact.street_address}
 {contact.supplemental_address_1}
 {contact.supplemental_address_2}
 {contact.city}{, }{contact.state_province}{ }{contact.postal_code}
 {contact.country}',
-        ),
+      ),
     ),
-);
+  );
 
-  return $expectedResult  ;
+  return $expectedResult;
 }
 
-
 /*
-* This example has been generated from the API test suite. The test that created it is called
-*
-* testGetDefaults and can be found in
-* http://svn.civicrm.org/civicrm/trunk/tests/phpunit/CiviTest/api/v3/SettingTest.php
+* This example has been generated from the API test suite.
+* The test that created it is called "testGetDefaults"
+* and can be found at:
+* https://github.com/civicrm/civicrm-core/blob/master/tests/phpunit/api/v3/SettingTest.php
 *
 * You can see the outcome of the API tests at
-* http://tests.dev.civicrm.org/trunk/results-api_v3
+* https://test.civicrm.org/job/CiviCRM-master-git/
 *
 * To Learn about the API read
-* http://book.civicrm.org/developer/current/techniques/api/
+* http://wiki.civicrm.org/confluence/display/CRMDOC/Using+the+API
 *
-* and review the wiki at
-* http://wiki.civicrm.org/confluence/display/CRMDOC/CiviCRM+Public+APIs
+* Browse the api on your own site with the api explorer
+* http://MYSITE.ORG/path/to/civicrm/api
 *
 * Read more about testing here
 * http://wiki.civicrm.org/confluence/display/CRM/Testing

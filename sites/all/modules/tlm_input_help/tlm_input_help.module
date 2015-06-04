@@ -1,0 +1,38 @@
+<?php 
+
+
+function tlm_input_help_filter_info() {
+	$filters = array();
+	$filters['tlm_input_help'] = array(
+			'title' => t('Input/Format Help'),
+			'description' => t('Provide extra input/formatting help.'),
+			//'prepare callback' => '_tlm_input_help_prepare',
+			//'process callback' => '_tlm_input_help_process',
+			'tips callback' => '_tlm_input_help_tips',
+	);
+	return $filters;
+}
+
+
+
+/**
+ * Implements filter tips callback.
+ */
+function _tlm_input_help_tips($filter, $format, $long) {
+	$help = '';
+	
+	if($long){
+		//Long tip, usually shown in the full input formats help page.
+		$help .= '<strong>CampaignTool.ca Help</strong>';
+		$help .= '<p>Currently no help topics available.</p>';
+		
+	}else{
+		//Short tip, usually shown below the body field in content editing.
+		$help .= '<strong>CampaignTool.ca Help</strong>';
+		$help .= '<p>Currently no help topics available.</p>';
+	}
+	
+	
+	return $help;
+}
+

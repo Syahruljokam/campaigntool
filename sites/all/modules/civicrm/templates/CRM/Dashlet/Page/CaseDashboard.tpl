@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -33,7 +33,9 @@
    {if $newClient}
     <tr>
       <td>
-        <a href="{$newCaseURL}" class="button"><span>&raquo; {ts}New Case{/ts}</span></a>
+        <a href="{$newCaseURL}" class="button">
+          <span><div class="icon ui-icon-circle-plus"></div> {ts}New Case{/ts}</span>
+        </a>
       </td>
     </tr>
    {/if}
@@ -58,7 +60,7 @@
   </table>
 </div>
 
-<h3>{ts}Summary of Case Involvement{/ts}</h3>
+<h3>{ts}Summary of Involvement{/ts}</h3>
 
 <table class="report">
   <tr class="columnheader">

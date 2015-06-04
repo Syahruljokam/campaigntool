@@ -61,45 +61,45 @@ function tlm_album_render_album($nodeId, $idToUse, $title = null){
 	if($node){
 		if($node->type == "album"){		
 			$output .= '<div class="highslideImageGalleryContainer">' . NL;
-			if (user_access('administer blocks')){
-				$output .= '<div class="blockEditWrapper">';				
-				$output .= l('', 'node/' . $node->nid . '/edit', array('query' => drupal_get_destination(),  'attributes' => array('class' => 'blockEditLink', 'alt' => 'Edit', 'title' => 'Edit Album ' . $nodeId)));
-				$output .= '</div>';
-			}
-
-			if($title === ""){
-				$output .= '<h3>' . $title. '</h3>' . NL;
-			}else if($title == null){
-				$output .= '<h3>' . $node->title. '</h3>' . NL;
-			}else{		
-				//Dont put out title		
-				//$output .= '<h3></h3>' . NL;
-			}
-			
-			$output .= '<div id="galleryGroupContainer' . $idToUse . '" class="highslideImageGallery">' . NL;		//class="galleryGroupContainer"
-			
-			//Shows the thumbnail as the first image, and its caption.
-			//$output .= '	<a id="galleryGroupLink' . $idToUse . '" class="highslideImageGallery" href="/' . $node->field_thumbnail[0]['filepath'] . '" ><img class="thumbnail" src="/' . $node->field_thumbnail[0]['filepath'] . '" alt="' . $node->field_thumbnail_caption[0]['value']  . '" /></a>' . NL;
-			
-			//Does not show the thumbnail as the first image, the thumbnail caption is not used. Needs to unset the first image in the set.
-			$output .= '<a id="galleryGroupLink' . $idToUse . '" class="highslideImageGallery" href="' . file_create_url($node->field_album_images['und'][0]['uri']) . '" >';
-			if(isset($node->field_album_thumbnail_image['und']) && $node->field_album_thumbnail_image['und'][0]['uri']  != ""){
-				$output .= '<img class="thumbnail styled" src="' . file_create_url($node->field_album_thumbnail_image['und'][0]['uri']) . '" alt="' . $node->field_album_images['und'][0]['title']  . '" />';
-			}else{
-				$output .= $node->field_album_images['und'][0]['title'];
-			}
-			$output .= '</a>' . NL;
-
-			unset($node->field_album_images['und'][0]);
-			
-			
-			$output .= '	<div class="hidden">' . NL;
-			foreach($node->field_album_images['und'] as $index => $anImage){			
-				$output .= '	<a href="' . file_create_url($anImage['uri']) . '" class="highslideImageGallery"><img class="thumbnail styled" src="' . (isset($node->field_album_thumbnail_image['und']) ? file_create_url($node->field_album_thumbnail_image['und'][0]['uri']) : '') .'" alt="' . $anImage['title'] . '" /></a>' . NL;			//Dont load all the album images by the browser. Load the thumbnail as the image, the link is proper //$anImage['filepath'] 
-			}
-			$output .= '	</div><!-- /.hidden -->' . NL;
-							
-			$output .= '</div><!-- /#galleryGroup*Container -->' . NL;
+				if (user_access('administer blocks')){
+					$output .= '<div class="blockEditWrapper">';				
+					$output .= l('', 'node/' . $node->nid . '/edit', array('query' => drupal_get_destination(),  'attributes' => array('class' => 'blockEditLink', 'alt' => 'Edit', 'title' => 'Edit Album ' . $nodeId)));
+					$output .= '</div>';
+				}
+	
+				if($title === ""){
+					$output .= '<h3>' . $title. '</h3>' . NL;
+				}else if($title == null){
+					$output .= '<h3>' . $node->title. '</h3>' . NL;
+				}else{		
+					//Dont put out title		
+					//$output .= '<h3></h3>' . NL;
+				}
+				
+				$output .= '<div id="galleryGroupContainer' . $idToUse . '" class="highslideImageGallery">' . NL;		//class="galleryGroupContainer"
+				
+					//Shows the thumbnail as the first image, and its caption.
+					//$output .= '	<a id="galleryGroupLink' . $idToUse . '" class="highslideImageGallery" href="/' . $node->field_thumbnail[0]['filepath'] . '" ><img class="thumbnail" src="/' . $node->field_thumbnail[0]['filepath'] . '" alt="' . $node->field_thumbnail_caption[0]['value']  . '" /></a>' . NL;
+					
+					//Does not show the thumbnail as the first image, the thumbnail caption is not used. Needs to unset the first image in the set.
+					$output .= '<a id="galleryGroupLink' . $idToUse . '" class="highslideImageGallery" href="' . file_create_url($node->field_album_images['und'][0]['uri']) . '" >';
+					if(isset($node->field_album_thumbnail_image['und']) && $node->field_album_thumbnail_image['und'][0]['uri']  != ""){
+						$output .= '<img id="galleryGroupContainer' . $idToUse . '_Thumbnail" class="thumbnail styled" src="' . file_create_url($node->field_album_thumbnail_image['und'][0]['uri']) . '" alt="' . $node->field_album_images['und'][0]['title']  . '" />';
+					}else{
+						$output .= $node->field_album_images['und'][0]['title'];
+					}
+					$output .= '</a>' . NL;
+		
+					unset($node->field_album_images['und'][0]);
+					
+					
+					$output .= '	<div class="hidden">' . NL;
+						foreach($node->field_album_images['und'] as $index => $anImage){			
+							$output .= '	<a href="' . file_create_url($anImage['uri']) . '" class="highslideImageGallery"><img class="thumbnail styled" src="' . (isset($node->field_album_thumbnail_image['und']) ? file_create_url($node->field_album_thumbnail_image['und'][0]['uri']) : '') .'" alt="' . $anImage['title'] . '" /></a>' . NL;			//Dont load all the album images by the browser. Load the thumbnail as the image, the link is proper //$anImage['filepath'] 
+						}
+					$output .= '	</div><!-- /.hidden -->' . NL;
+									
+				$output .= '</div><!-- /#galleryGroup*Container -->' . NL;
 			$output .= '</div><!-- /.highslide-gallery -->' . NL;
 			
 			

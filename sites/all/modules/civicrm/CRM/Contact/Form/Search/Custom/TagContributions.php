@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -23,27 +23,32 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
-class CRM_Contact_Form_Search_Custom_TagContributions implements CRM_Contact_Form_Search_Interface {
+class CRM_Contact_Form_Search_Custom_TagContributions extends CRM_Contact_Form_Search_Custom_Base implements CRM_Contact_Form_Search_Interface {
 
   protected $_formValues;
+  public $_permissionedComponent;
 
-  function __construct(&$formValues) {
+  /**
+   * @param $formValues
+   */
+  public function __construct(&$formValues) {
     $this->_formValues = $formValues;
+    $this->_permissionedComponent = 'CiviContribute';
 
     /**
      * Define the columns for search result rows
      */
     $this->_columns = array(
-      ts('Contact Id') => 'contact_id',
+      ts('Contact ID') => 'contact_id',
       ts('Full Name') => 'sort_name',
       ts('First Name') => 'first_name',
       ts('Last Name') => 'last_name',
@@ -52,7 +57,10 @@ class CRM_Contact_Form_Search_Custom_TagContributions implements CRM_Contact_For
     );
   }
 
-  function buildForm(&$form) {
+  /**
+   * @param CRM_Core_Form $form
+   */
+  public function buildForm(&$form) {
 
     /**
      * You can define a custom title for the search form
@@ -63,10 +71,9 @@ class CRM_Contact_Form_Search_Custom_TagContributions implements CRM_Contact_For
      * Define the search form fields here
      */
 
-
     $form->addDate('start_date', ts('Contribution Date From'), FALSE, array('formatType' => 'custom'));
     $form->addDate('end_date', ts('...through'), FALSE, array('formatType' => 'custom'));
-    $tag = array('' => ts('- any tag -')) + CRM_Core_PseudoConstant::tag();
+    $tag = array('' => ts('- any tag -')) + CRM_Core_PseudoConstant::get('CRM_Core_DAO_EntityTag', 'tag_id', array('onlyActive' => FALSE));
     $form->addElement('select', 'tag', ts('Tagged'), $tag);
 
     /**
@@ -79,14 +86,15 @@ class CRM_Contact_Form_Search_Custom_TagContributions implements CRM_Contact_For
   /**
    * Define the smarty template used to layout the search form and results listings.
    */
-  function templateFile() {
+  public function templateFile() {
     return 'CRM/Contact/Form/Search/Custom.tpl';
   }
 
   /**
-   * Construct the search query
+   * Construct the search query.
    */
-  function all($offset = 0, $rowcount = 0, $sort = NULL,
+  public function all(
+    $offset = 0, $rowcount = 0, $sort = NULL,
     $includeContactIDs = FALSE, $onlyIDs = FALSE
   ) {
 
@@ -114,26 +122,28 @@ SELECT $select
 FROM   $from
 WHERE  $where
 ";
-    //for only contact ids ignore order and group by.
-    if (!$onlyIDs) {
-      $sql .= " GROUP BY contact_a.id";
-      // Define ORDER BY for query in $sort, with default value
-      if (!empty($sort)) {
-        if (is_string($sort)) {
-          $sql .= " ORDER BY $sort ";
-        }
-        else {
-          $sql .= " ORDER BY " . trim($sort->orderBy());
-        }
+
+    $sql .= " GROUP BY contact_a.id";
+    // Define ORDER BY for query in $sort, with default value
+    if (!empty($sort)) {
+      if (is_string($sort)) {
+        $sort = CRM_Utils_Type::escape($sort, 'String');
+        $sql .= " ORDER BY $sort ";
       }
       else {
-        $sql .= "";
+        $sql .= " ORDER BY " . trim($sort->orderBy());
       }
+    }
+    else {
+      $sql .= "";
     }
     return $sql;
   }
 
-  function from() {
+  /**
+   * @return string
+   */
+  public function from() {
     return "
       civicrm_contribution,
       civicrm_contact contact_a
@@ -144,10 +154,15 @@ WHERE  $where
   }
 
   /*
-  * WHERE clause is an array built from any required JOINS plus conditional filters based on search criteria field values
-  *
-  */
-  function where($includeContactIDs = FALSE) {
+   * WHERE clause is an array built from any required JOINS plus conditional filters based on search criteria field values
+   *
+   */
+  /**
+   * @param bool $includeContactIDs
+   *
+   * @return string
+   */
+  public function where($includeContactIDs = FALSE) {
     $clauses = array();
 
     $clauses[] = "contact_a.contact_type = 'Individual'";
@@ -192,9 +207,13 @@ WHERE  $where
 
 
   /*
-     * Functions below generally don't need to be modified
-     */
-  function count() {
+   * Functions below generally don't need to be modified
+   */
+
+  /**
+   * @inheritDoc
+   */
+  public function count() {
     $sql = $this->all();
 
     $dao = CRM_Core_DAO::executeQuery($sql,
@@ -203,15 +222,29 @@ WHERE  $where
     return $dao->N;
   }
 
-  function contactIDs($offset = 0, $rowcount = 0, $sort = NULL) {
+  /**
+   * @param int $offset
+   * @param int $rowcount
+   * @param null $sort
+   * @param boolean $returnSQL Not used; included for consistency with parent; SQL is always returned
+   *
+   * @return string
+   */
+  public function contactIDs($offset = 0, $rowcount = 0, $sort = NULL, $returnSQL = TRUE) {
     return $this->all($offset, $rowcount, $sort, FALSE, TRUE);
   }
 
-  function &columns() {
+  /**
+   * @return array
+   */
+  public function &columns() {
     return $this->_columns;
   }
 
-  function setTitle($title) {
+  /**
+   * @param $title
+   */
+  public function setTitle($title) {
     if ($title) {
       CRM_Utils_System::setTitle($title);
     }
@@ -220,8 +253,11 @@ WHERE  $where
     }
   }
 
-  function summary() {
+  /**
+   * @return null
+   */
+  public function summary() {
     return NULL;
   }
-}
 
+}

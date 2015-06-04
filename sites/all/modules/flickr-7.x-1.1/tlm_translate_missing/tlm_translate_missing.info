@@ -1,0 +1,10 @@
+name = "TLM Missing Translation"
+description = Provide the user with a message that the node translation is missing, and option to view the other languages translation that does exist.
+package = "TLM"
+core = 7.x
+
+
+
+version = "1.0"
+
+;1.0 - Initial release

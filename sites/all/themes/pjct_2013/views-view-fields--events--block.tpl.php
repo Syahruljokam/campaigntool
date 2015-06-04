@@ -24,10 +24,12 @@
  * @ingroup views_templates
  */
 ?>
-<?php //foreach ($fields as $id => $field): ?> 
-	<?php //echo $id;?>
-    <?php //print $field->content; ?>
-<?php //endforeach; ?>
+<?php 
+//foreach ($fields as $id => $field){ 
+//	 echo $id . ' ';
+//    //print $field->content; 
+// }
+ ?>
 
 
 <?php 
@@ -45,4 +47,4 @@ foreach($tmpArr as $aTaxonomyId){
 ?>
 
 <div class="viewDate <?php echo $dateClasses;?>"><?php echo $fields['field_event_date']->content;?></div>
-<div class="viewTeaser"><?php echo $fields['title']->content;?><br /><?php echo $fields['field_event_location']->content;?></div>
+<div class="viewTeaser"><?php echo $fields['title_field']->content;?><br /><?php echo $fields['field_event_location']->content;?></div>

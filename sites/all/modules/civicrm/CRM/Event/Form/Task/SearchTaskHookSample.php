@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -22,12 +22,12 @@
  | GNU Affero General Public License or the licensing of CiviCRM,     |
  | see the CiviCRM license FAQ at http://civicrm.org/licensing        |
  +--------------------------------------------------------------------+
-*/
+ */
 
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * $Id$
  *
  */
@@ -39,12 +39,11 @@
 class CRM_Event_Form_Task_SearchTaskHookSample extends CRM_Event_Form_Task {
 
   /**
-   * build all the data structures needed to build the form
+   * Build all the data structures needed to build the form.
    *
    * @return void
-   * @access public
    */
-  function preProcess() {
+  public function preProcess() {
     parent::preProcess();
     $rows = array();
     // display name and participation details of participants
@@ -53,7 +52,7 @@ class CRM_Event_Form_Task_SearchTaskHookSample extends CRM_Event_Form_Task {
     $query = "
      SELECT p.fee_amount as amount,
             p.register_date as register_date,
-            p.source as source,   
+            p.source as source,
             ct.display_name as display_name
        FROM civicrm_participant p
  INNER JOIN civicrm_contact ct ON ( p.contact_id = ct.id )
@@ -72,10 +71,9 @@ class CRM_Event_Form_Task_SearchTaskHookSample extends CRM_Event_Form_Task {
   }
 
   /**
-   * Function to actually build the form
+   * Build the form object.
    *
-   * @return None
-   * @access public
+   * @return void
    */
   public function buildQuickForm() {
     $this->addButtons(array(
@@ -87,5 +85,5 @@ class CRM_Event_Form_Task_SearchTaskHookSample extends CRM_Event_Form_Task {
       )
     );
   }
-}
 
+}

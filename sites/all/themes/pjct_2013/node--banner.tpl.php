@@ -1,3 +1,5 @@
+
+<?php if(user_access('administer')) {?>
 <h2>Instructions</h2>
 
 <ol>
@@ -9,3 +11,4 @@
 </ol>
 
 <a href="/admin/build/block/add">Add Block</a>
+<?php }?>

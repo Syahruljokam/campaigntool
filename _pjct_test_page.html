@@ -80,14 +80,6 @@ if ((randomNumber02 && (location.protocol == 'file:')) || is_iphone || is_ipod |
 /* Screen media styles */
 @media screen {
 
-body {
-
-					-moz-text-size-adjust: none;
-					-webkit-text-size-adjust: none;
-					-ms-text-size-adjust: none;
-				text-size-adjust: none;
-}
-
 } /* Closing brace for "@media screen" statement */
 -->
 </style>
@@ -96,7 +88,7 @@ body {
 
 
 </head>
-<body>
+<body class="landscape">
 
 
 <div id="topOfPageAnchorContainer"><a id="topOfPage" name="topOfPage"></a><!-- /#topOfPageAnchorContainer --></div>
@@ -291,7 +283,7 @@ if (randomNumber01) {
 			bannerHTML += ' longdesc="sample_banner_flash_01.swf"';
 		};
 		bannerHTML += '><div class="bannerImage"><img class="bannerImage transparentPNG" src="media\/images\/sample_banner_image_01.jpg" alt="" \/><\/div>';
-		bannerHTML += '<div class="bannerCopy"><h2>Banner #1<\/h2><p>Banner copy content #1 goes here, and here, and here, and here... <a href="_pjct_test_page_v2.html">here&#39;s a link<\/a>... <\/p><\/div><!-' + '- \/.bannerCopy -' + '-><\/div><!-' + '- \/.banner -' + '->';
+		bannerHTML += '<div class="bannerCopy"><h2>Banner #1, That is Really, Really, Really, Really, Really, Really, Really, Really, Really, Really, Really, Wide So That it Wraps to At Least Two Lines<\/h2><p>Banner copy content #1 goes here, and here, and here, and here... <a href="_pjct_test_page_v2.html" class="eexternal">here&#39;s a link<\/a>... <\/p><\/div><!-' + '- \/.bannerCopy -' + '-><\/div><!-' + '- \/.banner -' + '->';
 
 		if (randomNumber03) {
 			// Banner 02
@@ -363,7 +355,7 @@ if (randomNumber01) {
 	<p>Right column content...</p>
 
 	<div id="galleryGroupContainer27" class="highslideImageGallery hidden">
-		<p><a id="galleryGroupLink27" href="media/images/fractals/01.jpg" class="highslideImageGallery" style="display: block; height: 136px; overflow: auto;"><img id="galleryGroupContainer27_Thumbnail" class="thumbnail styled" src="media/images/fractals/01_thumbnail.jpg" alt=" &lt;em&gt;First&lt;/em&gt; fractal " style="display: block; width: 180px; height: 136px;" /></a></p>
+		<p><a id="galleryGroupLink27" class="highslideImageGallery" href="media/images/fractals/01.jpg" style="display: block; height: 136px; overflow: auto;"><img id="galleryGroupContainer27_Thumbnail" class="thumbnail styled" src="media/images/fractals/01_thumbnail.jpg" alt=" &lt;em&gt;First&lt;/em&gt; fractal " style="display: block; width: 180px; height: 136px;" /></a></p>
 
 		<div class="hidden">
 			<a href="media/images/fractals/02.jpg" class="highslideImageGallery"><img class="thumbnail" src="media/images/fractals/02_thumbnail.jpg" alt=" Second fractal image " /></a>
@@ -376,36 +368,38 @@ if (randomNumber01) {
 		</div><!-- /.hidden -->
 	</div><!-- /#galleryGroupContainer27 -->
 
-	<p class="hidden">Highslide links: <a class="highslideHTML" href="#popup0113Anchor" title=" Highslide HTML links don't make use of a &quot;caption&quot;... ">HTML popup</a> &nbsp;&#183;&nbsp; <a class="highslideImage" href="media/images/fractals/03.jpg" title="Just a test...">image popup</a> &nbsp;&#183;&nbsp; <a class="hhighslideImageGallery" href="media/images/fractals/01.jpg" onclick="$('a#galleryGroupLink27').trigger('click'); return false;">image gallery</a></p>
-
-	<p>Some advanced highslide links:</p>
-
-	<ul class="flushLeft bulletLess withoutBottomMargin">
-	<li>HTML popups: <br />
+	<p>Highslide HTML popups: <br />
 		<a class="highslideHTML" href="#popup0113Anchor" title=" Highslide HTML links don't make use of a &quot;caption&quot;... ">regular</a> | 
 		<a class="highslideHTML medium" href="#popup0113Anchor">medium</a> | 
 		<a class="highslideHTML medium-wide" href="#popup0113Anchor">medium-wide</a> | 
 		<a class="highslideHTML wide" href="#popup0113Anchor">wide</a> | 
-		<a class="highslideHTML ultra-wide" href="#popup0113Anchor">ultra-wide</a>
-	</li>
+		<a class="highslideHTML ultra-wide" href="#popup0113Anchor">ultra-wide</a><br />
 	
-	<li><br />iframe popups: <br />
-		<a class="highslideIframe" href="_pjct_test_page_v2.html">regular</a> | 
-		<a class="highslideIframe medium" href="_pjct_test_page_v2.html">medium</a> | 
-		<a class="highslideIframe medium-wide" href="_pjct_test_page_v2.html">medium-wide</a> | 
-		<a class="highslideIframe wide" href="_pjct_test_page_v2.html">wide</a> | 
-		<a class="highslideIframe ultra-wide" href="_pjct_test_page_v2.html">ultra-wide</a>
-	</li>
+	<br />Highslide iframe popups: <br />
+		<a class="highslideIframe" href="_pjct_test_page_v2.html?pageType=blank">regular</a> | 
+		<a class="highslideIframe medium" href="_pjct_test_page_v2.html?pageType=blank">medium</a> | 
+		<a class="highslideIframe medium-wide" href="_pjct_test_page_v2.html?pageType=blank">medium-wide</a> | 
+		<a class="highslideIframe wide" href="_pjct_test_page_v2.html?pageType=blank">wide</a> | 
+		<a class="highslideIframe ultra-wide" href="_pjct_test_page_v2.html?pageType=blank">ultra-wide</a><br />
 
-	<li><br />image popups: <br />
+	<br />Highslide image popups: <br />
 		<a class="highslideImage" href="media/images/fractals/03.jpg" title="Just a test...">single image</a> | 
-		<a class="hhighslideImageGallery" id="popup0115Anchor" href="media/images/fractals/01.jpg" onclick="$('a#galleryGroupLink27').trigger('click'); return false;">image gallery</a>
-	</li>
+		<a href="media/images/fractals/01.jpg" onclick="$('a#galleryGroupLink27').triggerHandler('click'); return false;">image gallery</a><br />
 
-	<li><br />fancy image popup: <br /><br />
-		<span class="styled"><a id="galleryGroupLink27" href="media/images/fractals/01.jpg" class="highslideImageGallery" style="display: block; height: 136px; overflow: auto;"><img id="galleryGroupContainer27_Thumbnail" class="thumbnail styled" src="media/images/fractals/01_thumbnail.jpg" alt=" &lt;em&gt;First&lt;/em&gt; fractal " style="display: block; width: 180px; height: 136px;" /></a><h3>Descriptive Heading</h3><p class="last">Descriptive description</p></span>
-	</li>
-	</ul>
+	<br />fancy Highslide image popup: </p>
+
+		<span class="styled"><a href="media/images/fractals/01.jpg" onclick="$('a#galleryGroupLink27').trigger('click'); return false;" style="display: block; height: 136px; overflow: auto;"><img class="thumbnail styled" src="media/images/fractals/01_thumbnail.jpg" alt=" &lt;em&gt;First&lt;/em&gt; fractal " style="display: block; width: 180px; height: 136px;" /></a><h3>Descriptive Heading</h3><p class="last">Descriptive description</p></span>
+
+
+	<hr />
+
+
+	<div class="flickr-photoset highslideImageGallery">
+		<a title="Annual Citizenship Party 2013" href="http://farm8.staticflickr.com/7374/10562620393_9010d26d63_b.jpg" class="highslideImageGallery"><img width="240" height="180" title="Annual Citizenship Party 2013" alt="Annual Citizenship Party 2013" src="http://farm8.staticflickr.com/7374/10562620393_9010d26d63_m.jpg" typeof="foaf:Image" class=" flickr-photo-img"></a>
+		<a title="Annual Citizenship Party 2013" href="http://farm4.staticflickr.com/3699/10562414044_e7b32ef2f8_b.jpg" class="highslideImageGallery"><img width="240" height="180" title="Annual Citizenship Party 2013" alt="Annual Citizenship Party 2013" src="http://farm4.staticflickr.com/3699/10562414044_e7b32ef2f8_m.jpg" typeof="foaf:Image" class=" flickr-photo-img"></a>
+		<a title="Annual Citizenship Party 2013" href="http://farm6.staticflickr.com/5541/10562414174_e9cc10610b_b.jpg" class="highslideImageGallery"><img width="240" height="180" title="Annual Citizenship Party 2013" alt="Annual Citizenship Party 2013" src="http://farm6.staticflickr.com/5541/10562414174_e9cc10610b_m.jpg" typeof="foaf:Image" class=" flickr-photo-img"></a>
+		<a title="Annual Citizenship Party 2013" href="http://farm8.staticflickr.com/7415/10562372376_dea96225a0_b.jpg" class="highslideImageGallery"><img width="240" height="180" title="Annual Citizenship Party 2013" alt="Annual Citizenship Party 2013" src="http://farm8.staticflickr.com/7415/10562372376_dea96225a0_m.jpg" typeof="foaf:Image" class=" flickr-photo-img"></a>
+	</div><!-- /.flickr-photoset -->
 </div><!-- /#rightColumn -->
 
 
@@ -446,7 +440,7 @@ if (randomNumber01) {
 
 	<div class="pullQuote rightAligned"><p>&#8220;This area is for text-&#x200B;based (<em>not</em> image-&#x200B;based) <a href="_pjct_test_page_v2.html">quotes</a> and sayings...&#8221;</p></div><!-- /.pullQuote -->
 
-<p><!--a href="_pjct_admin.html">Harumd dereud facilis</a--><span class="tooltip">Tooltip content goes here, the height of which should support up to 4 lines of text. More content goes here, and here, and here. And <a href="http://tsn.ca/nhl" class="external TSN">this is a link</a>...</span> Est er expedit distinct. Nam liber a tempor cum optio comque nihil quod a impedit anim id quod maxim placeat facer possim omnis es voluptas assumenda est, omnis dolor repellend. Temporem autem quinsud et aur office debit aut tum rerum necesit atib <a href="mailto:info@twistedlime.com?Subject=This is the subject line...&amp;Body=This is the body. Cool, huh?!?%0D%0DThis is another sentence..." title="Cool, huh?">saepe eveniet</a> ut er repudiand sint et molentia non este recusand. Just contact us at <a class="cloakedEmail" href="mailto:info(-at-)twistedlimemedia.com">info(-at-)twistedlimemedia.com</a> to get it started.</p>
+<p><!--a href="_pjct_admin.html">Harumd dereud facilis</a--><span class="tooltip">Tooltip content goes here, the height of which should support up to 4 lines of text. More content goes here, and here, and here. And <a href="http://tsn.ca/nhl" class="external TSN">this is a link</a>...</span> Est er expedit distinct. Nam liber a tempor cum optio comque nihil quod a impedit anim id quod maxim placeat facer possim omnis es voluptas assumenda est, omnis dolor repellend. Temporem autem quinsud et aur office debit aut tum rerum necesit atib <a href="mailto:info@twistedlime.com?Subject=This is the subject line...&amp;Body=This is the body. Cool, huh?!?%0D%0DThis is another sentence..." title="Cool, huh?">saepe eveniet</a> ut er repudiand sint et molentia non este recusand. Just contact us at <a class="cloakedEmail" href="mailto:info(-at-)twistedlimemedia.com">info(-at-)twistedlimemedia.com</a> to get it started. <a href="#topOfPage" class="tooltipLink">Tooltip link</a>... <span class="tooltip">Tooltip contents go here...</span></p>
 
 
 <hr />
@@ -538,13 +532,13 @@ if (randomNumber01) {
 
 <div class="subColumnContainer clearBoth">
 	<div class="subColumn">
-		<h3>Heading 3 That is Wide So That it Wraps to At Least Two Lines</h3>
+		<h3>Heading 3 That is Really, Really, Really Wide So That it Wraps to At Least Two Lines</h3>
 
 		<p>Et harumd dereud facilis est er expedit distinct. Nam liber a tempor cum soluta nobis eligend optio comque nihil quod a impedit anim id quod maxim placeat facer possim omnis es voluptas assumenda est.</p>
 	</div><!-- /.subColumn -->
 
 	<div class="subColumn">
-		<h4>Heading 4 That is Wide So That it Wraps to At Least Two Lines</h4>
+		<h4>Heading 4 That is Really, Really, Really, Really Wide So That it Wraps to At Least Two Lines</h4>
 
 		<p>Et harumd dereud facilis est er expedit distinct. Nam liber a tempor cum soluta nobis eligend optio. Temporem autem quinsud et aur office debit.</p>
 
@@ -821,9 +815,7 @@ if (randomNumber01) {
 
 <ul id="footerUtilityNav">
 	<li><a class="footerUtilityNav" href="#topOfPage">Top</a></li>
-	<!--li><a class="footerUtilityNav" href="/privacy_policy.html">Privacy Policy</a></li-->
 	<li><a class="footerUtilityNav" href="../../site_credits_w_now.html">Site Credits</a></li>
-	<!--li><a href="http://achecker.ca/checker/index.php?uri=referer&gid=WCAG2-AA"><img src="http://achecker.ca/images/icon_W2_aa.jpg" alt="WCAG 2.0 (Level AA)" /></a></li-->
 <!-- /#footerUtilityNav --></ul>
 
 <div id="JavaScriptWarning"><p><strong>Are you seeing this?</strong> If you are <em>not</em> using a &quot;low-level&quot; device (such as a cell phone, PDA, screen reader, etc.) you may want to <a href="javascript.html">enable JavaScript</a> in your web browser.</p></div>

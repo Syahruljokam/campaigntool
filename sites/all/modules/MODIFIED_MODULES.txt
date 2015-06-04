@@ -1,1 +1,7 @@
 video_filter - Applied this patch https://drupal.org/files/video_filter-video-filter-dialog-1689440-5.patch from https://drupal.org/node/1689440
+
+civicrm - patch to fix memcached + internalization. http://issues.civicrm.org/jira/browse/CRM-10250?page=com.atlassian.streams.streams-jira-plugin:activity-stream-issue-tab
+
+flickr - flickr.module, flickr_filter.module - changed the output of the flickrphotoset html to work with highslideGallery
+
+entity_translation-7.x-1.0-beta3 - entity_translation_i18n_menu/entity_translation_i18n_menu.module line 182. Added check for if isset(i18n_tsid) 

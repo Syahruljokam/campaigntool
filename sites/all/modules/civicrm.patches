@@ -1,0 +1,256 @@
+diff --git a/CRM/Activity/BAO/Activity.php b/CRM/Activity/BAO/Activity.php
+index 910aa49..17da232 100644
+--- a/CRM/Activity/BAO/Activity.php
++++ b/CRM/Activity/BAO/Activity.php
+@@ -316,6 +316,9 @@ class CRM_Activity_BAO_Activity extends CRM_Activity_DAO_Activity {
+     if (!empty($params['target_contact_id']) && is_array($params['target_contact_id'])) {
+       $params['target_contact_id'] = array_unique($params['target_contact_id']);
+     }
++    if (!empty($params['assignee_contact_id']) && !is_array($params['assignee_contact_id'])) {
++      $params['assignee_contact_id'] = array($params['assignee_contact_id']);
++    }
+     if (!empty($params['assignee_contact_id']) && is_array($params['assignee_contact_id'])) {
+       $params['assignee_contact_id'] = array_unique($params['assignee_contact_id']);
+     }
+diff --git a/CRM/Core/Config.php b/CRM/Core/Config.php
+index 377cec0..c7a3633 100644
+--- a/CRM/Core/Config.php
++++ b/CRM/Core/Config.php
+@@ -209,7 +209,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables {
+       else {
+         // we retrieve the object from memcache, so we now initialize the objects
+         self::$_singleton->_initialize($loadFromDB);
+-
++        self::$_singleton->_retrieveSettings( );
+         // CRM-9803, NYSS-4822
+         // this causes various settings to be reset and hence we should
+         // only use the config object that we retrived from memcache
+@@ -388,7 +388,18 @@ class CRM_Core_Config extends CRM_Core_Config_Variables {
+       CRM_Core_DAO::executeQuery('SET SESSION sql_mode = STRICT_TRANS_TABLES');
+     }
+   }
+-
++  
++  /*
++   * Retrieve the serialized settings
++   * @return settings associative array
++   * @access private
++   */
++  private function _retrieveSettings(){
++    $variables = array();
++    CRM_Core_BAO_ConfigSetting::retrieve($variables);
++    return $variables;
++  }
++  
+   /**
+    * returns the singleton logger for the application
+    *
+@@ -413,9 +424,7 @@ class CRM_Core_Config extends CRM_Core_Config_Variables {
+    */
+   private function _initVariables() {
+     // retrieve serialised settings
+-    $variables = array();
+-    CRM_Core_BAO_ConfigSetting::retrieve($variables);
+-
++    $variables = $this->_retrieveSettings();
+     // if settings are not available, go down the full path
+     if (empty($variables)) {
+       // Step 1. get system variables with their hardcoded defaults
+===============================================================================
+diff --git a/CRM/Activity/Task.php b/CRM/Activity/Task.php
+index ac011aa..503d8be 100644
+--- a/CRM/Activity/Task.php
++++ b/CRM/Activity/Task.php
+@@ -106,6 +106,16 @@ class CRM_Activity_Task {
+           'class' => 'CRM_Activity_Form_Task_SMS',
+           'result' => FALSE,
+         ),
++        7 => array(
++          'title' => ts('Tag Activities (assign tags)'),
++          'class' => 'CRM_Activity_Form_Task_AddToTag',
++          'result' => FALSE,
++        ),
++        8 => array(
++          'title' => ts('Untag Activities (remove tags)'),
++          'class' => 'CRM_Activity_Form_Task_RemoveFromTag',
++          'result' => FALSE,
++        ),
+       );
+ 
+       $config = CRM_Core_Config::singleton();
+diff --git a/CRM/Core/Form/Tag.php b/CRM/Core/Form/Tag.php
+index f408167..5eeaec3 100644
+--- a/CRM/Core/Form/Tag.php
++++ b/CRM/Core/Form/Tag.php
+@@ -226,6 +226,7 @@ class CRM_Core_Form_Tag {
+     }
+ 
+     if (!empty($tagset)) {
++      $form->assign("tagsetType", $mode);
+       $form->assign("tagsetInfo_$mode", $tagset);
+       $form->assign("isTagset", TRUE);
+     }
+
+-- CT-194
+diff --git a/civicrm_php/CRM/Report/BAO/ReportInstance.php b/civicrm_php/CRM/Report/BAO/ReportInstance.php
+index f04b4a7..2193f58 100644
+--- a/civicrm_php/CRM/Report/BAO/ReportInstance.php
++++ b/civicrm_php/CRM/Report/BAO/ReportInstance.php
+@@ -216,9 +216,13 @@ class CRM_Report_BAO_ReportInstance extends CRM_Report_DAO_ReportInstance {
+         $section = 1;
+         $chart   = "&charts=" . $params['charts'];
+       }
+-
+-      $dashletParams['url'] = "civicrm/report/instance/{$instance->id}&reset=1&section={$section}&snippet=5{$chart}&context=dashlet";
+-      $dashletParams['fullscreen_url'] = "civicrm/report/instance/{$instance->id}&reset=1&section={$section}&snippet=5{$chart}&context=dashletFullscr
++      
++      $limitResult = NULL;
++      if (CRM_Utils_Array::value('row_count', $params)) {
++        $limitResult = '&rowCount=' . $params['row_count'];
++      }
++      $dashletParams['url'] = "civicrm/report/instance/{$instance->id}&reset=1&section={$section}&snippet=5{$chart}&context=dashlet" . $limitResult;
++      $dashletParams['fullscreen_url'] = "civicrm/report/instance/{$instance->id}&reset=1&section={$section}&snippet=5{$chart}&context=dashletFullscr
+       $dashletParams['instanceURL'] = "civicrm/report/instance/{$instance->id}";
+       CRM_Core_BAO_Dashboard::addDashlet($dashletParams);
+     }
+diff --git a/civicrm_php/CRM/Report/Form/Instance.php b/civicrm_php/CRM/Report/Form/Instance.php
+index b84cc10..10c5945 100644
+--- a/civicrm_php/CRM/Report/Form/Instance.php
++++ b/civicrm_php/CRM/Report/Form/Instance.php
+@@ -81,6 +81,14 @@ class CRM_Report_Form_Instance {
+       $attributes['email_subject']
+     );
+ 
++    $form->add('text',
++      'row_count',
++      ts('Limit Dashboard Results'),
++      array('maxlength' => 64,
++        'size' => 5
++      )         
++    );
++
+     $form->add('textarea',
+       'report_header',
+       ts('Report Header'),
+@@ -97,7 +105,10 @@ class CRM_Report_Form_Instance {
+       array('onclick' => "return showHideByValue('is_navigation','','navigation_menu','table-row','radio',false);")
+     );
+ 
+diff --git a/civicrm_php/CRM/Report/BAO/ReportInstance.php b/civicrm_php/CRM/Report/BAO/ReportInstance.php
+index f04b4a7..2193f58 100644
+--- a/civicrm_php/CRM/Report/BAO/ReportInstance.php
++++ b/civicrm_php/CRM/Report/BAO/ReportInstance.php
+@@ -216,9 +216,13 @@ class CRM_Report_BAO_ReportInstance extends CRM_Report_DAO_ReportInstance {
+         $section = 1;
+         $chart   = "&charts=" . $params['charts'];
+       }
+-
+-      $dashletParams['url'] = "civicrm/report/instance/{$instance->id}&reset=1&section={$section}&snippet=5{$chart}&context=dashlet";
+-      $dashletParams['fullscreen_url'] = "civicrm/report/instance/{$instance->id}&reset=1&section={$section}&snippet=5{$chart}&context=dashletFullscr
++      
++      $limitResult = NULL;
++      if (CRM_Utils_Array::value('row_count', $params)) {
++        $limitResult = '&rowCount=' . $params['row_count'];
++      }
++      $dashletParams['url'] = "civicrm/report/instance/{$instance->id}&reset=1&section={$section}&snippet=5{$chart}&context=dashlet" . $limitResult;
++      $dashletParams['fullscreen_url'] = "civicrm/report/instance/{$instance->id}&reset=1&section={$section}&snippet=5{$chart}&context=dashletFullscr
+       $dashletParams['instanceURL'] = "civicrm/report/instance/{$instance->id}";
+       CRM_Core_BAO_Dashboard::addDashlet($dashletParams);
+     }
+diff --git a/civicrm_php/CRM/Report/Form/Instance.php b/civicrm_php/CRM/Report/Form/Instance.php
+index b84cc10..10c5945 100644
+--- a/civicrm_php/CRM/Report/Form/Instance.php
++++ b/civicrm_php/CRM/Report/Form/Instance.php
+@@ -81,6 +81,14 @@ class CRM_Report_Form_Instance {
+       $attributes['email_subject']
+     );
+ 
++    $form->add('text',
++      'row_count',
++      ts('Limit Dashboard Results'),
++      array('maxlength' => 64,
++        'size' => 5
++      )         
++    );
++
+     $form->add('textarea',
+       'report_header',
+       ts('Report Header'),
+@@ -97,7 +105,10 @@ class CRM_Report_Form_Instance {
+       array('onclick' => "return showHideByValue('is_navigation','','navigation_menu','table-row','radio',false);")
+     );
+ 
+-    $form->addElement('checkbox', 'addToDashboard', ts('Available for Dashboard?'));
++    $form->addElement('checkbox', 'addToDashboard', ts('Available for Dashboard?'), NULL,
++      array('onclick' => "return showHideByValue('addToDashboard','','limit_result','table-row','radio',false);")
++    );
++
+     $form->addElement('checkbox', 'is_reserved', ts('Reserved Report?'));
+     if (!CRM_Core_Permission::check('administer reserved reports')) {
+       $form->freeze('is_reserved');
+diff --git a/civicrm_templates/CRM/Report/Form/Instance.tpl b/civicrm_templates/CRM/Report/Form/Instance.tpl
+index b1fa6fa..dd774e9 100644
+--- a/civicrm_templates/CRM/Report/Form/Instance.tpl
++++ b/civicrm_templates/CRM/Report/Form/Instance.tpl
+@@ -99,6 +99,10 @@
+         <span class="description">{ts}Users with appropriate permissions can add this report to their dashboard.{/ts}</span>
+       </td>
+     </tr>
++    <tr id ="limit_result" class="crm-report-instanceForm-form-block-limitUser">
++      <td class="report-label">{$form.row_count.label}</td>
++      <td>{$form.row_count.html}</td>
++    </tr>
+ </table>
+ 
+ {include file="CRM/common/showHideByFieldValue.tpl"
+@@ -109,6 +113,14 @@
+     field_type          ="radio"
+     invert              = 0
+ }
++{include file="CRM/common/showHideByFieldValue.tpl"
++    trigger_field_id    ="addToDashboard"
++    trigger_value       =""
++    target_element_id   ="limit_result"
++    target_element_type ="table-row"
++    field_type          ="radio"
++    invert              = 0
++}
+ 
+ {if $is_navigation}
+  <script type="text/javascript">
+
+diff --git a/css/civicrm.css b/css/civicrm.css
+index dca0899..69e9c44 100644
+--- a/css/civicrm.css
++++ b/css/civicrm.css
+@@ -4034,3 +4034,6 @@ span.crm-status-icon {
+ .crm-container .survey-completed {
+   text-decoration: line-through;
+ }
++.crm-container .form-layout ul.token-input-list-facebook{
++       margin-top: 0 !important;
++       width: 440px !important;
++}
+\ No newline at end of file
+diff --git a/templates/CRM/Activity/Form/Activity.tpl b/templates/CRM/Activity/Form/Activity.tpl
+index 73a9f94..9872381 100644
+--- a/templates/CRM/Activity/Form/Activity.tpl
++++ b/templates/CRM/Activity/Form/Activity.tpl
+@@ -94,7 +94,6 @@
+       <td class="view-value">
+         {include file="CRM/Contact/Form/NewContact.tpl" noLabel=true skipBreak=true multiClient=true parent="activity" showNewSelect=true}
+         {if $action eq 1}
+-        <br/>
+         {$form.is_multi_activity.html}&nbsp;{$form.is_multi_activity.label} {help id="id-is_multi_activity"}
+         {/if}
+       </td>
+@@ -127,7 +126,7 @@
+         {edit}
+           <span class="description">{ts}You can optionally assign this activity to someone. Assigned activities will appear in their Activities listi
+           {if $activityAssigneeNotification}
+-            <br />{ts}A copy of this activity will be emailed to each Assignee.{/ts}
++            {ts}A copy of this activity will be emailed to each Assignee.{/ts}
+           {/if}
+           </span>
+         {/edit}
+

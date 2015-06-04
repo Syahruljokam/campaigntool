@@ -1,0 +1,80 @@
+img.styled {
+	border: 4px #444 solid;
+}
+.styledBorder {
+  background-color: #d8d8d8;
+  padding: 5px;
+  border: solid;
+  border-width: 3px;
+  border-color: #d0d0d0;
+}
+/* Use for style: orangeBlock */
+/* Peter's Quotes Block */
+
+div.orangeBlock {
+	width: auto;
+	max-width: 296px;
+	height: auto;
+	overflow: auto;
+	margin: 0px 0 10px 0;
+	padding: 12px 12px;
+	background-color: #ef6511;
+	border: solid;
+	border-color: #d35102;
+}
+.view-peter-s-quotes .views-field-title {
+  border-bottom:solid;
+  border-bottom-color: #ffffff;
+  border-bottom-width: 2px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+.view-peter-s-quotes .views-field-title p {
+  color: #ffffff;
+  font-size: 125%;
+  margin-bottom: -5px;
+}
+.view-peter-s-quotes .views-field-field-quote {
+  color: #ffffff;
+  font-size: 120%;
+  line-height: 1.4em;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+.view-peter-s-quotes .views-field-field-quote-context p {
+  color: #ffffff;
+  font-size: 100%;
+  margin-left: 40px;
+  line-height: 1.2em;
+  margin-bottom: 0px;
+}
+.view-peter-s-quotes .views-field-field-quote-source {
+  margin-left: 40px;
+  margin-bottom: -10px;
+}
+.view-peter-s-quotes .views-field-field-quote-source .views-label-field-quote-source {
+  float: left;
+  margin-top: 0px;
+  margin-right: 5px;
+  font-size: 90%;
+  color: #f5f5f5;
+}
+.view-peter-s-quotes .views-field-field-quote-source a, .view-peter-s-quotes .views-field-field-quote-source a:visited {
+  font-size: 90%;
+  color: #f5f5f5;
+  float: left;
+  margin-top: -2px;
+}
+.view-peter-s-quotes .views-field-field-quote-date {
+  margin-left: 40px;
+  font-size: 90%;
+  color: #ffffff;
+  clear: both;
+}
+div.styled + div.orangeBlock {
+  margin-top: 10px;
+}
+div.styled + div.styled {
+  margin-top: 10px;
+}
+

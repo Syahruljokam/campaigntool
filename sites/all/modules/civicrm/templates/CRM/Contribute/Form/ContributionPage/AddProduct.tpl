@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -49,11 +49,11 @@
       <td class="label">{$form.financial_type_id.label}</td>
       <td>
       {if !$financialType }
-		    {capture assign=ftUrl}{crmURL p='civicrm/admin/financial/financialType' q="reset=1"}{/capture}
+        {capture assign=ftUrl}{crmURL p='civicrm/admin/financial/financialType' q="reset=1"}{/capture}
         {ts 1=$ftUrl}There are no financial types configured with linked 'Cost of Sales Premiums' and 'Premiums Inventory Account' accounts. If you want to generate accounting transactions which track the cost of premiums used <a href='%1'>click here</a> to configure financial types and accounts.{/ts}
-	    {else}		
+      {else}
         {$form.financial_type_id.html}{help id="id-financial_type-product"}
-      {/if}		
+      {/if}
       </td>
     </tr>
     <tr class="crm-contribution-form-block-weight"><td class="label">{$form.weight.label}</td><td class="html-adjust">{$form.weight.html}<br />
@@ -72,41 +72,32 @@
 {/if} {* $action ne view *}
 </div>
 
-{* include jscript to warn if unsaved form field changes *}
-{include file="CRM/common/formNavigate.tpl"}
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 {literal}
-function getFinancialType()
-{
-{/literal}
-	 productID         = "#product_id";
-	 financialTypeID    = "#financial_type_id"	 
-	 callbackURL        = "{crmURL p='civicrm/ajax/rest' h=0 q='className=CRM_Financial_Page_AJAX&fnName=jqFinancialType'}"	
-{literal}
-            
-    	    var check          = cj(productID).val();
-	        callbackURL = callbackURL+"&_value="+check;
-                cj.ajax({
-                         url: callbackURL,
-                         context: document.body,
-                         success: function( data, textStatus ){
-			 data = eval(data);//get json array
-                              if ( data != null ) {
-			       cj(financialTypeID).val(data);
-			         
-			     }
-			    
-			}
-	       	});
-		
-	}
 
-cj(document).ready(function(){ 
-		getFinancialType(); 
+  CRM.$(function($) {
 
-		cj("#product_id").change( function(){
-			   getFinancialType(); 
-		});		    
-});	
+    function getFinancialType() {
+      var callbackURL = CRM.url('civicrm/ajax/rest', {
+        className: 'CRM_Financial_Page_AJAX',
+        fnName: 'jqFinancialType',
+        _value: $("#product_id").val()
+      });
+      $.ajax({
+        url: callbackURL,
+        success: function( data, textStatus ){
+          data = eval(data);//get json array
+          if ( data != null ) {
+            $("#financial_type_id").val(data);
+          }
+
+        }
+      });
+
+    }
+    getFinancialType();
+
+    $("#product_id").change(getFinancialType);
+});
 {/literal}
 </script>

@@ -1,8 +1,8 @@
 {*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -25,7 +25,6 @@
 *}
 {* this template is used for adding/editing Contact Type  *}
 
-<h3>{if $action eq 1}{ts}New Contact Type{/ts}{elseif $action eq 2}{ts}Edit Contact Type{/ts}{else}{ts}Delete Contact Type{/ts}{/if}</h3>
 <div class="crm-block crm-form-block crm-contact-type-form-block">
 {if $action eq 8}
   <div class="messages status no-popup">
@@ -41,7 +40,7 @@
         {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact_type' field='label' id= $cid }
       {/if}
       </td>
-           
+
       <td>{$form.label.html}</td>
    </tr>
    <tr class="crm-contact-type-form-block-parent_id">
@@ -53,16 +52,16 @@
            {/if}
    </tr>
    <tr class="crm-contact-type-form-block-image_URL">
-      <td class="label">{$form.image_URL.label}</td>
-      <td>{$form.image_URL.html|crmAddClass:'huge40'}{help id="id-image_URL"}</td>
-   </tr> 
+      <td class="label">{$form.image_URL.label} {help id="id-image_URL"}</td>
+      <td>{$form.image_URL.html|crmAddClass:'huge40'}</td>
+   </tr>
    <tr class="crm-contact-type-form-block-description">
      <td class="label">{$form.description.label}
      {if $action eq 2}
        {include file='CRM/Core/I18n/Dialog.tpl' table='civicrm_contact_type' field='description' id= $cid}
      {/if}
      </td>
-          
+
      <td>{$form.description.html}</td>
    </tr>
    <tr class="crm-contact-type-form-block-is_active">

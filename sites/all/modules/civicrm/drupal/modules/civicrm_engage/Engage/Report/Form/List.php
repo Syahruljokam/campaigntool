@@ -1,9 +1,9 @@
 <?php
 /*
  +--------------------------------------------------------------------+
- | CiviCRM version 4.3                                                |
+ | CiviCRM version 4.6                                                |
  +--------------------------------------------------------------------+
- | Copyright CiviCRM LLC (c) 2004-2013                                |
+ | Copyright CiviCRM LLC (c) 2004-2015                                |
  +--------------------------------------------------------------------+
  | This file is a part of CiviCRM.                                    |
  |                                                                    |
@@ -27,7 +27,7 @@
 /**
  *
  * @package CRM
- * @copyright CiviCRM LLC (c) 2004-2013
+ * @copyright CiviCRM LLC (c) 2004-2015
  * @copyright DharmaTech  (c) 2009
  * $Id$
  *
@@ -352,7 +352,7 @@ ORDER BY ov.label
   }
 
   function getOperationPair($type = "string", $fieldName = NULL) {
-    if ($fieldName == 'gid' && $type == CRM_Report_FORM::OP_MULTISELECT) {
+    if ($fieldName == 'gid' && $type == CRM_Report_Form::OP_MULTISELECT) {
       return array('in' => ts('Is one of'),
         'mand' => ts('Is equal to'),
       );
@@ -426,9 +426,7 @@ ORDER BY ov.label
         foreach ($table['fields'] as $fieldName => $field) {
 
           //var_dump($this->_params['fields'][$fieldName]);
-          if (CRM_Utils_Array::value('required', $field) ||
-            CRM_Utils_Array::value($fieldName, $this->_params['fields'])
-          ) {
+          if (!empty($field['required']) || !empty($this->_params['fields'][$fieldName])) {
             if ($tableName == 'civicrm_address') {
               $this->_addressField = TRUE;
             }
